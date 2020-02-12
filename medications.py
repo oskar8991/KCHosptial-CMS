@@ -1,4 +1,3 @@
-import csv
 from datetime import time
 
 class Medication:
@@ -18,21 +17,7 @@ medicationsList = [
     Medication('Phenobarbitone', [22], 'Phenobarbitone dose will be increased by 15mg each week up to a maximum dose of 45mg once a day as long as child is not too drowsy.')
 ]
 
-def makeChart(filename, medications):
-    with open(filename, 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(["Time", "Medication", "Dose"] + [""]*26)
-
-        hours = set([hour for med in medications for hour in med.time])
-        for h in hours:
-            meds = [med for med in medications if h in med.time]
-            writer.writerow([time(hour=h).strftime("%I%p"), meds[0].name])
-            # if there is more than one drug for this hour.
-            for i in range(1, len(meds)):
-                writer.writerow(["", meds[i].name])
-
 def generateChart(medications):
-    yield ','.join(["Time", "Medication", "Dose"] + [""]*26) + '\n'
     hours = set([hour for med in medications for hour in med.time])
     for h in hours:
         meds = [med for med in medications if h in med.time]
@@ -40,6 +25,3 @@ def generateChart(medications):
         # if there is more than one drug for this hour.
         for i in range(1, len(meds)):
             yield ','.join(["", meds[i].name]) + '\n'
-
-if __name__ == '__main__':
-    makeChart('o.csv', medicationsList)

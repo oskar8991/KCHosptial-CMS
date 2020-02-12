@@ -8,10 +8,7 @@ app = Flask(__name__)
 def medication():
     if request.method == 'POST':
         selected = [med for med in medicationsList if med.name in request.form]
-        resp = Response(generateChart(selected), mimetype='text/csv')
-        resp.headers['Content-Type'] = 'application/csv'
-        resp.headers['Content-disposition'] = 'attachment;filename=drugchart.csv'
-        return resp
+        return render_template('chart.html', chart=generateChart(selected))
 
     return render_template('medication.html', medications=medicationsList)
 
