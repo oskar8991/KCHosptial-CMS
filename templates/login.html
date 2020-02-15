@@ -3,29 +3,33 @@
 
 {% block head %}
 <title>Staff Login</title>
+<link rel="stylesheet" href="/static/css/main.css" >
 
 {% endblock %}
 {% block body %}
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4">
-    </div>
-    <div class="col-sm-4">
+<div class="container h-50">
+
+    <div class="row h-50 justify-content-center align-items-center">
+
+    <div class="loginDiv">
+
+      <h2>Staff Login</h2>
+
+
       <!-- Login Form -->
-      <form class="form-horizontal">
+      <form class="col-12">
         <input type="text" class="form-control" id="login" name="login" placeholder="Username">
         <input type="password" class="form-control" id="password" name="login" placeholder="Password">
         <br />
         <input type="submit" class="btn btn-primary" value="Login">
       </form>
 
-      <!-- Remind Passowrd -->
+      <!-- Forgotten Password -->
       <div>
         <a class="underlineHover" href="#">Forgot Password?</a>
       </div>
+
     </div>
-    <div class="col-sm-4">
     </div>
-  </div>
 </div>
 {% endblock %}
