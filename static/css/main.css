@@ -1,15 +1,20 @@
 body {
   margin: 0;
+
 }
 
 .loginDiv{
+  top: 100%;
   margin: auto;
-  width: 50%;
-  border-style: inset;
-  border: 3px solid RoyalBlue
+  width: 100%;
+  border: 3px;
+  display: inline-block;
 
   padding: 10px;
 
+}
+
+.backColour{
 }
 
 .h2-centre{
