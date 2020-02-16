@@ -8,13 +8,16 @@ body {
   margin: auto;
   width: 100%;
   border: 3px;
+  border-color: solid RoyalBlue;
   display: inline-block;
+  background-color: #ffffff;
 
   padding: 10px;
 
 }
 
-.backColour{
+.container{
+  width: 35%;
 }
 
 .h2-centre{
