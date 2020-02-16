@@ -1,17 +1,43 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
 {% endblock %}
 
 
 {% block body %}
 
 <h1> Search Bar Sample </h1>
-<p>
-Lorem ipsum dolor sit amet, Lorem consectetur adipiscing elit. Duis sit amet mollis magna, fermentum volutpat mi. Donec pharetra eros nec pulvinar luctus. Pellentesque suscipit, est facilisis pellentesque consectetur, leo mi dapibus augue, non mattis mauris neque ac magna. Donec ut mi augue. Fusce diam sem, blandit at tellus sit amet, convallis gravida nisi. Donec posuere nec augue eget rhoncus. Morbi fringilla libero nibh, nec interdum lacus mattis a. Morbi iaculis nulla sapien, ut ultricies odio feugiat interdum.
-</p>
 
+<div id="testText">
+
+	<form>
+		<p>Search (Highlight sample): <input id="searchInput" size="24"></p>
+	</form>
+
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+	Vivamus felis erat, facilisis vitae est sed, interdum luctus dui. Donec
+	condimentum in neque ac consequat. Donec interdum quis massa molestie
+	consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+	Vivamus felis erat, facilisis vitae est sed, interdum luctus dui. Donec
+	condimentum in neque ac consequat. Donec interdum quis massa molestie
+	consequat.</p>
+
+</div>
+
+
+<script type="text/javascript" src="../static/resources/hilitor.js"></script>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function(e) {
+    var highlighter = new Hilitor("testText");
+    highlighter.setMatchType("left");
+    highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
+  	highlighter.apply("input string,searchInput,page");
+    document.getElementById("searchInput").addEventListener("keyup", function(e) {
+      highlighter.apply(this.value);
+    }, false);
+  }, false);
+</script>
 
 
 {% endblock %}
