@@ -1,10 +1,13 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% block title %} Project WW {% endblock %}
 
-{% block head %}
+{% block content%}
 
-{% endblock %}
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
 
-{% block body %}
-<h1> Home Page </h1>
-<p> Filler text </p>
+	<h1 class="text-dark" style="text-decoration-line:underline;" align="center"> Introduction</h1>
+
+	<section class="text-dark">
+		<h2 class="text-dark">*Add Animation*</h2>
+	</section>
 {% endblock %}
