@@ -1,22 +1,30 @@
 {% extends "base.html" %}
 {% block title %} Staff Login {% endblock %}
+ 
 
 {% block content%}
+<div class="container">
+{% for message in get_flashed_messages()%}
+  <div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{message}}
+    <div>
+    {% endfor %}
+ </div>  
+
 <br />
 <div class="backColour">
 <div class="container h-60">
-
     <div class="loginDiv border rounded">
-
     <div class="row h-100 justify-content-center align-items-center">
       <h2>Staff Login</h2>
     </div>
       <!-- Login Form -->
-      <form >
+      <form action="/login" method="POST">
         <div class="row h-100 justify-content-center align-items-center">
           <div class="w-50 p-3">
-          <input type="text" class="form-control" id="login" name="login" placeholder="Username">
-          <input type="password" class="form-control" id="password" name="login" placeholder="Password">
+          <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
           </div>
         <br />
         </div>
@@ -25,6 +33,8 @@
         <input type="submit" class="btn btn-primary" value="Login">
         </div>
       </form>
+
+      
 
       <!-- Forgotten Password -->
       <div class="row h-100 justify-content-center align-items-center">
@@ -36,3 +46,4 @@
     </div>
 </div>
 {% endblock %}
+
