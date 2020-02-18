@@ -1,49 +1,52 @@
 {% extends "base.html" %}
 {% block title %} Staff Login {% endblock %}
- 
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/floating-labels.css')}}">
+{% endblock %}
 
 {% block content%}
 <div class="container">
-{% for message in get_flashed_messages()%}
+
+  {% for message in get_flashed_messages()%}
   <div class="alert alert-warning" id="error" >
     <button onclick="document.getElementById('error').style.display = 'none';" type="button" class="close" data-dismiss="alert">&times;</button>
     {{message}}
-    </div>
-    {% endfor %}
- </div>  
+  </div>
+  {% endfor %}
 
-<br />
-<div class="backColour">
-<div class="container h-60">
-    <div class="loginDiv border rounded">
-    <div class="row h-100 justify-content-center align-items-center">
-      <h2>Staff Login</h2>
-    </div>
-      <!-- Login Form -->
-      <form action="/login" method="POST">
-        <div class="row h-100 justify-content-center align-items-center">
-          <div class="w-50 p-3">
-          <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-          </div>
-        <br />
+
+  <div class="row justify-content-center">
+    <h2>Staff Login</h2>
+  </div>
+
+  <form class="form-signin" action="login" method="POST">
+
+    <div class="row justify-content-center">
+      <div class="w-75">
+
+        <div class="form-label-group">
+          <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus>
+          <label for="username">Username</label>
         </div>
 
-        <div class="row h-100 justify-content-center align-items-center">
-        <input type="submit" class="btn btn-primary" value="Login">
+        <div class="form-label-group">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+          <label for="password">Password</label>
         </div>
-      </form>
 
-      
-
-      <!-- Forgotten Password -->
-      <div class="row h-100 justify-content-center align-items-center">
-        <a class="underlineHover" href="#">Forgot Password?</a>
       </div>
+    </div>
 
+    <div class="row justify-content-center">
+      <input type="submit" class="btn btn-primary" value="Login">
     </div>
-    </div>
-    </div>
+
+  </form>
+
+  <div class="row justify-content-center">
+    <a class="underlineHover" href="#">Forgot Password?</a>
+  </div>
+
 </div>
 {% endblock %}
-
