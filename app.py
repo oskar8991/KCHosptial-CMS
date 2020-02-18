@@ -1,7 +1,22 @@
 from flask import Flask
 from flask import Flask, url_for, redirect, render_template, request, session, abort, flash
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #configuring database
+db = SQLAlchemy(app)
+
+
+#Creates a table for login form with id, email and password
+class Todo(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	email = db.Column(db.String(20), nullable=False)
+	password = db.Column(db.String(20), nullable=False)
+
+
+#returning self id
+#def __repr__(self):
+#	return '<Task %r>' % self.id
 
 
 @app.route('/')
@@ -33,4 +48,3 @@ if __name__ == '__main__':
     app.config['SESSION_TYPE'] = 'filesystem'
     app.debug = True
     app.run()
-
