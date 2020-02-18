@@ -1,12 +1,12 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, url_for, redirect, render_template, request, session, abort, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #configuring database
-db = SQLAlchemy(app) 
+db = SQLAlchemy(app)
 
 
-#Creates a table for login form with id, email and password 
+#Creates a table for login form with id, email and password
 class Todo(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	email = db.Column(db.String(20), nullable=False)
