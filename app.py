@@ -34,7 +34,7 @@ def login():
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if session['logged_in'] == True:
+        if 'logged_in' in session:
             return f(*args, **kwargs)
         else:
             flash("You need to login first")
@@ -51,11 +51,11 @@ def logmein():
 
     if not user:
         flash('Invalid credentials')
-        return render_template('auth/login.html')
+        return redirect(url_for('login'))
     else:
         if user.password != password:
             flash('Invalid credentials')
-            return render_template('auth/login.html')
+            return redirect(url_for('login'))
         else:
             session['logged_in'] = True
             return redirect(url_for('dashboard'))
