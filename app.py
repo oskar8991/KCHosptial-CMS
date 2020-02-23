@@ -1,6 +1,7 @@
 from flask import Flask, url_for, redirect, render_template, request, session, abort, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_required, login_user
+from flask_login import LoginManager, UserMixin
+from functools import wraps
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
@@ -11,9 +12,9 @@ login_manager.init_app(app)
 
 #Creates a table for login form with id, email and password
 class User(UserMixin, db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	email = db.Column(db.String(20), nullable=False)
-	password = db.Column(db.String(20), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(20), nullable=False)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -30,6 +31,17 @@ def index():
 def login():
     return render_template('auth/login.html')
 
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if session['logged_in'] == True:
+            return f(*args, **kwargs)
+        else:
+            flash("You need to login first")
+            return redirect(url_for('login'))
+
+    return wrap    
+
 @app.route("/logmein", methods=['POST'])
 def logmein():
     username = request.form['username']
@@ -37,12 +49,16 @@ def logmein():
 
     user = User.query.filter_by(email = username).first()
 
-    if user.password != password:
+    if not user:
         flash('Invalid credentials')
-        return render_template('auth/login.html') 
+        return render_template('auth/login.html')
     else:
-        session['logged_in'] = True
-        return redirect(url_for('index'))
+        if user.password != password:
+            flash('Invalid credentials')
+            return render_template('auth/login.html')
+        else:
+            session['logged_in'] = True
+            return redirect(url_for('dashboard'))
 
 
 
@@ -50,8 +66,16 @@ def logmein():
 @login_required
 def logout():
     session['logged_in'] = False
+    session.clear()
     return redirect(url_for('index'))
+    
 
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template('dashboard.html')
+    
+            
 
 
 if __name__ == '__main__':
