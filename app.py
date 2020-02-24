@@ -74,7 +74,11 @@ def logout():
 @login_required
 def dashboard():
     return render_template('dashboard.html')
-    
+
+@app.route("/edit")
+@login_required
+def edit():
+    return render_template('edit.html')
             
 
 
