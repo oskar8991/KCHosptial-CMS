@@ -30,7 +30,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{url_for('edit')}}">
                   <span data-feather="layers"></span>
                   Edit page
                 </a>
@@ -96,7 +96,7 @@
         			<div class="row">
         			<button class="btn btn-primary">Delete page</button>
         			<button class="btn btn-primary">Add page</button>
-        			<button class="btn btn-primary">Edit page</button>
+        			<button class="btn btn-primary" onclick="window.location.href ='{{url_for('edit')}}' ;">Edit page</button>
         		</div>
         		</div>
 				<br>
@@ -111,7 +111,7 @@
         </main>
     </div>
 </div>
-	
+
 <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script>
