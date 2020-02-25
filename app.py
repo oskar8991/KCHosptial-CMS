@@ -2,6 +2,8 @@ from flask import Flask, url_for, redirect, render_template, request, session, a
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
@@ -9,12 +11,53 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+engine = create_engine('sqlite:///data.db', echo = True)
+meta = MetaData()
+
 
 #Creates a table for login form with id, email and password
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
+
+#Creates a table for web page content with id and text
+pageContent = Table(
+    'content', meta,
+    Column("page_id", Integer, primary_key=True),
+    Column("content", Text),
+)
+meta.create_all(engine)
+
+'''
+class Page(Base):
+    __tablename__ = 'content'
+    Column("page_id", Integer, primary_key=True)
+    Column("content", Text)
+'''
+
+#Populate content table with input from edit.html
+#INSERT INTO content (content) VALUES (inputString)
+@app.route("/populateContent", methods=['POST'])
+def populateContent():
+    inputString = request.form['editBox']
+    insertStatement = pageContent.insert().values(content = inputString)
+    conn = engine.connect()
+    result = conn.execute(insertStatement)
+    return redirect(url_for('index'))
+
+
+#content table query
+def retrieveContent():
+    # Equivalent to SELECT * FROM pageContent
+    select = pageContent.select()
+    conn = engine.connect()
+    result = conn.execute(select)
+    row = result.fetchone()
+    for row in result:
+        print(row.content)
+        return "<p>" + row.content + "<p>"
+
 
 @login_manager.user_loader
 def load_user(user_id):
