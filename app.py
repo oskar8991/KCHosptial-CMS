@@ -1,9 +1,10 @@
-from flask import Flask, url_for, redirect, render_template, request, session, abort, flash
+
+from medications import medicationsList, generateChart
+from flask import Flask, url_for, redirect, render_template, request, session, abort, flash, Response, stream_with_context
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
-
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
@@ -85,6 +86,15 @@ def retrieveContentEdit():
 
 
 
+
+@app.route('/medication', methods=['GET', 'POST'])
+def medication():
+    if request.method == 'POST':
+        selected = [med for med in medicationsList if med.name in request.form]
+        return render_template('chart.html', chart=generateChart(selected))
+
+    return render_template('medication.html', medications=medicationsList)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -94,6 +104,7 @@ def load_user(user_id):
 @app.route('/index')
 def index():
     return render_template('index.html')
+
 
 
 @app.route('/login')

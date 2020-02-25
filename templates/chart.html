@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Drug Chart</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <p>
+    Patient Name.....................................................
+    Hospital Number........................
+    DOB......................
+    Drug Allergies...................................
+  <hr>
+    The information below is an aid to help with the timing of your child’s medicines after the Kasai Procedure. Always read the Patient Information Leaflet supplied with the medication and the label on the front of each medication. A nurse on the ward will go through the medications with you prior to discharge.
+  </p>
+  <table class="table table-sm table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Time</th>
+        <th scope="col">Medication</th>
+        <th scope="col">Dose</th>
+        {% for _ in range(26) %}
+        <th scope="col"></th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for line in chart %}
+      
+      <tr>
+        <td style="width: 6%">{{ line.split(',')[0] }}</td>
+        <td style="width: 26%">{{ line.split(',')[1] }}</td>
+        <td style="width: 7%"></td>
+        {% for _ in range(26) %}
+        <td></td>
+        {% endfor %}
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p>
+    The information below is an aid to help with the timing of your child’s medicines after the Kasai Procedure. Always read the Patient Information Leaflet supplied with the medication and the label on the front of each medication. A nurse on the ward will go through the medications with you prior to discharge.
+  </p>
+
+  <ul>
+    <li>Hydrocortisone should start after Prednisolone finishes as per weaning regime.</li>
+    <li>Prednisolone should be given after/with milk. No immunisations should be given until one month after Prednisolone is stopped.</li>
+    <li>Ranitidine can be stopped once prednisolone finishes as long as the baby does not have reflux.</li>
+    <li>Cefalexin is an antibiotic that should be given for 1 month after Kasai procedure.</li>
+    <li>Phenobarbitone dose will be increased by 15mg each week up to a maximum dose of 45mg once a day as long as child is not too drowsy.</li>
+    <li>NB Paracetamol can be given for pain relief at age appropriate doses but ibuprofen to be avoided.</li>
+  </ul>
+
+  <p>The information below is an aid to help with the timing of your child’s medicines after the Kasai Procedure. Always read the Patient Information Leaflet supplied with the medication and the label on the front of each medication. A nurse on the ward will go through the medications with you prior to discharge.</p>
+  <strong>If you have queries regarding your child’s medication please contact the Liver Clinical Nurse Specialist Team on 0203 299 3773 or the pharmacy team at King’s directly on 0203 299 9000 ext 5723 between 9-5 Monday to Friday. Out of these hours please contact rays of Sunshine Ward on 0203 299 3577.</strong>
+</div>
+{% endblock %}
