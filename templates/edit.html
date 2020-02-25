@@ -8,11 +8,11 @@
     <h2>Edit Main Content Page</h2>
   </div>
 
-  <form action="populateContent" method="POST">
+  <form action="updateContent" method="POST">
 
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Edit content inside this box component...</label>
-      <textarea class="form-control" id="editBox" name="editBox" rows="3">This is placeholder text. Needs to be linked to backend that is storing the content of the main page...</textarea>
+      <textarea class="form-control" id="editBox" name="editBox" rows="3">{{content}}</textarea>
     </div>
 
     <div class="row justify-content-center">

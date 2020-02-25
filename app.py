@@ -36,27 +36,53 @@ class Page(Base):
     Column("content", Text)
 '''
 
-#Populate content table with input from edit.html
-#INSERT INTO content (content) VALUES (inputString)
+#Populate content table with input from add new page content
 @app.route("/populateContent", methods=['POST'])
 def populateContent():
     inputString = request.form['editBox']
+    #INSERT INTO content (content) VALUES (inputString)
     insertStatement = pageContent.insert().values(content = inputString)
     conn = engine.connect()
     result = conn.execute(insertStatement)
     return redirect(url_for('index'))
 
+#Update content table with input from edit.html
+@app.route("/updateContent", methods=['POST'])
+def updateContent():
+    inputString = request.form['editBox']
+    #UPDATE first row in table content
+    updateStatement = pageContent.update().where(pageContent.c.page_id==1).values(content = inputString)
+    conn = engine.connect()
+    result = conn.execute(updateStatement)
+    return redirect(url_for('index'))
 
-#content table query
-def retrieveContent():
+
+@app.route('/index')
+#content table query for index.html
+def retrieveContentIndex():
     # Equivalent to SELECT * FROM pageContent
     select = pageContent.select()
     conn = engine.connect()
     result = conn.execute(select)
-    row = result.fetchone()
+    outputRow = result.fetchone()
     for row in result:
-        print(row.content)
-        return "<p>" + row.content + "<p>"
+        if (row.page_id == 1):
+            outputRow = row
+    return render_template('index.html', content=outputRow.content)
+
+@app.route('/edit')
+#content table query for Edit.html
+def retrieveContentEdit():
+    # Equivalent to SELECT * FROM pageContent
+    select = pageContent.select()
+    conn = engine.connect()
+    result = conn.execute(select)
+    outputRow = result.fetchone()
+    for row in result:
+        if (row.page_id == 1):
+            outputRow = row
+    return render_template('edit.html', content=outputRow.content)
+
 
 
 @login_manager.user_loader
