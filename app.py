@@ -103,7 +103,7 @@ def load_user(user_id):
 @app.route('/home')
 @app.route('/index')
 def index():
-    return render_template('searchBarSample.html')
+    return render_template('index.html')
 
 
 
