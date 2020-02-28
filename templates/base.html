@@ -25,8 +25,25 @@
 		      </li>
 		      <li class="nav-item active">
 		        <a class="nav-link" href="#">FAQ</a>
-		      </li>
+
+					<li>
+						 <input id="searchInput" type="text" placeholder="Search">
+						 <script type="text/javascript" src="../static/resources/hilitor.js"></script>
+						 <script>
+						   window.addEventListener("DOMContentLoaded", function(e) {
+						     var highlighter = new Hilitor("testText");
+						     highlighter.setMatchType("left");
+						     highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
+						   	highlighter.apply("input string,searchInput,page");
+						     document.getElementById("searchInput").addEventListener("keyup", function(e) {
+						       highlighter.apply(this.value);
+						     }, false);
+						   }, false);
+						 </script>
+					</li>
+
 		    </ul>
+
 		    <ul class="navbar-nav">
 		    	{% if session['logged_in'] %}
 		      <li class="nav-item active">

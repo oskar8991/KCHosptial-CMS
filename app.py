@@ -160,7 +160,11 @@ def dashboard():
 def edit():
     return render_template('edit.html')
 
-
+############# FOR TESTING SEARCHBAR #########
+@app.route("/searchBarSample")
+def searchBarSample():
+    return render_template('searchBarSample.html')
+#############################################
 
 if __name__ == '__main__':
     app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
