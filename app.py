@@ -120,7 +120,7 @@ def login_required(f):
             flash("You need to login first")
             return redirect(url_for('login'))
 
-    return wrap    
+    return wrap
 
 @app.route("/logmein", methods=['POST'])
 def logmein():
@@ -148,7 +148,7 @@ def logout():
     session['logged_in'] = False
     session.clear()
     return redirect(url_for('index'))
-    
+
 
 @app.route("/dashboard")
 @login_required
@@ -159,8 +159,12 @@ def dashboard():
 @login_required
 def edit():
     return render_template('edit.html')
-            
 
+############# FOR TESTING SEARCHBAR #########
+@app.route("/searchBarSample")
+def searchBarSample():
+    return render_template('searchBarSample.html')
+#############################################
 
 if __name__ == '__main__':
     app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
