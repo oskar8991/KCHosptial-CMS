@@ -160,6 +160,18 @@ def dashboard():
 def edit():
     return render_template('edit.html')
 
+
+@app.route("/users")
+@login_required
+def users():
+    conn = engine.connect()
+    query = "SELECT id, email from user"
+    result = conn.execute(query)
+    data = result.fetchall()
+    return render_template('users.html', data = data)
+
+
+
 ############# FOR TESTING SEARCHBAR #########
 @app.route("/searchBarSample")
 def searchBarSample():
