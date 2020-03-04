@@ -1,10 +1,12 @@
-
+ 
 from medications import medicationsList, generateChart
 from flask import Flask, url_for, redirect, render_template, request, session, abort, flash, Response, stream_with_context
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
@@ -14,13 +16,28 @@ login_manager.init_app(app)
 
 engine = create_engine('sqlite:///data.db', echo = True)
 meta = MetaData()
-
+Base = declarative_base()
 
 #Creates a table for login form with id, email and password
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
+
+class questions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    questionText = db.Column(db.String(30), nullable=False)
+
+class answers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    answerText = db.Column(db.String(30), nullable=False)
+    correct = db.Column(db.Boolean, unique=False, nullable=False)
+
+class question_answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = Column(Integer, ForeignKey('questions.id'))
+    answer_id = Column(Integer, ForeignKey('answers.id'))
+
 
 #Creates a table for web page content with id and text
 pageContent = Table(
@@ -46,6 +63,15 @@ def populateContent():
     conn = engine.connect()
     result = conn.execute(insertStatement)
     return redirect(url_for('index'))
+
+@app.route("/populateQuestions", methods=['POST'])
+def populateQuestions():
+    conn = engine.connect()
+    query = "INSERT into questions "
+    result = conn.execute(query)
+    data = result.fetchall()
+    return redirect(url_for('index'))
+
 
 #Update content table with input from edit.html
 @app.route("/updateContent", methods=['POST'])
