@@ -22,12 +22,14 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
+
 #Creates a table for web page content with id and text
 pageContent = Table(
     'content', meta,
     Column("page_id", Integer, primary_key=True),
     Column("content", Text),
 )
+
 meta.create_all(engine)
 
 '''
@@ -105,10 +107,16 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+<<<<<<< HEAD
 @app.route('/about')
 def about():
     return render_template('about.html')
 
+=======
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+>>>>>>> master
 
 
 @app.route('/login')
@@ -174,6 +182,20 @@ def users():
     data = result.fetchall()
     return render_template('users.html', data = data)
 
+
+@app.route("/addUser")
+@login_required
+def addUser():
+    return render_template('addUser.html')
+
+@app.route("/addContentUser", methods=['POST'])
+def addContentUser():
+    userEmail = request.form['userEmail']
+    userPassword = request.form['userPassword']
+    user = User(email = userEmail, password = userPassword)
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('users')) 
 
 
 ############# FOR TESTING SEARCHBAR #########
