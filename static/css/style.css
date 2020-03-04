@@ -1,26 +1,10 @@
 
-body {
-  height: 100%;
-  background-color: #f5f5f5;
-}
-
-.row {
-  text-align: center;
-  padding: 25px;
-  padding-top:35px;
-}
-
-.navbar {
-  justify-content: center; 
-}
-
 .wrapper {
     display: flex;
     width: 100%;
 }
 
 #sidebar {
-  padding-top: 4.0625rem;
   left: 0px;
   position: fixed;
   width: 8rem;
