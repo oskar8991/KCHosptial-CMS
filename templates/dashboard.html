@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+
+
+{% block content%}
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">
+                  <span data-feather="home"></span>
+                  Dashboard <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="shopping-cart"></span>
+                  Add page
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  Delete page
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('edit')}}">
+                  <span data-feather="layers"></span>
+                  Edit page
+                </a>
+              </li>
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Saved reports</span>
+              <a class="d-flex align-items-center text-muted" href="#">
+                <span data-feather="plus-circle"></span>
+              </a>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Current month
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Last quarter
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Social engagement
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        	<div class="container">
+        		<h1 class="text-dark" style="text-decoration-line:underline;" align="center"> Dashboard</h1>
+        		<hr>
+        		<div class="row justify-content-around">
+        			<div class="card" style="width: 18rem;">
+        				<div class="card-body">
+        					<h5 class="card-title">Total visits: </h5>
+        					<p class="card-text">11,500</p>
+        				</div>
+        			</div>
+        			<div class="card" style="width: 18rem;">
+        				<div class="card-body">
+        					<h5 class="card-title">Total page views: </h5>
+        					<p class="card-text">11,500</p>
+        				</div>
+        			</div>
+        			<div class="card" style="width: 18rem;">
+        				<div class="card-body">
+        					<h5 class="card-title">Unique visitors: </h5>
+        					<p class="card-text">123</p>
+        				</div>
+        			</div>
+        		</div>
+        		<br>
+
+        		<div class="row justify-content-around">
+        			<div class="row">
+        			<button class="btn btn-primary">Delete user</button>
+        			<button class="btn btn-primary">Add user</button>
+        			<button class="btn btn-primary" onclick="window.location.href ='{{url_for('users')}}' ;">See users</button>
+        			</div>
+        			<div class="row">
+        			<button class="btn btn-primary">Delete page</button>
+        			<button class="btn btn-primary">Add page</button>
+        			<button class="btn btn-primary" onclick="window.location.href ='{{url_for('edit')}}' ;">Edit page</button>
+        		</div>
+        		</div>
+				<br>
+        		<div class="row justify-content-around">
+        			<div class="card">
+        				<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+        			</div>
+        		</div>
+
+
+        	</div>
+        </main>
+    </div>
+</div>
+
+<!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          datasets: [{
+            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#007bff',
+            borderWidth: 4,
+            pointBackgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
+    </script>
+
+
+
+
+
+
+{% endblock %}

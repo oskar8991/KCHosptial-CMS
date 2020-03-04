@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %} Edit Page {% endblock %}
+
+
+{% block content%}
+
+  <div class="row justify-content-center">
+    <h2>Edit Main Content Page</h2>
+  </div>
+
+  <form action="updateContent" method="POST">
+
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Edit content inside this box component...</label>
+      <textarea class="form-control" id="editBox" name="editBox" rows="3">{{content}}</textarea>
+    </div>
+
+    <div class="row justify-content-center">
+      <input type="submit" class="btn btn-primary" value="Save Changes">
+    </div>
+
+  </form>
+
+{% endblock %}

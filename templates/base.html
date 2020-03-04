@@ -1,12 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    {% block head %} {% endblock %}
-  </head>
-  <body>
+<html>
+	<head>
+
+	<!-- bootstrap link -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dashboard.css')}}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+
+	<title>{% block title %}{% endblock %}</title>
+	{% block head %} {% endblock %}
+	</head>
+
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		  <a class="navbar-brand" href="{{url_for('index')}}">WW</a>
+
+		  <div class="collapse navbar-collapse">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="{{url_for('index')}}">Home</a>
+		      </li>
+		      <li class="nav-item active">
+		        <a class="nav-link" href="{{url_for('medication')}}">Drug Chart</a>
+		      </li>
+		      <li class="nav-item active">
+		        <a class="nav-link" href="#">FAQ</a>
+
+					<li>
+						 <input id="searchInput" type="text" placeholder="Search" style="border-radius: 10px; padding: 10px; width: 80; height:11px; margin-top: 7px; right: 5px;">
+						 <script type="text/javascript" src="../static/resources/hilitor.js"></script>
+						 <script>
+						   window.addEventListener("DOMContentLoaded", function(e) {
+						     var highlighter = new Hilitor("testText");
+						     highlighter.setMatchType("left");
+						     highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
+						   	highlighter.apply("input string,searchInput,page");
+						     document.getElementById("searchInput").addEventListener("keyup", function(e) {
+						       highlighter.apply(this.value);
+						     }, false);
+						   }, false);
+						 </script>
+					</li>
+
+		    </ul>
+
+		    <ul class="navbar-nav">
+		    	{% if session['logged_in'] %}
+		      <li class="nav-item active">
+		      	<a class="nav-link" href="{{url_for('dashboard')}}">Dashboard</a>
+		      </li>
+		      <li class="nav-item active">
+		      	<a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+		      </li>
+		      	{%else%}
+		        <a class="nav-link" href="{{url_for('login')}}">Staff Login</a>
+		        {%endif%}
+		      </li>
+		    </ul>
+		  </div>
+		</nav>
+		<br>
     {% block body %} {% endblock %}
-  </body>
+		{% block content %}{% endblock %}
+	</body>
+
+	<footer></footer>
 </html>
