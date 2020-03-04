@@ -107,6 +107,9 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
 
 
 @app.route('/login')
