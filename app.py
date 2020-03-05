@@ -116,6 +116,9 @@ def faq():
 def about():
     return render_template('about.html')
 
+@app.route('/announcements')
+def announcements():
+    return render_template('announcements.html')
 
 
 @app.route('/login')
@@ -194,7 +197,7 @@ def addContentUser():
     user = User(email = userEmail, password = userPassword)
     db.session.add(user)
     db.session.commit()
-    return redirect(url_for('users')) 
+    return redirect(url_for('users'))
 
 
 ############# FOR TESTING SEARCHBAR #########
