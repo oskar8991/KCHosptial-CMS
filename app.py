@@ -22,7 +22,6 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
-
 #Creates a table for web page content with id and text
 pageContent = Table(
     'content', meta,
@@ -30,7 +29,17 @@ pageContent = Table(
     Column("content", Text),
 )
 
+#Creates a table to store announcements with id, title, date, description
+Announcement = Table(
+    'announcement', meta,
+    Column("page_id", Integer, primary_key=True),
+    Column("title", Text, nullable=False),
+    Column("description", Text, nullable=False),
+    Column("date", Text , nullable=False)
+)
+
 meta.create_all(engine)
+
 
 '''
 class Page(Base):
