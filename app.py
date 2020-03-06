@@ -30,13 +30,18 @@ pageContent = Table(
 )
 
 #Creates a table to store announcements with id, title, date, description
-Announcement = Table(
+class Announcement(db.Model):
+    page_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.String(10000), nullable=False)
+    date = db.Column(db.String(10), nullable=False)
+'''Announcement = Table(
     'announcement', meta,
     Column("page_id", Integer, primary_key=True),
     Column("title", Text, nullable=False),
     Column("description", Text, nullable=False),
     Column("date", Text , nullable=False)
-)
+)'''
 
 meta.create_all(engine)
 
@@ -208,12 +213,30 @@ def addContentUser():
     db.session.commit()
     return redirect(url_for('users'))
 
+@app.route("/addAnnouncement", methods=['POST'])
+def addAnnouncement():
+    id = request.form['page_id']
+    title = request.form['title']
+    description = request.form['description']
+    date = request.form['date']
+
+    #need to change so that id is automatic and not inputted
+    #need to check for correct fields
+    #change date to actual date stamp
+
+    announcement = Announcement(page_id = id, title = title, description = description, date = date)
+    db.session.add(announcement)
+    db.session.commit()
+    return redirect(url_for('announcements'))
+
 
 ############# FOR TESTING SEARCHBAR #########
 @app.route("/searchBarSample")
 def searchBarSample():
     return render_template('searchBarSample.html')
 #############################################
+
+
 
 if __name__ == '__main__':
     app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
