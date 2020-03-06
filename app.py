@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
@@ -31,17 +32,10 @@ pageContent = Table(
 
 #Creates a table to store announcements with id, title, date, description
 class Announcement(db.Model):
-    page_id = db.Column(db.Integer, primary_key=True)
+    page_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(10000), nullable=False)
-    date = db.Column(db.String(10), nullable=False)
-'''Announcement = Table(
-    'announcement', meta,
-    Column("page_id", Integer, primary_key=True),
-    Column("title", Text, nullable=False),
-    Column("description", Text, nullable=False),
-    Column("date", Text , nullable=False)
-)'''
+    date = db.Column(db.DateTime(), nullable=False)
 
 meta.create_all(engine)
 
@@ -213,21 +207,29 @@ def addContentUser():
     db.session.commit()
     return redirect(url_for('users'))
 
+
 @app.route("/addAnnouncement", methods=['POST'])
 def addAnnouncement():
-    id = request.form['page_id']
     title = request.form['title']
     description = request.form['description']
-    date = request.form['date']
+    date = datetime.now()
 
-    #need to change so that id is automatic and not inputted
-    #need to check for correct fields
-    #change date to actual date stamp
-
-    announcement = Announcement(page_id = id, title = title, description = description, date = date)
+    #check: date
+    #show error for incorrect inputs
+    announcement = Announcement(title = title, description = description, date = date)
     db.session.add(announcement)
     db.session.commit()
     return redirect(url_for('announcements'))
+
+@app.route("/showAnnouncements", methods=['GET'])
+def showAnnouncements():
+    conn = engine.connect()
+    query = "SELECT * from announcement"
+    result = conn.execute(query)
+    data = result.fetchall()
+    return render_template('announcements.html', data = data)
+
+
 
 
 ############# FOR TESTING SEARCHBAR #########
