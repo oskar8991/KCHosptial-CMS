@@ -31,7 +31,7 @@ class questions(db.Model):
 class answers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     answerText = db.Column(db.String(30), nullable=False)
-    correct = db.Column(db.Boolean, unique=False, nullable=False)
+    correct = db.Column(db.Integer(), unique=False, nullable=False)
 
 class question_answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -66,11 +66,34 @@ def populateContent():
 
 @app.route("/populateQuestions", methods=['POST'])
 def populateQuestions():
-    conn = engine.connect()
-    query = "INSERT into questions "
-    result = conn.execute(query)
-    data = result.fetchall()
-    return redirect(url_for('index'))
+    question = request.form['question']
+    answer1 = request.form['answer1']
+    answer2 = request.form['answer2']
+    answer3 = request.form['answer3']
+    correctAnswer = request.form['correctAnswer']
+    questions1 = questions(questionText = question)
+    answers1 = answers(answerText = answer1, correct = 0)
+    answers2 = answers(answerText = answer2, correct = 0)
+    answers3 = answers(answerText = answer3, correct = 0)
+    answers4 = answers(answerText = correctAnswer, correct = 1)
+    db.session.add(questions1)
+    db.session.commit()
+    db.session.add(answers1)
+    db.session.commit()
+    db.session.add(answers2)
+    db.session.commit()
+    db.session.add(answers3)
+    db.session.commit()
+    db.session.add(answers4)
+    db.session.commit()
+    #question_answer1 = question_answer(question_id = questions1.id, answer_id = answer1.id)
+    #question_answer2 = question_answer(question_id = questions1.id, answer_id = answer2.id)
+    #question_answer3 = question_answer(question_id = questions1.id, answer_id = answer3.id)
+    #question_answer4 = question_answer(question_id = questions1.id, answer_id = answer4.id)
+    #db.session.add(question_answer1)
+    #db.session.add(question_answer4, question_answer4)
+    #db.session.commit()   
+    return redirect(url_for('quiz'))
 
 
 #Update content table with input from edit.html
@@ -196,6 +219,20 @@ def users():
     data = result.fetchall()
     return render_template('users.html', data = data)
 
+
+@app.route("/quiz")
+@login_required
+def quiz():
+    conn = engine.connect()
+    query = "SELECT * from questions"
+    result = conn.execute(query)
+    questions = result.fetchall()
+    return render_template('quiz.html', questions = questions)
+
+@app.route("/question")
+@login_required
+def question():
+    return render_template('question.html')    
 
 
 ############# FOR TESTING SEARCHBAR #########
