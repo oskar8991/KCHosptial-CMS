@@ -16,25 +16,21 @@
 <div class="container">
   <div class="col-md-12">
 	   <div class="text-center">
-			    <h1> Announcements </h1>
+			    <br><h1> Announcements </h1>
      </div>
 
      <br><br>
 
      {% if data %}
          {% for temp in data %}
-
          <div class="row justify-content-center">
-         <table class="table">
-         <tbody>
-
-                   <h4>{{temp.title}}</h4>
-                   <td>{{temp.description}} <br><br> {{temp.date[:10]}}</td>
-
-          </tbody>
-          </table>
+           <table class="table">
+           <tbody>
+             <h4>{{temp.title}}</h4>
+             <td>{{temp.description}} <br><br> {{temp.date[:10]}}</td>
+            </tbody>
+            </table>
           </div>
-
          {% endfor %}
      {% endif %}
 
@@ -43,7 +39,7 @@
 
 
 
-<form action="addAnnouncement" method="POST">
+<form action="addAnnouncement" method="POST" enctype="multipart/form-data">
 
   <label for="title">Title</label>
   <br><input type="text" id="title" name="title" placeholder="title" required>

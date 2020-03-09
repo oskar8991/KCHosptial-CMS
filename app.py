@@ -36,6 +36,7 @@ class Announcement(db.Model):
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(10000), nullable=False)
     date = db.Column(db.DateTime(), nullable=False)
+    #image = db.Column(db.BLOB)
 
 meta.create_all(engine)
 db.create_all()
@@ -209,11 +210,14 @@ def addContentUser():
     return redirect(url_for('users'))
 
 
+
+
 @app.route("/addAnnouncement", methods=['POST'])
 def addAnnouncement():
     title = request.form['title']
     description = request.form['description']
     date = datetime.now()
+    #image = request.files['imageUpload']
     announcement = Announcement(title = title, description = description, date = date)
     db.session.add(announcement)
     db.session.commit()
@@ -230,6 +234,11 @@ def showAnnouncements():
     query = "SELECT * from announcement"
     result = conn.execute(query)
     data = result.fetchall()
+    #images = [(base64.b64encode(item['image'] for item in result.fetchall()).DATA).encode('ascii')]
+    #imagesRaw = [item['image'] for item in result.fetchall()]
+    #imagesFormatted = []
+    #for x in imagesRaw:
+    #    imagesFormatted.append(base64.b64encode(x.DATA))
     return render_template('announcements.html', data = data)
 
 
