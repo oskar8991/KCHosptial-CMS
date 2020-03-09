@@ -38,6 +38,7 @@ class Announcement(db.Model):
     date = db.Column(db.DateTime(), nullable=False)
 
 meta.create_all(engine)
+db.create_all()
 
 
 '''
