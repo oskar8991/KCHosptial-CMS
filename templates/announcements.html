@@ -2,22 +2,45 @@
 
 {% block title %} Announcements {% endblock %}
 
+
 {% block head %}
 <title>Announcements</title>
 {% endblock %}
 
+
+
+
 {% block body %}
 
 
+<div class="container">
+  <div class="col-md-12">
+	   <div class="text-center">
+			    <h1> Announcements </h1>
+     </div>
 
+     <br><br>
 
-{% if data %}
-    {% for temp in data %}
+     {% if data %}
+         {% for temp in data %}
 
-        <p>{{ temp }}</p>
+         <div class="row justify-content-center">
+         <table class="table">
+         <tbody>
 
-    {% endfor %}
-{% endif %}
+                   <h4>{{temp.title}}</h4>
+                   <td>{{temp.description}} <br><br> {{temp.date[:10]}}</td>
+
+          </tbody>
+          </table>
+          </div>
+
+         {% endfor %}
+     {% endif %}
+
+  </div>
+</div>
+
 
 
 <form action="addAnnouncement" method="POST">
@@ -29,11 +52,6 @@
 
   <br><input type="submit" class="btn btn-primary" value="submit">
 
-</form>
-
-
-<form action="showAnnouncements" method="GET">
-<br><input type="submit" class="btn btn-primary" value="refresh">
 </form>
 
 

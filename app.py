@@ -214,13 +214,15 @@ def addAnnouncement():
     title = request.form['title']
     description = request.form['description']
     date = datetime.now()
-
-    #check: date
-    #show error for incorrect inputs
     announcement = Announcement(title = title, description = description, date = date)
     db.session.add(announcement)
     db.session.commit()
-    return redirect(url_for('announcements'))
+    conn = engine.connect()
+    query = "SELECT * from announcement"
+    result = conn.execute(query)
+    data = result.fetchall()
+    return render_template('announcements.html', data = data)
+
 
 @app.route("/showAnnouncements", methods=['GET'])
 def showAnnouncements():
