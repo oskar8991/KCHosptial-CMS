@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} Announcements - Add {% endblock %}
+
+
+{% block head %}
+<title>Announcements - Add</title>
+{% endblock %}
+
+
+
+
+{% block body %}
+
+
+<div class="container">
+  <div class="col-md-12">
+	   <div class="text-center">
+			    <br><h1> Add an Announcement </h1>
+     </div>
+
+     <br><br>
+
+     <div class="row justify-content-center">
+       <form action="addAnnouncement" method="POST" enctype="multipart/form-data">
+
+         <label for="title">Title</label>
+         <br><input type="text" id="title" name="title" placeholder="Title" required>
+         <br><label for="description">Description</label>
+         <br><input type="text" id="description" name="description" placeholder="Description" required>
+
+         <br><br>
+         <a href="{{url_for('showAnnouncements')}}" class="btn btn-primary" role="button">Back</a>
+         <input type="submit" class="btn btn-primary" value="Submit">
+
+       </form>
+     </div>
+
+
+  </div>
+</div>
+
+
+
+{% endblock %}

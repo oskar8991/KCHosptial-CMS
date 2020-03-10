@@ -126,14 +126,11 @@ def faq():
 def about():
     return render_template('about.html')
 
-@app.route('/announcements')
-def announcements():
-    return render_template('announcements.html')
-
 
 @app.route('/login')
 def login():
     return render_template('auth/login.html')
+
 
 def login_required(f):
     @wraps(f)
@@ -211,8 +208,17 @@ def addContentUser():
 
 
 
+@app.route('/announcements')
+def announcements():
+    return render_template('announcements.html')
+
+@app.route('/addAnnouncementPage')
+def addAnnouncementPage():
+    return render_template('addAnnouncement.html')
+
 
 @app.route("/addAnnouncement", methods=['POST'])
+@login_required
 def addAnnouncement():
     title = request.form['title']
     description = request.form['description']
@@ -240,7 +246,6 @@ def showAnnouncements():
     #for x in imagesRaw:
     #    imagesFormatted.append(base64.b64encode(x.DATA))
     return render_template('announcements.html', data = data)
-
 
 
 

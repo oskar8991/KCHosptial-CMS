@@ -8,10 +8,7 @@
 {% endblock %}
 
 
-
-
 {% block body %}
-
 
 <div class="container">
   <div class="col-md-12">
@@ -19,7 +16,7 @@
 			    <br><h1> Announcements </h1>
      </div>
 
-     <br><br>
+     <br>
 
      {% if data %}
          {% for temp in data %}
@@ -37,18 +34,12 @@
   </div>
 </div>
 
+{% if session['logged_in'] %}
+<div class="mx-auto text-center">
+  <a href="{{url_for('addAnnouncementPage')}}" class="btn btn-primary" role="button">Add Announcement</a>
+</div>
+{% endif %}
 
-
-<form action="addAnnouncement" method="POST" enctype="multipart/form-data">
-
-  <label for="title">Title</label>
-  <br><input type="text" id="title" name="title" placeholder="title" required>
-  <br><label for="description">Description</label>
-  <br><input type="text" id="description" name="description" placeholder="description" required>
-
-  <br><input type="submit" class="btn btn-primary" value="submit">
-
-</form>
 
 
 {% endblock %}
