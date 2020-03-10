@@ -12,17 +12,20 @@
   <table class="table">
   <thead>
     <tr>
-      <th scope="col">Questions</th>
-      <th scope="col">Answers</th>
+      <th scope="col">id</th>
+      <th scope="col">Question</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
     {% for row in questions %}
         <tr>
-        {% for question in row %}
-            <td>{{ question }}</td>
-        {% endfor %}
-        </tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.questionText }}</td>
+            <td><button class="btn btn-primary">Edit</button>
+              <button class="btn btn-primary" onclick="window.location.href ='{{url_for('deleteQuestion', question_id = row.id)}}' ;">Delete</button>
+            </td>
+          </tr>
     {% endfor %}
   </tbody>
 </table>

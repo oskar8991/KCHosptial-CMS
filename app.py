@@ -25,6 +25,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(20), nullable=False)
 
 class questions(db.Model):
+    __tablename__ = 'questions'
     id = db.Column(db.Integer, primary_key=True)
     questionText = db.Column(db.String(30), nullable=False)
 
@@ -35,8 +36,8 @@ class answers(db.Model):
 
 class question_answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    question_id = Column(Integer, ForeignKey('questions.id'))
-    answer_id = Column(Integer, ForeignKey('answers.id'))
+    question_id = Column(db.Integer, ForeignKey('questions.id'))
+    answer_id = Column(db.Integer, ForeignKey('answers.id'))
 
 
 #Creates a table for web page content with id and text
@@ -53,6 +54,19 @@ class Page(Base):
     Column("page_id", Integer, primary_key=True)
     Column("content", Text)
 '''
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash("You need to login first")
+            return redirect(url_for('login'))
+
+    return wrap
+
+
 
 #Populate content table with input from add new page content
 @app.route("/populateContent", methods=['POST'])
@@ -86,18 +100,38 @@ def populateQuestions():
     db.session.commit()
     db.session.add(answers4)
     db.session.commit()
-    #question_answer1 = question_answer(question_id = questions1.id, answer_id = answer1.id)
-    #question_answer2 = question_answer(question_id = questions1.id, answer_id = answer2.id)
-    #question_answer3 = question_answer(question_id = questions1.id, answer_id = answer3.id)
-    #question_answer4 = question_answer(question_id = questions1.id, answer_id = answer4.id)
-    #db.session.add(question_answer1)
-    #db.session.add(question_answer4, question_answer4)
-    #db.session.commit()   
+    questId = questions1.id
+    answer1Id = answers1.id
+    answer2Id = answers2.id
+    answer3Id = answers3.id
+    answer4Id = answers4.id
+    question_answer1 = question_answer(question_id = questId, answer_id = answer1Id)
+    question_answer2 = question_answer(question_id = questId, answer_id = answer2Id)
+    question_answer3 = question_answer(question_id = questId, answer_id = answer3Id)
+    question_answer4 = question_answer(question_id = questId, answer_id = answer4Id)
+    db.session.add(question_answer1)
+    db.session.commit() 
+    db.session.add(question_answer2)
+    db.session.commit()
+    db.session.add(question_answer3)
+    db.session.commit()
+    db.session.add(question_answer4)
+    db.session.commit()   
+    return redirect(url_for('quiz'))
+
+
+@app.route("/deleteQuestion/<question_id>")
+@login_required
+def deleteQuestion(question_id):
+    question = questions.query.filter_by(id = question_id).first_or_404()
+    db.session.delete(question)
+    db.session.commit()
     return redirect(url_for('quiz'))
 
 
 #Update content table with input from edit.html
 @app.route("/updateContent", methods=['POST'])
+@login_required
 def updateContent():
     inputString = request.form['editBox']
     #UPDATE first row in table content
@@ -160,16 +194,7 @@ def index():
 def login():
     return render_template('auth/login.html')
 
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            flash("You need to login first")
-            return redirect(url_for('login'))
 
-    return wrap
 
 @app.route("/logmein", methods=['POST'])
 def logmein():
