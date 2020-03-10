@@ -24,7 +24,17 @@
            <table class="table">
            <tbody>
              <h4>{{temp.title}}</h4>
-             <td>{{temp.description}} <br><br> {{temp.date[:10]}}</td>
+             <td>{{temp.description}} <br><br> {{temp.date[:10]}} &nbsp;&nbsp;
+
+             {% if session['logged_in'] %}
+             <br>
+               <a href="{{url_for('addAnnouncementPage')}}">Edit &nbsp;</a>
+               <a href="{{url_for('addAnnouncementPage')}}">Delete</a>
+             {% endif %}
+             </td>
+
+             <br>
+
             </tbody>
             </table>
           </div>
