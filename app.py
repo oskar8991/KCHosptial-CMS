@@ -125,6 +125,18 @@ def deleteUser(user_id):
 
 
 #Update content table with input from edit.html
+@app.route("/updateQuestion", methods=['POST'])
+@login_required
+def updateQuestion():
+    inputString = request.form['editBox']
+    #UPDATE first row in table content
+    updateStatement = pageContent.update().where(pageContent.c.page_id==1).values(content = inputString)
+    conn = engine.connect()
+    result = conn.execute(updateStatement)
+    return redirect(url_for('index'))
+
+
+#Update content table with input from edit.html
 @app.route("/updateContent", methods=['POST'])
 @login_required
 def updateContent():
@@ -162,6 +174,14 @@ def retrieveContentEdit():
             outputRow = row
     return render_template('edit.html', content=outputRow.content)
 
+@app.route('/editQuestion')
+@login_required
+def editQuestion(question_id):
+    conn = engine.connect()
+    query = "SELECT * from questions WHERE id = question_id"
+    result = conn.execute(query)
+    question = result.fetchall()
+    return render_template('editQuestion.html', question = question)
 
 
 
