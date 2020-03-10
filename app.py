@@ -1,13 +1,32 @@
 
 from medications import medicationsList, generateChart
-from flask import Flask, url_for, redirect, render_template, request, session, abort, flash, Response, stream_with_context
+from flask import Flask, g, url_for, redirect, render_template, request, session, abort, flash, Response, stream_with_context
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
 
+#from flask_mongoengine import MongoEngine
+
+from flask_track_usage import TrackUsage
+from flask_track_usage.storage.sql import SQLStorage
+from flask_track_usage.storage.mongo import MongoEngineStorage
+from flask_track_usage.summarization import sumRemote, sumUrl, sumUserAgent
+
+
 app = Flask(__name__)
+
+#app.config['MONGODB_SETTINGS'] = {
+#    'db' : '/data.db'
+#}
+#mongo_db = MongoEngine(app)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #causes significant overhead if True
+
+# Tracks cookies - used for unique visitor count
+app.config['TRACK_USAGE_COOKIE'] = True
+
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -32,12 +51,23 @@ pageContent = Table(
 
 meta.create_all(engine)
 
+#
+# TrackUsage Setup
+#
+#mstore = MongoEngineStorage(hooks=[sumRemote, sumUrl, sumUserAgent])
+pstore = SQLStorage(db=db)
+t = TrackUsage(app, [pstore])
+
+
+
 '''
 class Page(Base):
     __tablename__ = 'content'
     Column("page_id", Integer, primary_key=True)
     Column("content", Text)
 '''
+
+
 
 #Populate content table with input from add new page content
 @app.route("/populateContent", methods=['POST'])
@@ -194,7 +224,7 @@ def addContentUser():
     user = User(email = userEmail, password = userPassword)
     db.session.add(user)
     db.session.commit()
-    return redirect(url_for('users')) 
+    return redirect(url_for('users'))
 
 
 ############# FOR TESTING SEARCHBAR #########
