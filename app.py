@@ -28,6 +28,7 @@ class questions(db.Model):
     __tablename__ = 'questions'
     id = db.Column(db.Integer, primary_key=True)
     questionText = db.Column(db.String(30), nullable=False)
+    page_id = Column(db.Integer, ForeignKey('questions.id'))
 
 class answers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -125,6 +126,15 @@ def populateQuestions():
 def deleteQuestion(question_id):
     question = questions.query.filter_by(id = question_id).first_or_404()
     db.session.delete(question)
+    db.session.commit()
+    return redirect(url_for('quiz'))
+
+
+@app.route("/deleteUser/<user_id>")
+@login_required
+def deleteUser(user_id):
+    user = User.query.filter_by(id = user_id).first_or_404()
+    db.session.delete(user)
     db.session.commit()
     return redirect(url_for('quiz'))
 

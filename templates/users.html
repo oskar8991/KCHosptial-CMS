@@ -3,7 +3,11 @@
 
 
 {% block content%}
-{{ table }}
+
+
+
+
+
 <div class='container'>
   <div class="row justify-content-center">
     <h2>Users List</h2>
@@ -19,9 +23,10 @@
   <tbody>
     {% for row in data %}
         <tr>
-        {% for d in row %}
-            <td>{{ d }}</td>
-        {% endfor %}
+            <td>{{ row.id }}</td>
+            <td>{{ row.email }}</td>
+            <td><button class="btn btn-primary" onclick="window.location.href ='{{url_for('deleteUser', user_id = row.id)}}' ;">Delete</button>
+            </td>
         </tr>
     {% endfor %}
   </tbody>
