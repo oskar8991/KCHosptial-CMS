@@ -1,10 +1,12 @@
-
+ 
 from medications import medicationsList, generateChart
 from flask import Flask, url_for, redirect, render_template, request, session, abort, flash, Response, stream_with_context
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
@@ -14,7 +16,7 @@ login_manager.init_app(app)
 
 engine = create_engine('sqlite:///data.db', echo = True)
 meta = MetaData()
-
+Base = declarative_base()
 
 #Creates a table for login form with id, email and password
 class User(UserMixin, db.Model):
@@ -39,6 +41,19 @@ class Page(Base):
     Column("content", Text)
 '''
 
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash("You need to login first")
+            return redirect(url_for('login'))
+
+    return wrap
+
+
+
 #Populate content table with input from add new page content
 @app.route("/populateContent", methods=['POST'])
 def populateContent():
@@ -49,8 +64,69 @@ def populateContent():
     result = conn.execute(insertStatement)
     return redirect(url_for('index'))
 
+@app.route("/populateQuestions", methods=['POST'])
+def populateQuestions():
+    question = request.form['question']
+    answer1 = request.form['answer1']
+    answer2 = request.form['answer2']
+    answer3 = request.form['answer3']
+    correctAnswer = request.form['correctAnswer']
+    questions1 = questions(questionText = question)
+    answers1 = answers(answerText = answer1, correct = 0)
+    answers2 = answers(answerText = answer2, correct = 0)
+    answers3 = answers(answerText = answer3, correct = 0)
+    answers4 = answers(answerText = correctAnswer, correct = 1)
+    db.session.add(questions1)
+    db.session.commit()
+    db.session.add(answers1)
+    db.session.commit()
+    db.session.add(answers2)
+    db.session.commit()
+    db.session.add(answers3)
+    db.session.commit()
+    db.session.add(answers4)
+    db.session.commit()
+    questId = questions1.id
+    answer1Id = answers1.id
+    answer2Id = answers2.id
+    answer3Id = answers3.id
+    answer4Id = answers4.id
+    question_answer1 = question_answer(question_id = questId, answer_id = answer1Id)
+    question_answer2 = question_answer(question_id = questId, answer_id = answer2Id)
+    question_answer3 = question_answer(question_id = questId, answer_id = answer3Id)
+    question_answer4 = question_answer(question_id = questId, answer_id = answer4Id)
+    db.session.add(question_answer1)
+    db.session.commit()
+    db.session.add(question_answer2)
+    db.session.commit()
+    db.session.add(question_answer3)
+    db.session.commit()
+    db.session.add(question_answer4)
+    db.session.commit()
+    return redirect(url_for('quiz'))
+
+
+@app.route("/deleteQuestion/<question_id>")
+@login_required
+def deleteQuestion(question_id):
+    question = questions.query.filter_by(id = question_id).first_or_404()
+    db.session.delete(question)
+    db.session.commit()
+    return redirect(url_for('quiz'))
+
+
+@app.route("/deleteUser/<user_id>")
+@login_required
+def deleteUser(user_id):
+    user = User.query.filter_by(id = user_id).first_or_404()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('users'))
+
+
 #Update content table with input from edit.html
 @app.route("/updateContent", methods=['POST'])
+@login_required
 def updateContent():
     inputString = request.form['editBox']
     #UPDATE first row in table content
@@ -113,16 +189,7 @@ def index():
 def login():
     return render_template('auth/login.html')
 
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            flash("You need to login first")
-            return redirect(url_for('login'))
 
-    return wrap
 
 @app.route("/logmein", methods=['POST'])
 def logmein():
@@ -185,7 +252,7 @@ def addContentUser():
     user = User(email = userEmail, password = userPassword)
     db.session.add(user)
     db.session.commit()
-    return redirect(url_for('users')) 
+    return redirect(url_for('users'))
 
 
 ############# FOR TESTING SEARCHBAR #########
