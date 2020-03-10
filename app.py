@@ -32,7 +32,7 @@ pageContent = Table(
 
 #Creates a table to store announcements with id, title, date, description
 class Announcement(db.Model):
-    page_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    announcement_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(10000), nullable=False)
     date = db.Column(db.DateTime(), nullable=False)
@@ -218,7 +218,17 @@ def addAnnouncementPage():
 
 @app.route('/editAnnouncementPage')
 def editAnnouncementPage():
-    return render_template('editAnnouncement.html')
+    id = request.args.get('id')
+    title = request.args.get('title')
+    description = request.args.get('description')
+    return render_template('editAnnouncement.html', id=id, title=title, description=description)
+
+@app.route('/editAnnouncement', methods=['POST'])
+def editAnnouncement():
+    # save form data here, connect to db to change details, then query db and render normal announcementpage
+    newTitle = request.form['newTitle']
+    newDescription = request.form['newDescription']
+    return render_template('announcements.html')
 
 
 @app.route("/addAnnouncement", methods=['POST'])
