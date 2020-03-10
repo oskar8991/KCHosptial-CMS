@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %} Announcements - Edit {% endblock %}
+
+
+{% block head %}
+<title>Announcements - Edit</title>
+{% endblock %}
+
+
+
+
+{% block body %}
+
+
+<div class="container">
+  <div class="col-md-12">
+	   <div class="text-center">
+			    <br><h1> Edit Announcement </h1>
+     </div>
+
+     <br>
+
+     <div class="row justify-content-center">
+       <form action="addAnnouncement" method="POST" enctype="multipart/form-data">
+
+         <label for="title">Title</label>
+         <div class="md-form">
+           <textarea id="title" name="title" class="md-textarea form-control" rows="3" cols="35" required></textarea>
+         </div>
+         <br><label for="description">Description</label>
+         <div class="md-form">
+           <textarea id="description" name="description" class="md-textarea form-control" rows="5" cols="35" required></textarea>
+         </div>
+
+         <br>
+
+         <div class="row justify-content-center mt-5">
+           <a href="{{url_for('showAnnouncements')}}" class="btn btn-primary" role="button">Back</a>
+           <input type="submit" class="btn btn-primary ml-3" type="button" value="Update">
+         </div>
+
+         <br><br>
+
+       </form>
+     </div>
+
+
+  </div>
+</div>
+
+
+
+
+{% endblock %}

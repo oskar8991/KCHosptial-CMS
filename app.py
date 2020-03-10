@@ -216,6 +216,10 @@ def announcements():
 def addAnnouncementPage():
     return render_template('addAnnouncement.html')
 
+@app.route('/editAnnouncementPage')
+def editAnnouncementPage():
+    return render_template('editAnnouncement.html')
+
 
 @app.route("/addAnnouncement", methods=['POST'])
 @login_required

@@ -28,7 +28,8 @@
 
              {% if session['logged_in'] %}
              <br>
-               <a href="{{url_for('addAnnouncementPage')}}">Edit &nbsp;</a>
+               <a href="{{url_for('editAnnouncementPage')}}">Edit</a>
+               &nbsp;
                <a href="{{url_for('addAnnouncementPage')}}">Delete</a>
              {% endif %}
              </td>
