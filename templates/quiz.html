@@ -20,7 +20,7 @@
     {% for row in questions %}
         <tr>
             <td>{{ row.questionText }}</td>
-            <td><button class="btn btn-primary" onclick="window.location.href ='{{url_for('editQuestion')}}' ;">Edit</button>
+            <td><button class="btn btn-primary" onclick="window.location.href ='{{url_for('editQuestion', question_id = row.id)}}' ;">Edit</button>
               <button class="btn btn-primary" onclick="window.location.href ='{{url_for('deleteQuestion', question_id = row.id)}}' ;">Delete</button>
             </td>
           </tr>

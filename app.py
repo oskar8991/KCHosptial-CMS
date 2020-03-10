@@ -1,4 +1,4 @@
- 
+
 from medications import medicationsList, generateChart
 from flask import Flask, url_for, redirect, render_template, request, session, abort, flash, Response, stream_with_context
 from flask_sqlalchemy import SQLAlchemy
@@ -127,6 +127,14 @@ def deleteQuestion(question_id):
     db.session.delete(question)
     db.session.commit()
     return redirect(url_for('quiz'))
+
+@app.route("/deleteUser/<user_id>")
+@login_required
+def deleteUser(user_id):
+    user = User.query.filter_by(id = user_id).first_or_404()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('users'))
 
 
 #Update content table with input from edit.html
