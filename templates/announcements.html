@@ -24,18 +24,20 @@
            <table class="table">
            <tbody>
              <h4>{{temp.title}}</h4>
-             <td>{{temp.description}} <br><br> {{temp.date[:10]}} &nbsp;&nbsp;
+             <td>{{temp.description}} <br><br> {{temp.date[:10]}}
 
              {% if session['logged_in'] %}
-             <br>
-               <a href="{{url_for('editAnnouncementPage')}}">Edit</a>
-               &nbsp;
+             <form action="addAnnouncement" method="POST" style="text-align:right; float:right;">
                <a href="{{url_for('addAnnouncementPage')}}">Delete</a>
+             </form>
+             <form action="addAnnouncement" method="POST" style="text-align:right; float:right; position: relative; left: -35px;">
+               <a href="{{url_for('editAnnouncementPage', data=temp)}}">Edit</a>
+             </form>
              {% endif %}
+
+
              </td>
-
              <br>
-
             </tbody>
             </table>
           </div>

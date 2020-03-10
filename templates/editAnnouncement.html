@@ -12,6 +12,9 @@
 
 {% block body %}
 
+{% if data %}
+YES
+{% endif %}
 
 <div class="container">
   <div class="col-md-12">
@@ -26,7 +29,7 @@
 
          <label for="title">Title</label>
          <div class="md-form">
-           <textarea id="title" name="title" class="md-textarea form-control" rows="3" cols="35" required></textarea>
+           <textarea id="title" name="title" class="md-textarea form-control" rows="3" cols="35" placeholder="d" required></textarea>
          </div>
          <br><label for="description">Description</label>
          <div class="md-form">
