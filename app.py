@@ -6,8 +6,6 @@ from flask_login import LoginManager, UserMixin
 from functools import wraps
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
 
-#from flask_mongoengine import MongoEngine
-
 from flask_track_usage import TrackUsage
 from flask_track_usage.storage.sql import SQLStorage
 from flask_track_usage.storage.mongo import MongoEngineStorage
@@ -15,11 +13,6 @@ from flask_track_usage.summarization import sumRemote, sumUrl, sumUserAgent
 
 
 app = Flask(__name__)
-
-#app.config['MONGODB_SETTINGS'] = {
-#    'db' : '/data.db'
-#}
-#mongo_db = MongoEngine(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #causes significant overhead if True
@@ -41,15 +34,13 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
-
 #Creates a table for web page content with id and text
-pageContent = Table(
-    'content', meta,
-    Column("page_id", Integer, primary_key=True),
-    Column("content", Text),
-)
+class Content(db.Model):
+    page_id = db.Column(db.Integer, primary_key=True)
+    header = db.Column(db.Text, nullable=True)
+    content = db.Column(db.Text, nullable=True)
 
-meta.create_all(engine)
+db.create_all()
 
 #
 # TrackUsage Setup
@@ -59,43 +50,37 @@ pstore = SQLStorage(db=db)
 t = TrackUsage(app, [pstore])
 
 
-
-'''
-class Page(Base):
-    __tablename__ = 'content'
-    Column("page_id", Integer, primary_key=True)
-    Column("content", Text)
-'''
-
-
-
 #Populate content table with input from add new page content
 @app.route("/populateContent", methods=['POST'])
 def populateContent():
     inputString = request.form['editBox']
     #INSERT INTO content (content) VALUES (inputString)
-    insertStatement = pageContent.insert().values(content = inputString)
-    conn = engine.connect()
-    result = conn.execute(insertStatement)
+    #insertStatement = pageContent.insert().values(content = inputString)
+    #conn = engine.connect()
+    #result = conn.execute(insertStatement)
+    newContent = Content(content = inputString)
+    db.session.add(newContent)
+    db.session.commit()
     return redirect(url_for('index'))
 
 #Update content table with input from edit.html
 @app.route("/updateContent", methods=['POST'])
 def updateContent():
     inputString = request.form['editBox']
-    #UPDATE first row in table content
-    updateStatement = pageContent.update().where(pageContent.c.page_id==1).values(content = inputString)
     conn = engine.connect()
+    #UPDATE first row in table content
+    #updateStatement = Content.update().where(pageContent.c.page_id==1).values(content = inputString)
+    updateStatement = f'UPDATE Content SET content="{inputString}" WHERE page_id=1'
     result = conn.execute(updateStatement)
     return redirect(url_for('index'))
-
 
 @app.route('/index')
 #content table query for index.html
 def retrieveContentIndex():
     # Equivalent to SELECT * FROM pageContent
-    select = pageContent.select()
+    #select = Content.select()
     conn = engine.connect()
+    select = "SELECT * FROM Content"
     result = conn.execute(select)
     outputRow = result.fetchone()
     for row in result:
@@ -107,8 +92,9 @@ def retrieveContentIndex():
 #content table query for Edit.html
 def retrieveContentEdit():
     # Equivalent to SELECT * FROM pageContent
-    select = pageContent.select()
+    #select = Content.select()
     conn = engine.connect()
+    select = "SELECT * FROM Content"
     result = conn.execute(select)
     outputRow = result.fetchone()
     for row in result:
