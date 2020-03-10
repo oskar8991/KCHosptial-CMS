@@ -24,6 +24,21 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
+class questions(db.Model):
+    __tablename__ = 'questions'
+    id = db.Column(db.Integer, primary_key=True)
+    questionText = db.Column(db.String(30), nullable=False)
+
+class answers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    answerText = db.Column(db.String(30), nullable=False)
+    correct = db.Column(db.Integer(), unique=False, nullable=False)
+
+class question_answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = Column(db.Integer, ForeignKey('questions.id'))
+    answer_id = Column(db.Integer, ForeignKey('answers.id'))
+
 
 #Creates a table for web page content with id and text
 pageContent = Table(
@@ -31,7 +46,6 @@ pageContent = Table(
     Column("page_id", Integer, primary_key=True),
     Column("content", Text),
 )
-
 meta.create_all(engine)
 
 '''
@@ -96,13 +110,13 @@ def populateQuestions():
     question_answer3 = question_answer(question_id = questId, answer_id = answer3Id)
     question_answer4 = question_answer(question_id = questId, answer_id = answer4Id)
     db.session.add(question_answer1)
-    db.session.commit()
+    db.session.commit() 
     db.session.add(question_answer2)
     db.session.commit()
     db.session.add(question_answer3)
     db.session.commit()
     db.session.add(question_answer4)
-    db.session.commit()
+    db.session.commit()   
     return redirect(url_for('quiz'))
 
 
@@ -113,15 +127,6 @@ def deleteQuestion(question_id):
     db.session.delete(question)
     db.session.commit()
     return redirect(url_for('quiz'))
-
-
-@app.route("/deleteUser/<user_id>")
-@login_required
-def deleteUser(user_id):
-    user = User.query.filter_by(id = user_id).first_or_404()
-    db.session.delete(user)
-    db.session.commit()
-    return redirect(url_for('users'))
 
 
 #Update content table with input from edit.html
@@ -258,6 +263,21 @@ def users():
     result = conn.execute(query)
     data = result.fetchall()
     return render_template('users.html', data = data)
+
+
+@app.route("/quiz")
+@login_required
+def quiz():
+    conn = engine.connect()
+    query = "SELECT * from questions"
+    result = conn.execute(query)
+    questions = result.fetchall()
+    return render_template('quiz.html', questions = questions)
+
+@app.route("/question")
+@login_required
+def question():
+    return render_template('question.html')   
 
 
 @app.route("/addUser")
