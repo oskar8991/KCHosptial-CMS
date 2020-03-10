@@ -3,20 +3,16 @@ from medications import medicationsList, generateChart
 from flask import Flask, url_for, redirect, render_template, request, session, abort, flash, Response, stream_with_context
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
-from functools import wraps
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text, Boolean, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #configuring database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 engine = create_engine('sqlite:///data.db', echo = True)
 meta = MetaData()
-Base = declarative_base()
 
 #Creates a table for login form with id, email and password
 class User(UserMixin, db.Model):
@@ -48,15 +44,7 @@ pageContent = Table(
 )
 meta.create_all(engine)
 
-'''
-class Page(Base):
-    __tablename__ = 'content'
-    Column("page_id", Integer, primary_key=True)
-    Column("content", Text)
-'''
-
 def login_required(f):
-    @wraps(f)
     def wrap(*args, **kwargs):
         if 'logged_in' in session:
             return f(*args, **kwargs)
@@ -80,56 +68,35 @@ def populateContent():
 
 @app.route("/populateQuestions", methods=['POST'])
 def populateQuestions():
-    question = request.form['question']
-    answer1 = request.form['answer1']
-    answer2 = request.form['answer2']
-    answer3 = request.form['answer3']
-    correctAnswer = request.form['correctAnswer']
-    questions1 = questions(questionText = question)
-    answers1 = answers(answerText = answer1, correct = 0)
-    answers2 = answers(answerText = answer2, correct = 0)
-    answers3 = answers(answerText = answer3, correct = 0)
-    answers4 = answers(answerText = correctAnswer, correct = 1)
-    db.session.add(questions1)
+    ques = questions(questionText = request.form['question'])
+    answ = [
+        answers(answerText = request.form['answer1'], correct = 0),
+        answers(answerText = request.form['answer2'], correct = 0),
+        answers(answerText = request.form['answer3'], correct = 0),
+        answers(answerText = request.form['correctAnswer'], correct = 1)
+    ]
+
+    db.session.add(ques)
+    for answer in answ:
+        db.session.add(answer)
+        db.session.add(
+            question_answer(question_id = ques.id, answer_id = answer.id)
+        )
+
     db.session.commit()
-    db.session.add(answers1)
-    db.session.commit()
-    db.session.add(answers2)
-    db.session.commit()
-    db.session.add(answers3)
-    db.session.commit()
-    db.session.add(answers4)
-    db.session.commit()
-    questId = questions1.id
-    answer1Id = answers1.id
-    answer2Id = answers2.id
-    answer3Id = answers3.id
-    answer4Id = answers4.id
-    question_answer1 = question_answer(question_id = questId, answer_id = answer1Id)
-    question_answer2 = question_answer(question_id = questId, answer_id = answer2Id)
-    question_answer3 = question_answer(question_id = questId, answer_id = answer3Id)
-    question_answer4 = question_answer(question_id = questId, answer_id = answer4Id)
-    db.session.add(question_answer1)
-    db.session.commit() 
-    db.session.add(question_answer2)
-    db.session.commit()
-    db.session.add(question_answer3)
-    db.session.commit()
-    db.session.add(question_answer4)
-    db.session.commit()   
     return redirect(url_for('quiz'))
 
 
-@app.route("/deleteQuestion/<question_id>")
 @login_required
+@app.route("/deleteQuestion/<question_id>")
 def deleteQuestion(question_id):
     question = questions.query.filter_by(id = question_id).first_or_404()
     db.session.delete(question)
     db.session.commit()
     return redirect(url_for('quiz'))
 
-@app.route("/deleteUser/<user_id>")
 @login_required
+@app.route("/deleteUser/<user_id>")
 def deleteUser(user_id):
     user = User.query.filter_by(id = user_id).first_or_404()
     db.session.delete(user)
@@ -138,8 +105,8 @@ def deleteUser(user_id):
 
 
 #Update content table with input from edit.html
-@app.route("/updateQuestion", methods=['POST'])
 @login_required
+@app.route("/updateQuestion", methods=['POST'])
 def updateQuestion():
     inputString = request.form['editBox']
     #UPDATE first row in table content
@@ -150,8 +117,8 @@ def updateQuestion():
 
 
 #Update content table with input from edit.html
-@app.route("/updateContent", methods=['POST'])
 @login_required
+@app.route("/updateContent", methods=['POST'])
 def updateContent():
     inputString = request.form['editBox']
     #UPDATE first row in table content
@@ -187,8 +154,8 @@ def retrieveContentEdit():
             outputRow = row
     return render_template('edit.html', content=outputRow.content)
 
-@app.route('/editQuestion')
 @login_required
+@app.route('/editQuestion')
 def editQuestion(question_id):
     conn = engine.connect()
     query = "SELECT * from questions WHERE id = question_id"
@@ -231,40 +198,36 @@ def logmein():
 
     user = User.query.filter_by(email = username).first()
 
-    if not user:
+    if not user or user.password != password:
         flash('Invalid credentials')
         return redirect(url_for('login'))
     else:
-        if user.password != password:
-            flash('Invalid credentials')
-            return redirect(url_for('login'))
-        else:
-            session['logged_in'] = True
-            return redirect(url_for('dashboard'))
+        session['logged_in'] = True
+        return redirect(url_for('dashboard'))
 
 
 
-@app.route("/logout")
 @login_required
+@app.route("/logout")
 def logout():
     session['logged_in'] = False
     session.clear()
     return redirect(url_for('index'))
 
 
-@app.route("/dashboard")
 @login_required
+@app.route("/dashboard")
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route("/edit")
 @login_required
+@app.route("/edit")
 def edit():
     return render_template('edit.html')
 
 
-@app.route("/users")
 @login_required
+@app.route("/users")
 def users():
     conn = engine.connect()
     query = "SELECT id, email from user"
@@ -273,8 +236,8 @@ def users():
     return render_template('users.html', data = data)
 
 
-@app.route("/quiz")
 @login_required
+@app.route("/quiz")
 def quiz():
     conn = engine.connect()
     query = "SELECT * from questions"
@@ -282,14 +245,14 @@ def quiz():
     questions = result.fetchall()
     return render_template('quiz.html', questions = questions)
 
-@app.route("/question")
 @login_required
+@app.route("/question")
 def question():
     return render_template('question.html')   
 
 
-@app.route("/addUser")
 @login_required
+@app.route("/addUser")
 def addUser():
     return render_template('addUser.html')
 
