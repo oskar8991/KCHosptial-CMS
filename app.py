@@ -4,7 +4,7 @@ from flask import Flask, g, url_for, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
+from sqlalchemy import create_engine, MetaData, Table, Column, DateTime, Float, Integer, String, Text, func, Boolean
 
 from flask_track_usage import TrackUsage
 from flask_track_usage.storage.sql import SQLStorage
@@ -40,7 +40,26 @@ class Content(db.Model):
     header = db.Column(db.Text, nullable=True)
     content = db.Column(db.Text, nullable=True)
 
-db.create_all()
+
+class flask_usage(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    url = db.Column(db.String(128))
+    ua_browser = db.Column(db.String(16))
+    ua_language = db.Column(db.String(16))
+    ua_platform = db.Column(db.String(16))
+    ua_version = db.Column(db.String(16))
+    blueprint = db.Column(db.String(16))
+    view_args = db.Column(db.String(64))
+    status = db.Column(db.Integer)
+    remote_addr = db.Column(db.String(24))
+    xforwardedfor = db.Column(db.String(24))
+    authorization = db.Column(db.Boolean)
+    ip_info = db.Column(db.String(1024))
+    path = db.Column(db.String(32))
+    speed = db.Column(db.Float)
+    datetime = db.Column(db.DateTime)
+    username = db.Column(db.String(128))
+    track_var = db.Column(db.String(128))
 
 #
 # TrackUsage Setup
@@ -171,7 +190,11 @@ def logout():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    windowsCount = flask_usage.query.filter_by(ua_platform = 'windows').count()
+    platformUsage = {'windows' : windowsCount }
+    return render_template('dashboard.html', platformUsage=platformUsage)
+
+
 
 @app.route("/edit")
 @login_required
@@ -209,6 +232,7 @@ def addContentUser():
 def searchBarSample():
     return render_template('searchBarSample.html')
 #############################################
+
 
 if __name__ == '__main__':
     app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
