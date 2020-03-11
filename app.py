@@ -45,7 +45,6 @@ db.create_all()
 #
 # TrackUsage Setup
 #
-#mstore = MongoEngineStorage(hooks=[sumRemote, sumUrl, sumUserAgent])
 pstore = SQLStorage(db=db)
 t = TrackUsage(app, [pstore])
 
@@ -55,9 +54,6 @@ t = TrackUsage(app, [pstore])
 def populateContent():
     inputString = request.form['editBox']
     #INSERT INTO content (content) VALUES (inputString)
-    #insertStatement = pageContent.insert().values(content = inputString)
-    #conn = engine.connect()
-    #result = conn.execute(insertStatement)
     newContent = Content(content = inputString)
     db.session.add(newContent)
     db.session.commit()
@@ -69,7 +65,6 @@ def updateContent():
     inputString = request.form['editBox']
     conn = engine.connect()
     #UPDATE first row in table content
-    #updateStatement = Content.update().where(pageContent.c.page_id==1).values(content = inputString)
     updateStatement = f'UPDATE Content SET content="{inputString}" WHERE page_id=1'
     result = conn.execute(updateStatement)
     return redirect(url_for('index'))
@@ -77,8 +72,6 @@ def updateContent():
 @app.route('/index')
 #content table query for index.html
 def retrieveContentIndex():
-    # Equivalent to SELECT * FROM pageContent
-    #select = Content.select()
     conn = engine.connect()
     select = "SELECT * FROM Content"
     result = conn.execute(select)
@@ -91,8 +84,6 @@ def retrieveContentIndex():
 @app.route('/edit')
 #content table query for Edit.html
 def retrieveContentEdit():
-    # Equivalent to SELECT * FROM pageContent
-    #select = Content.select()
     conn = engine.connect()
     select = "SELECT * FROM Content"
     result = conn.execute(select)
