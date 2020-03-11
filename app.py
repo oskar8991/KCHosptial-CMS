@@ -4,7 +4,8 @@ from flask import Flask, g, url_for, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
-from sqlalchemy import create_engine, MetaData, Table, Column, DateTime, Float, Integer, String, Text, func, Boolean
+from sqlalchemy import *
+import datetime
 
 from flask_track_usage import TrackUsage
 from flask_track_usage.storage.sql import SQLStorage
@@ -190,12 +191,43 @@ def logout():
 @app.route("/dashboard")
 @login_required
 def dashboard():
+    currentDate = datetime.datetime.today()
+    currentMonth = currentDate.month
+    currentDay = currentDate.day
+    #Write handling of adding 0 when needed for the month
+    yearDate = str(currentDate.year) + "-0" + str(currentMonth) + "-" + str(currentDay)
+    yesterday = str(currentDate.year) + "-0" + str(currentMonth) + "-" + str(currentDay-1)
+
+    #User Platform Usage Queries
     windowsCount = flask_usage.query.filter_by(ua_platform = 'windows').count()
     macCount = flask_usage.query.filter_by(ua_platform = 'macosx').count()
     linuxCount = flask_usage.query.filter_by(ua_platform = 'linux').count()
     mobileCount = flask_usage.query.filter_by(ua_platform = 'mobile').count()
-    platformUsage = {'windows' : windowsCount , 'mac' : macCount , 'linux' : linuxCount, 'mobile' : mobileCount}
-    return render_template('dashboard.html', platformUsage=platformUsage)
+
+    #General Count Queries
+    uniqueVisitorCount = db.session.query(flask_usage.remote_addr).distinct().count()
+    mostVisitedPage = db.session.query(flask_usage.path, func.count(flask_usage.path).label('value_occurrence')).group_by(flask_usage.path).order_by(desc('value_occurrence')).first()
+    totalVisits = db.session.query(flask_usage.id).count()
+
+    #Visits for today ------
+
+    visitsToday = db.session.query(flask_usage.id).filter(flask_usage.datetime>yearDate).count()
+
+    # 1(day ago) - yesterday, 2 - 2 days ago, 3 - 3 days ago .. etc. up to 6 days ago - represents a week
+    weekData = {'month' : str(currentMonth) , 'today' : {'date' : str(currentDay) +".0" + str(currentMonth), 'count' : visitsToday}}
+    for i in range(1, 7):
+        #Write handling of when months and years overlap NB!
+        date = str((currentDay - i)) + ".0" + str(currentMonth)
+        yearDate = str(currentDate.year) + "-0" + str(currentMonth) + "-" + str((currentDay-i))
+        yearDate2 = str(currentDate.year) + "-0" + str(currentMonth) + "-" + str((currentDay-i+1))
+
+        #Visits for the specified day
+        weekData[f'{i}'] = {'date' : date , 'count' : db.session.query(flask_usage.id).filter(and_(flask_usage.datetime<yearDate2, flask_usage.datetime>yearDate)).count()}
+
+
+
+    analyticsData = { 'weekData' : weekData , 'totalVisits' : totalVisits , 'mostVisitedPage' : mostVisitedPage , 'visitorCount' : uniqueVisitorCount , 'windowsCount' : windowsCount , 'macCount' : macCount , 'linuxCount' : linuxCount , 'mobileCount' : mobileCount}
+    return render_template('dashboard.html', analyticsUsage=analyticsData)
 
 
 

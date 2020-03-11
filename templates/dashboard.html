@@ -74,25 +74,23 @@
         			<div class="card" style="width: 18rem;">
         				<div class="card-body">
         					<h5 class="card-title">Total visits: </h5>
-        					<p class="card-text">11,500</p>
+        					<p class="card-text">{{analyticsUsage.totalVisits}}</p>
         				</div>
         			</div>
         			<div class="card" style="width: 18rem;">
         				<div class="card-body">
-        					<h5 class="card-title">Total page views: </h5>
-        					<p class="card-text">11,500</p>
+        					<h5 class="card-title">Most Visited Page</h5>
+        					<p class="card-text">{{analyticsUsage.mostVisitedPage}}</p>
         				</div>
         			</div>
         			<div class="card" style="width: 18rem;">
-        				<div class="card-body">s
+        				<div class="card-body">
         					<h5 class="card-title">Unique visitors: </h5>
-        					<p class="card-text">123</p>
+        					<p class="card-text">{{analyticsUsage.visitorCount}}</p>
         				</div>
         			</div>
         		</div>
-        		<br>
-						<canvas id="pieChart"></canvas>
-						<br>
+
 
         		<div class="row justify-content-around">
         			<div class="row">
@@ -108,8 +106,11 @@
 				<br>
         		<div class="row justify-content-around">
         			<div class="card">
-        				<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+        				<canvas class="my-4 w-100" id="myChart" width="450" height="380"></canvas>
         			</div>
+							<div class="card">
+								<canvas id="pieChart" width="450" height="380"></canvas>
+							</div>
         		</div>
 
 
@@ -125,9 +126,13 @@
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          labels: [{{analyticsUsage.weekData['6'].date}}, {{analyticsUsage.weekData['5'].date}},
+									{{analyticsUsage.weekData['4'].date}}, {{analyticsUsage.weekData['3'].date}},
+									{{analyticsUsage.weekData['2'].date}}, {{analyticsUsage.weekData['1'].date}}, {{analyticsUsage.weekData['today'].date}}],
           datasets: [{
-            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+            data: [{{analyticsUsage.weekData['6'].count}}, {{analyticsUsage.weekData['5'].count}},
+						 			{{analyticsUsage.weekData['4'].count}}, {{analyticsUsage.weekData['3'].count}},
+									{{analyticsUsage.weekData['2'].count}}, {{analyticsUsage.weekData['1'].count}}, {{analyticsUsage.weekData['today'].count}}],
             lineTension: 0,
             backgroundColor: 'transparent',
             borderColor: '#007bff',
@@ -154,7 +159,7 @@
 			data: {
 			labels: ["Windows", "MacOS", "Mobile"],
 			datasets: [{
-			data: [{{platformUsage.windows}}, {{platformUsage.mac}}, {{platformUsage.mobile}}],
+			data: [{{analyticsUsage.windowsCount}}, {{analyticsUsage.macCount}}, {{analyticsUsage.mobileCount}}],
 			backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
 			hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
 			}]
