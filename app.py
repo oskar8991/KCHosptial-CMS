@@ -191,7 +191,10 @@ def logout():
 @login_required
 def dashboard():
     windowsCount = flask_usage.query.filter_by(ua_platform = 'windows').count()
-    platformUsage = {'windows' : windowsCount }
+    macCount = flask_usage.query.filter_by(ua_platform = 'macosx').count()
+    linuxCount = flask_usage.query.filter_by(ua_platform = 'linux').count()
+    mobileCount = flask_usage.query.filter_by(ua_platform = 'mobile').count()
+    platformUsage = {'windows' : windowsCount , 'mac' : macCount , 'linux' : linuxCount, 'mobile' : mobileCount}
     return render_template('dashboard.html', platformUsage=platformUsage)
 
 
