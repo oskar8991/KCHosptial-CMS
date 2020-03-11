@@ -226,9 +226,18 @@ def editAnnouncementPage():
 @app.route('/editAnnouncement', methods=['POST'])
 def editAnnouncement():
     # save form data here, connect to db to change details, then query db and render normal announcementpage
+    id = request.form['announcementID']
     newTitle = request.form['newTitle']
     newDescription = request.form['newDescription']
-    return render_template('announcements.html')
+    announcement = Announcement.query.filter_by(announcement_id = id).first()
+    announcement.title = newTitle
+    announcement.description = newDescription
+    db.session.commit()
+    conn = engine.connect()
+    query = "SELECT * from announcement"
+    result = conn.execute(query)
+    data = result.fetchall()
+    return render_template('announcements.html', data = data)
 
 
 @app.route("/addAnnouncement", methods=['POST'])

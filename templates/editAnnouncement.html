@@ -10,8 +10,6 @@
 
 {% block body %}
 
-{{id}}
-
 <div class="container">
   <div class="col-md-12">
 	   <div class="text-center">
@@ -23,7 +21,8 @@
      <div class="row justify-content-center">
        <form action="editAnnouncement" method="POST" enctype="multipart/form-data">
 
-
+         Announcement ID: <input id="announcementID" name="announcementID" type="text" value="{{id}}" readonly>
+         <br><br>
          <label for="newTitle">Title</label>
          <div class="md-form">
            <textarea id="newTitle" name="newTitle" class="md-textarea form-control" rows="3" cols="35" required>{{title}}</textarea>
