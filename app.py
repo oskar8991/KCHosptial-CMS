@@ -6,7 +6,7 @@ from flask_login import LoginManager, UserMixin
 from functools import wraps
 from sqlalchemy import *
 from datetime import datetime
-import datetime
+
 
 from flask_track_usage import TrackUsage
 from flask_track_usage.storage.sql import SQLStorage
@@ -71,7 +71,6 @@ class Announcement(db.Model):
     date = db.Column(db.DateTime(), nullable=False)
     #image = db.Column(db.BLOB)
 
-meta.create_all(engine)
 db.create_all()
 
 
@@ -204,7 +203,7 @@ def logout():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    currentDate = datetime.datetime.today()
+    currentDate = datetime.today()
     currentMonth = currentDate.month
     currentDay = currentDate.day
     #Write handling of adding 0 when needed for the month
