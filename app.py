@@ -62,6 +62,18 @@ class flask_usage(db.Model):
     username = db.Column(db.String(128))
     track_var = db.Column(db.String(128))
 
+#Creates a table to store announcements with id, title, date, description
+class Announcement(db.Model):
+    announcement_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.String(10000), nullable=False)
+    date = db.Column(db.DateTime(), nullable=False)
+    #image = db.Column(db.BLOB)
+
+meta.create_all(engine)
+db.create_all()
+
+
 #
 # TrackUsage Setup
 #
@@ -144,10 +156,10 @@ def about():
     return render_template('about.html')
 
 
-
 @app.route('/login')
 def login():
     return render_template('auth/login.html')
+
 
 def login_required(f):
     @wraps(f)
@@ -262,15 +274,92 @@ def addContentUser():
     return redirect(url_for('users'))
 
 
+
+@app.route('/announcements')
+def announcements():
+    return render_template('announcements.html')
+
+@app.route('/addAnnouncementPage')
+def addAnnouncementPage():
+    return render_template('addAnnouncement.html')
+
+@app.route('/editAnnouncementPage')
+def editAnnouncementPage():
+    id = request.args.get('id')
+    title = request.args.get('title')
+    description = request.args.get('description')
+    return render_template('editAnnouncement.html', id=id, title=title, description=description)
+
+@app.route('/deleteAnnouncementPage')
+def deleteAnnouncementPage():
+    id = request.args.get('id')
+    title = request.args.get('title')
+    description = request.args.get('description')
+    return render_template('deleteAnnouncement.html', id=id, title=title, description=description)
+
+@app.route('/editAnnouncement', methods=['POST'])
+def editAnnouncement():
+    id = request.form['announcementID']
+    newTitle = request.form['newTitle']
+    newDescription = request.form['newDescription']
+    announcement = Announcement.query.filter_by(announcement_id = id).first()
+    announcement.title = newTitle
+    announcement.description = newDescription
+    db.session.commit()
+    conn = engine.connect()
+    query = "SELECT * from announcement"
+    result = conn.execute(query)
+    data = result.fetchall()
+    return render_template('announcements.html', data = data)
+
+@app.route('/deleteAnnouncement', methods=['POST'])
+def deleteAnnouncement():
+    id = request.form['announcementID']
+    announcement = db.session.query(Announcement).filter(Announcement.announcement_id == id).first()
+    db.session.delete(announcement)
+    db.session.commit()
+    conn = engine.connect()
+    query = "SELECT * from announcement"
+    result = conn.execute(query)
+    data = result.fetchall()
+    return render_template('announcements.html', data = data)
+
+@app.route("/addAnnouncement", methods=['POST'])
+@login_required
+def addAnnouncement():
+    title = request.form['title']
+    description = request.form['description']
+    date = datetime.now()
+    #image = request.files['imageUpload']
+    announcement = Announcement(title = title, description = description, date = date)
+    db.session.add(announcement)
+    db.session.commit()
+    conn = engine.connect()
+    query = "SELECT * from announcement"
+    result = conn.execute(query)
+    data = result.fetchall()
+    return render_template('announcements.html', data = data)
+
+@app.route("/showAnnouncements", methods=['GET'])
+def showAnnouncements():
+    conn = engine.connect()
+    query = "SELECT * from announcement"
+    result = conn.execute(query)
+    data = result.fetchall()
+    #images = [(base64.b64encode(item['image'] for item in result.fetchall()).DATA).encode('ascii')]
+    #imagesRaw = [item['image'] for item in result.fetchall()]
+    #imagesFormatted = []
+    #for x in imagesRaw:
+    #    imagesFormatted.append(base64.b64encode(x.DATA))
+    return render_template('announcements.html', data = data)
+
+
+
 ############# FOR TESTING SEARCHBAR #########
 @app.route("/searchBarSample")
 def searchBarSample():
     return render_template('searchBarSample.html')
 #############################################
-
-@app.route("/dashboard")
-def userPlatformUsage():
-    return render_template('dashboard.html', platformUsage=session.query(flask_usage).filter_by(ua_platform='windows').count())
 
 
 

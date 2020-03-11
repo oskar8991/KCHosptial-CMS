@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %} Announcements {% endblock %}
+
+
+{% block head %}
+<title>Announcements</title>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+  <div class="col-md-12">
+	   <div class="text-center">
+			    <br><h1> Announcements </h1>
+     </div>
+
+     <br>
+
+     {% if data %}
+         {% for temp in data %}
+         <div class="row justify-content-center">
+           <table class="table">
+           <tbody>
+             <h4>{{temp.title}}</h4>
+             <td>{{temp.description}} <br><br> {{temp.date[:10]}}
+
+             {% if session['logged_in'] %}
+               <a href="{{url_for('deleteAnnouncementPage', id=temp.announcement_id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right;">Delete</a>
+               <a href="{{url_for('editAnnouncementPage', id=temp.announcement_id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
+             {% endif %}
+
+
+             </td>
+             <br>
+            </tbody>
+            </table>
+          </div>
+         {% endfor %}
+     {% endif %}
+
+  </div>
+</div>
+
+{% if session['logged_in'] %}
+<div class="mx-auto text-center">
+  <a href="{{url_for('addAnnouncementPage')}}" class="btn btn-primary" role="button">Add Announcement</a>
+</div>
+<br><br><br>
+{% else %}
+<div class="mx-auto text-center">
+  <br>
+  <a href="{{url_for('login')}}">Please log in as a staff member to add/update content</a>
+</div>
+<br><br><br>
+{% endif %}
+
+
+
+{% endblock %}

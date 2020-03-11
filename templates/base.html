@@ -8,7 +8,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-	
+
 
 	<title>{% block title %}{% endblock %}</title>
 	{% block head %} {% endblock %}
@@ -28,12 +28,15 @@
 		      </li>
 		      <li class="nav-item active">
 		        <a class="nav-link" href="{{url_for('faq')}}">FAQ</a>
-		        <li>
+		       <li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/showAnnouncements">Announcements</a>
+					<li>
 		       <li class="nav-item active">
 		        <a class="nav-link" href="{{url_for('about')}}">About</a>
 		        <li>
 						 <input id="searchInput" type="text" placeholder="Search" style="border-radius: 10px; padding: 10px; width: 80; height:11px; margin-top: 7px; right: 5px;">
-						 <script type="text/javascript" src="../static/resources/hilitor.js"></script>
+						 <script type="text/javascript" src="../static/js/hilitor.js"></script>
 						 <script>
 						   window.addEventListener("DOMContentLoaded", function(e) {
 						     var highlighter = new Hilitor("testText");
@@ -64,7 +67,7 @@
 		    </ul>
 		  </div>
 		</nav>
-		
+
     {% block body %} {% endblock %}
 		{% block content %}{% endblock %}
 	<footer></footer>
