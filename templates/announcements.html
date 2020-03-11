@@ -48,6 +48,12 @@
   <a href="{{url_for('addAnnouncementPage')}}" class="btn btn-primary" role="button">Add Announcement</a>
 </div>
 <br><br><br>
+{% else %}
+<div class="mx-auto text-center">
+  <br>
+  <a href="{{url_for('login')}}">Please log in as a staff member to add/update content</a>
+</div>
+<br><br><br>
 {% endif %}
 
 
