@@ -233,6 +233,12 @@ def searchBarSample():
     return render_template('searchBarSample.html')
 #############################################
 
+@app.route("/dashboard")
+def userPlatformUsage():
+    return render_template('dashboard.html', platformUsage=session.query(flask_usage).filter_by(ua_platform='windows').count())
+
+
+
 
 if __name__ == '__main__':
     app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
