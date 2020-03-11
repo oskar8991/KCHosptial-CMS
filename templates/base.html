@@ -42,7 +42,7 @@
 						     var highlighter = new Hilitor("testText");
 						     highlighter.setMatchType("left");
 						     highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
-						   	highlighter.apply("input string,searchInput,page");
+						   	highlighter.apply("input string,searchInput");
 						     document.getElementById("searchInput").addEventListener("keyup", function(e) {
 						       highlighter.apply(this.value);
 						     }, false);
