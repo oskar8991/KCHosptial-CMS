@@ -4,7 +4,7 @@ from flask import Flask, g, url_for, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from functools import wraps
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text, func
 
 from flask_track_usage import TrackUsage
 from flask_track_usage.storage.sql import SQLStorage
@@ -218,6 +218,13 @@ def addContentUser():
 def searchBarSample():
     return render_template('searchBarSample.html')
 #############################################
+
+@app.route("/dashboard")
+def userPlatformUsage():
+    return render_template('dashboard.html', platformUsage=session.query(flask_usage).filter_by(ua_platform='windows').count())
+
+
+
 
 if __name__ == '__main__':
     app.secret_key = '_5#y2L"F4Q8z\n\xec]/'

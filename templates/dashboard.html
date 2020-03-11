@@ -84,13 +84,15 @@
         				</div>
         			</div>
         			<div class="card" style="width: 18rem;">
-        				<div class="card-body">
+        				<div class="card-body">s
         					<h5 class="card-title">Unique visitors: </h5>
         					<p class="card-text">123</p>
         				</div>
         			</div>
         		</div>
         		<br>
+						<canvas id="pieChart"></canvas>
+						<br>
 
         		<div class="row justify-content-around">
         			<div class="row">
@@ -146,6 +148,21 @@
           }
         }
       });
+			var ctxP = document.getElementById("pieChart").getContext('2d');
+			var myPieChart = new Chart(ctxP, {
+			type: 'pie',
+			data: {
+			labels: ["Windows", "MacOS", "Mobile"],
+			datasets: [{
+			data: [{{platformUsage}}, 50, 100],
+			backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
+			hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+			}]
+			},
+			options: {
+			responsive: true
+			}
+			});
     </script>
 
 
