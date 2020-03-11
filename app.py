@@ -223,9 +223,15 @@ def editAnnouncementPage():
     description = request.args.get('description')
     return render_template('editAnnouncement.html', id=id, title=title, description=description)
 
+@app.route('/deleteAnnouncementPage')
+def deleteAnnouncementPage():
+    id = request.args.get('id')
+    title = request.args.get('title')
+    description = request.args.get('description')
+    return render_template('deleteAnnouncement.html', id=id, title=title, description=description)
+
 @app.route('/editAnnouncement', methods=['POST'])
 def editAnnouncement():
-    # save form data here, connect to db to change details, then query db and render normal announcementpage
     id = request.form['announcementID']
     newTitle = request.form['newTitle']
     newDescription = request.form['newDescription']
@@ -239,6 +245,17 @@ def editAnnouncement():
     data = result.fetchall()
     return render_template('announcements.html', data = data)
 
+@app.route('/deleteAnnouncement', methods=['POST'])
+def deleteAnnouncement():
+    id = request.form['announcementID']
+    announcement = db.session.query(Announcement).filter(Announcement.announcement_id == id).first()
+    db.session.delete(announcement)
+    db.session.commit()
+    conn = engine.connect()
+    query = "SELECT * from announcement"
+    result = conn.execute(query)
+    data = result.fetchall()
+    return render_template('announcements.html', data = data)
 
 @app.route("/addAnnouncement", methods=['POST'])
 @login_required
@@ -255,7 +272,6 @@ def addAnnouncement():
     result = conn.execute(query)
     data = result.fetchall()
     return render_template('announcements.html', data = data)
-
 
 @app.route("/showAnnouncements", methods=['GET'])
 def showAnnouncements():

@@ -27,7 +27,7 @@
              <td>{{temp.description}} <br><br> {{temp.date[:10]}}
 
              {% if session['logged_in'] %}
-               <a href="{{url_for('addAnnouncementPage')}}" style="text-align:right; float:right;">Delete</a>
+               <a href="{{url_for('deleteAnnouncementPage', id=temp.announcement_id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right;">Delete</a>
                <a href="{{url_for('editAnnouncementPage', id=temp.announcement_id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
              {% endif %}
 
