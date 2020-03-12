@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %} Makq a quiz{% endblock %}
+
+
+{% block content%}
+
+  <div class="row justify-content-center">
+    <h2>Make a new quiz</h2>
+  </div>
+
+<div class = "container">
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Question</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in questions %}
+        <tr>
+            <td>{{ row.questionText }}</td>
+            <td><button class="btn btn-primary" onclick="window.location.href ='{{url_for('editQuestion', question_id = row.id)}}' ;">Edit</button>
+              <button class="btn btn-primary" onclick="window.location.href ='{{url_for('deleteQuestion', question_id = row.id)}}' ;">Delete</button>
+            </td>
+          </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+  <div class = "container">
+    <div class="row justify-content-center">
+
+      <button class="btn btn-primary" onclick="window.location.href ='{{url_for('question')}}' ;">Add a question</button>
+    </div>
+  </div>
+
+{% endblock %}
