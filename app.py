@@ -70,17 +70,7 @@ class Announcement(db.Model):
     date = db.Column(db.DateTime(), nullable=False)
     #image = db.Column(db.BLOB)
 
-
-
-
-#
-# TrackUsage Setup
-#
-pstore = SQLStorage(db=db)
-t = TrackUsage(app, [pstore])
-
 class questions(db.Model):
-    __tablename__ = 'questions'
     id = db.Column(db.Integer, primary_key=True)
     questionText = db.Column(db.String(30), nullable=False)
 
@@ -93,6 +83,15 @@ class question_answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question_id = Column(db.Integer, ForeignKey('questions.id'))
     answer_id = Column(db.Integer, ForeignKey('answers.id'))
+
+
+#
+# TrackUsage Setup
+#
+pstore = SQLStorage(db=db)
+t = TrackUsage(app, [pstore])
+
+
 
 db.create_all()
 
