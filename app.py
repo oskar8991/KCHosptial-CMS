@@ -212,7 +212,7 @@ def dashboard():
 
     #User Platform Usage Queries
     windowsCount = flask_usage.query.filter_by(ua_platform = 'windows').count()
-    macCount = flask_usage.query.filter_by(ua_platform = 'macosx').count()
+    macCount = flask_usage.query.filter_by(ua_platform = 'macos').count()
     linuxCount = flask_usage.query.filter_by(ua_platform = 'linux').count()
     mobileCount = flask_usage.query.filter_by(ua_platform = 'mobile').count()
 
