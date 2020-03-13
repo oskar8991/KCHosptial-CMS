@@ -1,11 +1,11 @@
 
 from medications import medicationsList, generateChart
-from flask import Flask, g, url_for, redirect, render_template, request, session, abort, flash, Response, stream_with_context
+from flask import Flask, g, url_for, redirect, render_template, request, \
+    session, abort, flash, Response, stream_with_context
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
-from functools import wraps
 from sqlalchemy import *
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 from flask_track_usage import TrackUsage
@@ -74,55 +74,57 @@ class Announcement(db.Model):
 db.create_all()
 
 
-#
 # TrackUsage Setup
-#
 pstore = SQLStorage(db=db)
 t = TrackUsage(app, [pstore])
 
 
+def db_execute(query):
+    conn = engine.connect()
+    return conn.execute(query)
+
 #Populate content table with input from add new page content
 @app.route("/populateContent", methods=['POST'])
 def populateContent():
-    inputString = request.form['editBox']
     #INSERT INTO content (content) VALUES (inputString)
-    newContent = Content(content = inputString)
-    db.session.add(newContent)
+    db.session.add(Content(content = request.form['editBox']))
     db.session.commit()
     return redirect(url_for('index'))
 
 #Update content table with input from edit.html
 @app.route("/updateContent", methods=['POST'])
 def updateContent():
-    inputString = request.form['editBox']
-    conn = engine.connect()
     #UPDATE first row in table content
-    updateStatement = f'UPDATE Content SET content="{inputString}" WHERE page_id=1'
-    result = conn.execute(updateStatement)
+    db_execute(
+        f'UPDATE Content SET content="{request.form["editBox"]}" WHERE page_id=1'
+    )
+    
     return redirect(url_for('index'))
 
 @app.route('/index')
 #content table query for index.html
 def retrieveContentIndex():
-    conn = engine.connect()
-    select = "SELECT * FROM Content"
-    result = conn.execute(select)
+    query = "SELECT * FROM Content"
+    result = db_execute(query)
     outputRow = result.fetchone()
+
     for row in result:
         if (row.page_id == 1):
             outputRow = row
+
     return render_template('index.html', content=outputRow.content)
 
 @app.route('/edit')
 #content table query for Edit.html
 def retrieveContentEdit():
-    conn = engine.connect()
-    select = "SELECT * FROM Content"
-    result = conn.execute(select)
+    query = "SELECT * FROM Content"
+    result = db_execute(query)
     outputRow = result.fetchone()
+
     for row in result:
         if (row.page_id == 1):
             outputRow = row
+
     return render_template('edit.html', content=outputRow.content)
 
 
@@ -162,7 +164,6 @@ def login():
 
 
 def login_required(f):
-    @wraps(f)
     def wrap(*args, **kwargs):
         if 'logged_in' in session:
             return f(*args, **kwargs)
@@ -174,101 +175,111 @@ def login_required(f):
 
 @app.route("/logmein", methods=['POST'])
 def logmein():
-    username = request.form['username']
-    password = request.form['password']
+    user = User.query.filter_by(email = request.form['username']).first()
 
-    user = User.query.filter_by(email = username).first()
-
-    if not user:
+    if not user or user.password != request.form['password']:
         flash('Invalid credentials')
         return redirect(url_for('login'))
     else:
-        if user.password != password:
-            flash('Invalid credentials')
-            return redirect(url_for('login'))
-        else:
-            session['logged_in'] = True
-            return redirect(url_for('dashboard'))
+        session['logged_in'] = True
+        return redirect(url_for('dashboard'))
 
 
 
-@app.route("/logout")
 @login_required
+@app.route("/logout")
 def logout():
     session['logged_in'] = False
     session.clear()
     return redirect(url_for('index'))
 
 
-@app.route("/dashboard")
 @login_required
+@app.route("/dashboard")
 def dashboard():
-    currentDate = datetime.today()
-    currentMonth = currentDate.month
-    currentDay = currentDate.day
-    #Write handling of adding 0 when needed for the month
-    yearDate = str(currentDate.year) + "-0" + str(currentMonth) + "-" + str(currentDay)
-    yesterday = str(currentDate.year) + "-0" + str(currentMonth) + "-" + str(currentDay-1)
+    today = datetime.today()
 
-    #User Platform Usage Queries
-    windowsCount = flask_usage.query.filter_by(ua_platform = 'windows').count()
-    macCount = flask_usage.query.filter_by(ua_platform = 'macosx').count()
-    linuxCount = flask_usage.query.filter_by(ua_platform = 'linux').count()
-    mobileCount = flask_usage.query.filter_by(ua_platform = 'mobile').count()
+    visitsToday = db.session.query(flask_usage.id).filter(
+        flask_usage.datetime > func.DATE(today)
+    ).count()
 
-    #General Count Queries
-    uniqueVisitorCount = db.session.query(flask_usage.remote_addr).distinct().count()
-    mostVisitedPage = db.session.query(flask_usage.path, func.count(flask_usage.path).label('value_occurrence')).group_by(flask_usage.path).order_by(desc('value_occurrence')).first()
-    totalVisits = db.session.query(flask_usage.id).count()
-
-    #Visits for today ------
-
-    visitsToday = db.session.query(flask_usage.id).filter(flask_usage.datetime>yearDate).count()
-
+    weekData = {
+        'month': today.strftime("%m"),
+        'today': {
+            'date': today.strftime("%d/%m"),
+            'count': visitsToday
+        }
+    }
+    
     # 1(day ago) - yesterday, 2 - 2 days ago, 3 - 3 days ago .. etc. up to 6 days ago - represents a week
-    weekData = {'month' : str(currentMonth) , 'today' : {'date' : str(currentDay) +".0" + str(currentMonth), 'count' : visitsToday}}
     for i in range(1, 7):
-        #Write handling of when months and years overlap NB!
-        date = str((currentDay - i)) + ".0" + str(currentMonth)
-        yearDate = str(currentDate.year) + "-0" + str(currentMonth) + "-" + str((currentDay-i))
-        yearDate2 = str(currentDate.year) + "-0" + str(currentMonth) + "-" + str((currentDay-i+1))
+        day = datetime.today() - timedelta(days=i)
+
+        count = db.session.query(flask_usage.id).filter(and_(
+            flask_usage.datetime < func.DATE(day + timedelta(days=1)),
+            flask_usage.datetime > func.DATE(day)
+        )).count()
 
         #Visits for the specified day
-        weekData[f'{i}'] = {'date' : date , 'count' : db.session.query(flask_usage.id).filter(and_(flask_usage.datetime<yearDate2, flask_usage.datetime>yearDate)).count()}
+        weekData[str(i)] = {'date' : day.strftime("%d/%m") , 'count' : count}
 
 
+    analyticsData = {
+        'weekData': weekData,
+        
+        #User Platform Usage Queries
+        'windowsCount': (flask_usage.query
+                                    .filter_by(ua_platform = 'windows')
+                                    .count()),
+        'macCount': (flask_usage.query
+                                .filter_by(ua_platform = 'macosx')
+                                .count()),
+        'linuxCount': (flask_usage.query
+                                  .filter_by(ua_platform = 'linux')
+                                  .count()),
+        'mobileCount': (flask_usage.query
+                                   .filter_by(ua_platform = 'mobile')
+                                   .count()),
 
-    analyticsData = { 'weekData' : weekData , 'totalVisits' : totalVisits , 'mostVisitedPage' : mostVisitedPage , 'visitorCount' : uniqueVisitorCount , 'windowsCount' : windowsCount , 'macCount' : macCount , 'linuxCount' : linuxCount , 'mobileCount' : mobileCount}
+        #General Count Queries
+        'visitorCount': (db.session.query(flask_usage.remote_addr)
+                                   .distinct()
+                                   .count()),
+        'mostVisitedPage': (db.session.query(
+                flask_usage.path,
+                func.count(flask_usage.path).label('value_occurrence')
+            ).group_by(flask_usage.path)
+            .order_by(desc('value_occurrence'))
+            .first()),
+    
+        'totalVisits': db.session.query(flask_usage.id).count()
+    }
+
     return render_template('dashboard.html', analyticsUsage=analyticsData)
 
 
-
-@app.route("/edit")
 @login_required
+@app.route("/edit")
 def edit():
     return render_template('edit.html')
 
-
+@login_required
 @app.route("/users")
-@login_required
 def users():
-    conn = engine.connect()
     query = "SELECT id, email from user"
-    result = conn.execute(query)
-    data = result.fetchall()
-    return render_template('users.html', data = data)
+    return render_template('users.html', data = db_execute(query).fetchall())
 
-
-@app.route("/addUser")
 @login_required
+@app.route("/addUser")
 def addUser():
     return render_template('addUser.html')
 
 @app.route("/addContentUser", methods=['POST'])
 def addContentUser():
-    userEmail = request.form['userEmail']
-    userPassword = request.form['userPassword']
-    user = User(email = userEmail, password = userPassword)
+    user = User(
+        email = request.form['userEmail'], 
+        password = request.form['userPassword']
+    )
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('users'))
@@ -285,73 +296,76 @@ def addAnnouncementPage():
 
 @app.route('/editAnnouncementPage')
 def editAnnouncementPage():
-    id = request.args.get('id')
-    title = request.args.get('title')
-    description = request.args.get('description')
-    return render_template('editAnnouncement.html', id=id, title=title, description=description)
+    return render_template('editAnnouncement.html',
+        id = request.args.get('id'),
+        title = request.args.get('description'),
+        description = request.args.get('description')
+    )
 
 @app.route('/deleteAnnouncementPage')
 def deleteAnnouncementPage():
-    id = request.args.get('id')
-    title = request.args.get('title')
-    description = request.args.get('description')
-    return render_template('deleteAnnouncement.html', id=id, title=title, description=description)
+    return render_template('deleteAnnouncement.html',
+        id = request.args.get('id'),
+        title = request.args.get('title'),
+        description = request.args.get('description')
+    )
 
 @app.route('/editAnnouncement', methods=['POST'])
 def editAnnouncement():
-    id = request.form['announcementID']
-    newTitle = request.form['newTitle']
-    newDescription = request.form['newDescription']
-    announcement = Announcement.query.filter_by(announcement_id = id).first()
-    announcement.title = newTitle
-    announcement.description = newDescription
+    announcement = Announcement.query.filter_by(
+        announcement_id = request.form['announcementID']
+    ).first()
+
+    announcement.title = request.form['newTitle']
+    announcement.description = request.form['newDescription']
     db.session.commit()
-    conn = engine.connect()
+    
     query = "SELECT * from announcement"
-    result = conn.execute(query)
-    data = result.fetchall()
-    return render_template('announcements.html', data = data)
+    return render_template('announcements.html',
+        data = db_execute(query).fetchall()
+    )
 
 @app.route('/deleteAnnouncement', methods=['POST'])
 def deleteAnnouncement():
-    id = request.form['announcementID']
-    announcement = db.session.query(Announcement).filter(Announcement.announcement_id == id).first()
+    announcement = db.session.query(Announcement).filter(
+        Announcement.announcement_id == request.form['announcementID']
+    ).first()
     db.session.delete(announcement)
     db.session.commit()
-    conn = engine.connect()
+    
     query = "SELECT * from announcement"
-    result = conn.execute(query)
-    data = result.fetchall()
-    return render_template('announcements.html', data = data)
+    return render_template('announcements.html',
+        data = db_execute(query).fetchall()
+    )
 
-@app.route("/addAnnouncement", methods=['POST'])
 @login_required
+@app.route("/addAnnouncement", methods=['POST'])
 def addAnnouncement():
-    title = request.form['title']
-    description = request.form['description']
-    date = datetime.now()
     #image = request.files['imageUpload']
-    announcement = Announcement(title = title, description = description, date = date)
+    announcement = Announcement(
+        title = request.form['title'], 
+        description = request.form['description'], 
+        date = datetime.now()
+    )
     db.session.add(announcement)
     db.session.commit()
-    conn = engine.connect()
+    
     query = "SELECT * from announcement"
-    result = conn.execute(query)
-    data = result.fetchall()
-    return render_template('announcements.html', data = data)
+    return render_template('announcements.html',
+        data = db_execute(query).fetchall()
+    )
 
 @app.route("/showAnnouncements", methods=['GET'])
 def showAnnouncements():
-    conn = engine.connect()
     query = "SELECT * from announcement"
-    result = conn.execute(query)
-    data = result.fetchall()
     #images = [(base64.b64encode(item['image'] for item in result.fetchall()).DATA).encode('ascii')]
     #imagesRaw = [item['image'] for item in result.fetchall()]
     #imagesFormatted = []
     #for x in imagesRaw:
     #    imagesFormatted.append(base64.b64encode(x.DATA))
-    return render_template('announcements.html', data = data)
+    return render_template('announcements.html',
+        data = db_execute(query).fetchall()
+    )
 
 
 

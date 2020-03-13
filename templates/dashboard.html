@@ -120,59 +120,71 @@
 </div>
 
 <!-- Graphs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <script>
-      var ctx = document.getElementById("myChart");
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: [{{analyticsUsage.weekData['6'].date}}, {{analyticsUsage.weekData['5'].date}},
-									{{analyticsUsage.weekData['4'].date}}, {{analyticsUsage.weekData['3'].date}},
-									{{analyticsUsage.weekData['2'].date}}, {{analyticsUsage.weekData['1'].date}}, {{analyticsUsage.weekData['today'].date}}],
-          datasets: [{
-            data: [{{analyticsUsage.weekData['6'].count}}, {{analyticsUsage.weekData['5'].count}},
-						 			{{analyticsUsage.weekData['4'].count}}, {{analyticsUsage.weekData['3'].count}},
-									{{analyticsUsage.weekData['2'].count}}, {{analyticsUsage.weekData['1'].count}}, {{analyticsUsage.weekData['today'].count}}],
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#007bff',
-            borderWidth: 4,
-            pointBackgroundColor: '#007bff'
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: false
-              }
-            }]
-          },
-          legend: {
-            display: false,
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+  var ctx = document.getElementById("myChart");
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [
+        '{{analyticsUsage.weekData['6'].date}}',
+        '{{analyticsUsage.weekData['5'].date}}',
+        '{{analyticsUsage.weekData['4'].date}}',
+        '{{analyticsUsage.weekData['3'].date}}',
+        '{{analyticsUsage.weekData['2'].date}}',
+        '{{analyticsUsage.weekData['1'].date}}',
+        '{{analyticsUsage.weekData['today'].date}}'
+      ],
+      datasets: [{
+        data: [
+          {{analyticsUsage.weekData['6'].count}},
+          {{analyticsUsage.weekData['5'].count}},
+          {{analyticsUsage.weekData['4'].count}},
+          {{analyticsUsage.weekData['3'].count}},
+          {{analyticsUsage.weekData['2'].count}},
+          {{analyticsUsage.weekData['1'].count}},
+          {{analyticsUsage.weekData['today'].count}}
+        ],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
           }
-        }
-      });
-			var ctxP = document.getElementById("pieChart").getContext('2d');
-			var myPieChart = new Chart(ctxP, {
-			type: 'pie',
-			data: {
-			labels: ["Windows", "MacOS", "Mobile"],
-			datasets: [{
-			data: [{{analyticsUsage.windowsCount}}, {{analyticsUsage.macCount}}, {{analyticsUsage.mobileCount}}],
-			backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
-			hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
-			}]
-			},
-			options: {
-			responsive: true
-			}
-			});
-    </script>
+        }]
+      },
+      legend: {
+        display: false,
+      }
+    }
+  });
 
-
-
-
-
+  var ctxP = document.getElementById("pieChart").getContext('2d');
+  var myPieChart = new Chart(ctxP, {
+    type: 'pie',
+    data: {
+      labels: ["Windows", "MacOS", "Mobile"],
+      datasets: [{
+        data: [
+          {{analyticsUsage.windowsCount}},
+          {{analyticsUsage.macCount}},
+          {{analyticsUsage.mobileCount}}
+        ],
+        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+</script>
 
 {% endblock %}
