@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 from flask_login import UserMixin
-from setup import db, login_manager
-from sqlalchemy import *
+from app import login_manager, db
 
 @dataclass
 class Medication:
@@ -29,7 +28,7 @@ class Content(db.Model):
     content = db.Column(db.Text, nullable=True)
 
 
-class flask_usage(db.Model):
+class FlaskUsage(db.Model):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     url = db.Column(db.String(128))

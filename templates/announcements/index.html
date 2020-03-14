@@ -27,8 +27,8 @@
              <td>{{temp.description}} <br><br> {{temp.date.strftime("%d-%m-%Y")}}
 
              {% if session['logged_in'] %}
-               <a href="{{url_for('deleteAnnouncementPage', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right;">Delete</a>
-               <a href="{{url_for('editAnnouncementPage', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
+               <a href="{{url_for('announcements.delete_announcement', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right;">Delete</a>
+               <a href="{{url_for('announcements.edit_announcement', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
              {% endif %}
 
 
@@ -45,7 +45,7 @@
 
 {% if session['logged_in'] %}
 <div class="mx-auto text-center">
-  <a href="{{url_for('addAnnouncementPage')}}" class="btn btn-primary" role="button">Add Announcement</a>
+  <a href="{{url_for('announcements.create_announcement')}}" class="btn btn-primary" role="button">Add Announcement</a>
 </div>
 <br><br><br>
 {% else %}
