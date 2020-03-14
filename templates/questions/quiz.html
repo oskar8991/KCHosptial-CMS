@@ -17,11 +17,11 @@
     </tr>
   </thead>
   <tbody>
-    {% for row in questions %}
+    {% for question in questions %}
         <tr>
-            <td>{{ row.questionText }}</td>
-            <td><button class="btn btn-primary" onclick="window.location.href ='{{url_for('editQuestion', question_id = row.id)}}' ;">Edit</button>
-              <button class="btn btn-primary" onclick="window.location.href ='{{url_for('deleteQuestion', question_id = row.id)}}' ;">Delete</button>
+            <td>{{ question.question_text }}</td>
+            <td><a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" role="button">Edit</a>
+              <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}" role="button">Delete</a>
             </td>
           </tr>
     {% endfor %}
@@ -32,7 +32,7 @@
   <div class = "container">
     <div class="row justify-content-center">
 
-      <button class="btn btn-primary" onclick="window.location.href ='{{url_for('question')}}' ;">Add a question</button>
+      <a class="btn btn-primary" href="{{url_for('quiz.add_question')}}" role="button">Add a question</a>
     </div>
   </div>
 

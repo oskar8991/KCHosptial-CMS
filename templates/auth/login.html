@@ -9,8 +9,8 @@
 <div class="container">
 
   {% for message in get_flashed_messages()%}
-  <div class="alert alert-warning" id="error" >
-    <button onclick="document.getElementById('error').style.display = 'none';" type="button" class="close" data-dismiss="alert">&times;</button>
+  <div class="alert alert-warning" id="error{{ loop.index }}" >
+    <button onclick="document.getElementById('error{{ loop.index }}').style.display = 'none';" type="button" class="close" data-dismiss="alert">&times;</button>
     {{message}}
   </div>
   {% endfor %}
@@ -20,7 +20,7 @@
     <h2>Staff Login</h2>
   </div>
 
-  <form class="form-signin" action="logmein" method="POST">
+  <form class="form-signin" action="" method="POST">
 
     <div class="row justify-content-center">
       <div class="w-75">

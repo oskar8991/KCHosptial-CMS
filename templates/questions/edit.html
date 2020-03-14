@@ -9,16 +9,16 @@
   </div>
 
 <div class="container">
-  <form action="updateQuestion" method="POST">
+  <form action="" method="POST">
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Write a question</label>
-      <textarea class="form-control" id="question" name="question" rows="1">{{ question }}</textarea>
+      <textarea class="form-control" id="question" name="question" rows="1">{{ question.question_text }}</textarea>
     </div>
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Write multiple answers</label>
-      <textarea class="form-control" id="answer1" name="answer1" rows="1"></textarea>
-      <textarea class="form-control" id="answer2" name="answer2" rows="1"></textarea>
-      <textarea class="form-control" id="answer3" name="answer3" rows="1"></textarea>
+        <textarea class="form-control" id="answer1" name="answer1" rows="1"></textarea>
+        <textarea class="form-control" id="answer2" name="answer2" rows="1"></textarea>
+        <textarea class="form-control" id="answer3" name="answer3" rows="1"></textarea>
     </div>
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Write the correct answer</label>

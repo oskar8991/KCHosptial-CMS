@@ -16,24 +16,24 @@
 
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		  <a class="navbar-brand" href="{{url_for('index')}}">WW</a>
+		  <a class="navbar-brand" href="{{url_for('main.index')}}">WW</a>
 
 		  <div class="collapse navbar-collapse">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('index')}}">Home</a>
+		        <a class="nav-link" href="{{url_for('main.index')}}">Home</a>
 		      </li>
 		      <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('medication')}}">Drug Chart</a>
+		        <a class="nav-link" href="{{url_for('drug_chart.medication')}}">Drug Chart</a>
 		      </li>
 		      <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('faq')}}">FAQ</a>
+		        <a class="nav-link" href="{{url_for('main.faq')}}">FAQ</a>
 		       <li>
 					<li class="nav-item active">
-						<a class="nav-link" href="/showAnnouncements">Announcements</a>
+						<a class="nav-link" href="{{url_for('main.announcements')}}">Announcements</a>
 					<li>
 		       <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('about')}}">About</a>
+		        <a class="nav-link" href="{{url_for('main.about')}}">About</a>
 		        <li>
 						 <input id="searchInput" type="text" placeholder="Search" style="border-radius: 10px; padding: 10px; width: 80; height:11px; margin-top: 7px; right: 5px;">
 						 <script type="text/javascript" src="../static/js/hilitor.js"></script>
@@ -55,13 +55,13 @@
 		    <ul class="navbar-nav">
 		    	{% if session['logged_in'] %}
 		      <li class="nav-item active">
-		      	<a class="nav-link" href="{{url_for('dashboard')}}">Dashboard</a>
+		      	<a class="nav-link" href="{{url_for('dashboard.dashboard_panel')}}">Dashboard</a>
 		      </li>
 		      <li class="nav-item active">
-		      	<a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+		      	<a class="nav-link" href="{{url_for('users.logout')}}">Logout</a>
 		      </li>
 		      	{%else%}
-		        <a class="nav-link" href="{{url_for('login')}}">Staff Login</a>
+		        <a class="nav-link" href="{{url_for('users.login')}}">Staff Login</a>
 		        {%endif%}
 		      </li>
 		    </ul>
