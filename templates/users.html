@@ -18,12 +18,11 @@
     </tr>
   </thead>
   <tbody>
-    {% for row in data %}
+    {% for user in data %}
         <tr>
-        {% for user in row %}
-            <td>{{ user }}</td>
-        {% endfor %}
-        <td><button class="btn btn-primary">Delete user</button></td>
+          <td>{{ user.id }}</td>
+          <td>{{ user.email }}</td>
+          <td><button class="btn btn-primary">Delete user</button></td>
         </tr>
     {% endfor %}
   </tbody>

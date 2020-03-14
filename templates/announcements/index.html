@@ -24,11 +24,11 @@
            <table class="table">
            <tbody>
              <h4>{{temp.title}}</h4>
-             <td>{{temp.description}} <br><br> {{temp.date[:10]}}
+             <td>{{temp.description}} <br><br> {{temp.date.strftime("%d-%m-%Y")}}
 
              {% if session['logged_in'] %}
-               <a href="{{url_for('deleteAnnouncementPage', id=temp.announcement_id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right;">Delete</a>
-               <a href="{{url_for('editAnnouncementPage', id=temp.announcement_id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
+               <a href="{{url_for('deleteAnnouncementPage', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right;">Delete</a>
+               <a href="{{url_for('editAnnouncementPage', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
              {% endif %}
 
 
@@ -51,7 +51,7 @@
 {% else %}
 <div class="mx-auto text-center">
   <br>
-  <a href="{{url_for('login')}}">Please log in as a staff member to add/update content</a>
+  <a href="{{url_for('users.login')}}">Please log in as a staff member to add/update content</a>
 </div>
 <br><br><br>
 {% endif %}
