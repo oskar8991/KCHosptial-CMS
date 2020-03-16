@@ -4,6 +4,7 @@
 
 	<!-- bootstrap link -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dashboard.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -12,12 +13,13 @@
     <script src="https://kit.fontawesome.com/a8a067ebb4.js" crossorigin="anonymous"></script>
 
 
+
 	<title>{% block title %}{% endblock %}</title>
 	{% block head %} {% endblock %}
 	</head>
 
 	<body>
-		<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #F79862;">
+		<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #e67e22;">
 		  <a class="navbar-brand" href="{{url_for('main.index')}}"><i class="fas fa-home"></i></a>
 		  <div class="collapse navbar-collapse">
 		    <ul class="navbar-nav mr-auto">
@@ -81,28 +83,30 @@
 		</nav>
 
     {% block body %} {% endblock %}
-		{% block content %}{% endblock %}
+	{% block content %}
+
+
+    {% endblock %}
 
 <!-- Footer -->
 
-  <footer>
+ <footer>
       <div class="upper-footer">
-        <div class="d-flex flex-row border-right">
-          <div>
-            Is this page useful? &nbsp;
-            <a href="#"> Yes </a> &nbsp;
-            <a href="#"> No </a>
-          </div>
-          <div class="flex-grow-1"></div>
-          <div>
-            <a href="#"> Is there anything wrong with this page? </a>
-          </div>
-        </div>
+        <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li class="p1"><a href="#">Contact Us</a></li>
+            
+
+        </ul>
       </div>
-      <div class="lower-footer align-center">
-      <span class="muted">© TeamWW 2020:</span>
-      <a href="#"> TeamWW.com </a>
-    </div>
-  </footer>
+   <div class="lower-footer">
+      <p>King's College London</p>
+   </div>
+
+   <div class="something-wrong">
+      <p>Something wrong with this page? <a href="#">Tell us!</a></p>
+   </div>
+</footer>
 
 </html>
