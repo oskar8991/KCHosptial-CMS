@@ -5,9 +5,11 @@
 	<!-- bootstrap link -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dashboard.css')}}">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a8a067ebb4.js" crossorigin="anonymous"></script>
 
 
 	<title>{% block title %}{% endblock %}</title>
@@ -15,9 +17,8 @@
 	</head>
 
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		  <a class="navbar-brand" href="{{url_for('main.index')}}">WW</a>
-
+		<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #F79862;">
+		  <a class="navbar-brand" href="{{url_for('main.index')}}"><i class="fas fa-home"></i></a>
 		  <div class="collapse navbar-collapse">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
@@ -35,7 +36,7 @@
 		       <li class="nav-item active">
 		        <a class="nav-link" href="{{url_for('main.about')}}">About</a>
 		        <li>
-						 <input id="searchInput" type="text" placeholder="Search" style="border-radius: 10px; padding: 10px; width: 80; height:11px; margin-top: 7px; right: 5px;">
+						 
 						 <script type="text/javascript" src="../static/js/hilitor.js"></script>
 						 <script>
 						   window.addEventListener("DOMContentLoaded", function(e) {
@@ -47,28 +48,42 @@
 						       highlighter.apply(this.value);
 						     }, false);
 						   }, false);
+
+
+
 						 </script>
 					</li>
 
 		    </ul>
+            <form class="form-inline">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <input id="searchInput" type="text" placeholder="Search" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+</form>
+        
 
 		    <ul class="navbar-nav">
-		    	{% if session['logged_in'] %}
-		      <li class="nav-item active">
-		      	<a class="nav-link" href="{{url_for('dashboard.dashboard_panel')}}">Dashboard</a>
-		      </li>
-		      <li class="nav-item active">
-		      	<a class="nav-link" href="{{url_for('users.logout')}}">Logout</a>
-		      </li>
-		      	{%else%}
-		        <a class="nav-link" href="{{url_for('users.login')}}">Staff Login</a>
-		        {%endif%}
-		      </li>
+
+		    	<li class="nav-item dropdown">
+		    		<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria expanded="false">
+		    			<i class="fas fa-user"></i>
+		    		</a>
+		    		<div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+		    			{% if session['logged_in'] %}
+                        <a class="dropdown-item" href="{{url_for('dashboard.dashboard_panel')}}">Dashboard</a>
+                        <a class="dropdown-item" href="{{url_for('users.logout')}}">Logout</a>
+                        {%else%}
+                        <a class="dropdown-item" href="{{url_for('users.login')}}">Staff Login</a>
+                        {%endif%}
+		    		</div>
+		    	</li>
 		    </ul>
 		  </div>
 		</nav>
 
     {% block body %} {% endblock %}
 		{% block content %}{% endblock %}
-	<footer></footer>
+	<!-- Footer -->
+<footer></footer>
+
+<!-- Footer -->
 </html>

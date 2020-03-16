@@ -4,9 +4,11 @@
 {% block content%}
 
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
-<div class="wrapper">
 
-        <nav id="sidebar">
+ 
+
+<div class="wrapper">
+        <nav id="sidebar" class="hidden">
           <ul>
             <li><a href="#section-1">Section 1</a></li>
             <li><a href="#section-2">Section 2</a></li>
@@ -21,7 +23,7 @@
         </nav>
 
 
-  <div id="sideLine">
+  <div id="sideLine" class="hidden">
     <svg  width="100%" height="100%" preserveAspectRatio="xMinYMin meet">
       <path fill="none" stroke="black" stroke-width="6" id="sideline" d="M0 0 v610"/>
     </svg>
@@ -38,15 +40,30 @@
         var draw = length * scrollpercent;
         sideline.style.strokeDashoffset = length - draw;
       }
+
+      //Hamburger to cross
+
+$(document).on('click', '.hamburger', function() {
+  $('.menubar')
+    .removeClass('hamburger')
+    .addClass('cross');
+});
+
+// Cross to hamb 
+$(document).on('click', '.cross', function() {
+  $('.menubar')
+    .removeClass('cross')
+    .addClass('hamburger');
+});
   </script>
 
+  <div type="button" id="collapse" class='menubar hamburger'>
+  <div class='bar'></div>
+  <div class='bar'></div>
+  <div class='bar'></div>
+ </div>
 
   <div class="content">
-  	  <h1> Introduction </h1>
-	<button type="button" id="collapse">
-		<i class="fas fa-bars"></i>
-		<font color="#CDCDCD">TOGGLE-SIDEBAR</font>
-    </button>
     <div>
       <section id="section-1">
         <h1>Section 1</h1>
