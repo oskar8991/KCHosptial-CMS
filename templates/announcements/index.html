@@ -28,7 +28,7 @@
 
              {% if session['logged_in'] %}
                <a href="{{url_for('announcements.delete_announcement', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right;">Delete</a>
-               <a href="{{url_for('announcements.edit_announcement', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
+               <a href="{{url_for('announcements.edit_announcement', id = temp.id)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
              {% endif %}
 
 
