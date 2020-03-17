@@ -6,13 +6,15 @@ main = Blueprint('main', __name__)
 @main.route('/')
 @main.route('/home')
 def home():
-    return render_template('index.html')
+    announcements = Announcement.query.all()
+    return render_template('index.html', announcements = announcements)
 
 @main.route('/index')
 def index():
+    announcements = Announcement.query.all()
     first_page = Content.query.get(1)
     if first_page:
-        return render_template('index.html', content=first_page.content)
+        return render_template('index.html', content=first_page.content, announcements = announcements)
 
     return redirect(url_for('main.home'))
 

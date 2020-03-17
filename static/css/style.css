@@ -87,3 +87,10 @@
 section {
   padding: 2rem;
 }
+#ticker {
+    height: 40px;
+    overflow: hidden;
+}
+#ticker li {
+    height: 40px;
+}
