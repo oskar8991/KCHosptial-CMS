@@ -7,7 +7,6 @@
 {% block body %}
 <div class="container">
   <form method="post">
-    {{session['meds']}}
     <table class="table table-hover">
       <thead>
         <tr>
@@ -18,8 +17,7 @@
       </thead>
       <tbody>
         {% for medication in medications %}
-        {{medication}}
-        
+
         <tr>
           <td>
             <input type="checkbox" name="{{ medication.name }}" checked>
