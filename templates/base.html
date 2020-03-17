@@ -4,14 +4,13 @@
 
 	<!-- bootstrap link -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dashboard.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/a8a067ebb4.js" crossorigin="anonymous"></script>
-
+   	<script src="https://kit.fontawesome.com/a8a067ebb4.js" crossorigin="anonymous"></script>
 
 
 	<title>{% block title %}{% endblock %}</title>
@@ -19,26 +18,26 @@
 	</head>
 
 	<body>
-		<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #e67e22;">
+		<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #ff6600;">
 		  <a class="navbar-brand" href="{{url_for('main.index')}}"><i class="fas fa-home"></i></a>
 		  <div class="collapse navbar-collapse">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('main.index')}}">Home</a>
+		        <a class="nav-link" href="{{url_for('main.index')}}" style="font-weight: 500;">Home</a>
 		      </li>
 		      <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('drug_chart.medication')}}">Drug Chart</a>
+		        <a class="nav-link" href="{{url_for('drug_chart.medication')}}" style="font-weight: 500;">Drug Chart</a>
 		      </li>
 		      <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('main.faq')}}">FAQ</a>
+		        <a class="nav-link" href="{{url_for('main.faq')}}" style="font-weight: 500;">FAQ</a>
 		       <li>
 					<li class="nav-item active">
-						<a class="nav-link" href="{{url_for('main.announcements')}}">Announcements</a>
+						<a class="nav-link" href="{{url_for('main.announcements')}}" style="font-weight: 500;">Announcements</a>
 					<li>
 		       <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('main.about')}}">About</a>
+		        <a class="nav-link" href="{{url_for('main.about')}}" style="font-weight: 500;">About</a>
 		        <li>
-
+						 
 						 <script type="text/javascript" src="../static/js/hilitor.js"></script>
 						 <script>
 						   window.addEventListener("DOMContentLoaded", function(e) {
@@ -61,7 +60,7 @@
                 <i class="fas fa-search" aria-hidden="true"></i>
                 <input id="searchInput" type="text" placeholder="Search" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
 </form>
-
+        
 
 		    <ul class="navbar-nav">
 
@@ -83,13 +82,8 @@
 		</nav>
 
     {% block body %} {% endblock %}
-	{% block content %}
-
-
-    {% endblock %}
-
-<!-- Footer -->
-
+		{% block content %}{% endblock %}
+	<!-- Footer -->
  <footer>
       <div class="upper-footer">
         <ul>
