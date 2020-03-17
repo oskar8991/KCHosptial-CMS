@@ -1,5 +1,5 @@
 from drug_chart.utils import medicationsList, generate_chart
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, session
 
 drug_chart = Blueprint('drug_chart', __name__)
 

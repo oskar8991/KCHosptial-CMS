@@ -17,7 +17,7 @@ def load_user(user_id):
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(20), nullable=False)
-    password = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(60), nullable=False)
 
 #Creates a table for web page content with id and text
 class Content(db.Model):

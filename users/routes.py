@@ -1,8 +1,8 @@
 from flask import (Blueprint, request, render_template, session, redirect, 
                    url_for, flash)
 from flask_login import login_required
+from app import db, bcrypt
 from models import User
-from app import db
 
 users = Blueprint('users', __name__)
 
@@ -11,11 +11,11 @@ def login():
     if request.method == 'POST':
         user = User.query.filter_by(email = request.form['username']).first()
 
-        if not user or user.password != request.form['password']:
-            flash('Invalid credentials')
-        else:
+        if user and bcrypt.check_password_hash(user.password, request.form['password']):
             session['logged_in'] = True
             return redirect(url_for('dashboard.dashboard_panel'))
+        else:
+            flash('Invalid credentials')
 
     return render_template('auth/login.html')
 
@@ -35,9 +35,10 @@ def list_users():
 @users.route("/users/add", methods=['GET', 'POST'])
 def add_user():
     if request.method == 'POST':
+        hashed_password = bcrypt.generate_password_hash(request.form['userPassword']).decode('utf-8')
         user = User(
             email = request.form['userEmail'], 
-            password = request.form['userPassword']
+            password = hashed_password
         )
         db.session.add(user)
         db.session.commit()
