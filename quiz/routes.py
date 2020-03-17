@@ -2,19 +2,22 @@ from flask import render_template, Blueprint, request, redirect, url_for
 from flask_login import login_required
 from app import db
 from models import Questions, Answers
+from quiz.forms import AddQuestion
 
 quiz = Blueprint('quiz', __name__)
 
 @login_required
 @quiz.route("/questions/add", methods=['GET', 'POST'])
 def add_question():
-    if request.method == 'POST':
-        question = Questions(question_text = request.form['question'])
+    form = AddQuestion()
+
+    if form.validate_on_submit():
+        question = Questions(question_text = form.question.data)
         answers = [
-            Answers(answer_text = request.form['answer1'], correct = 0, question = question),
-            Answers(answer_text = request.form['answer2'], correct = 0, question = question),
-            Answers(answer_text = request.form['answer3'], correct = 0, question = question),
-            Answers(answer_text = request.form['correctAnswer'], correct = 1, question = question)
+            Answers(answer_text = form.first_answer.data, correct = 0, question = question),
+            Answers(answer_text = form.second_answer.data, correct = 0, question = question),
+            Answers(answer_text = form.third_answer.data, correct = 0, question = question),
+            Answers(answer_text = form.correct_answer.data, correct = 1, question = question)
         ]
 
         db.session.add(question)
@@ -24,7 +27,7 @@ def add_question():
         db.session.commit()
         return redirect(url_for('quiz.questions'))
 
-    return render_template('questions/add.html')
+    return render_template('questions/add.html', form=form)
 
 @login_required
 @quiz.route("/questions/delete/<question_id>")
