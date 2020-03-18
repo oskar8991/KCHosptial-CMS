@@ -1,6 +1,6 @@
 from flask import (Blueprint, request, render_template, session, redirect, 
                    url_for, flash)
-from flask_login import login_required
+from flask_login import login_required, login_user, logout_user, current_user
 from app import db, bcrypt
 from models import User
 from users.forms import LoginForm, AddUserForm
@@ -9,33 +9,35 @@ users = Blueprint('users', __name__)
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard.dashboard_panel'))
+
     form = LoginForm()
 
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
 
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            session['logged_in'] = True
+            login_user(user, remember=form.remember.data)
             return redirect(url_for('dashboard.dashboard_panel'))
         else:
             flash('Invalid credentials.', 'warning')
 
     return render_template('auth/login.html', form=form)
 
-@login_required
 @users.route("/logout")
+@login_required
 def logout():
-    session['logged_in'] = False
-    session.clear()
+    logout_user()
     return redirect(url_for('main.index'))
 
-@login_required
 @users.route("/users")
+@login_required
 def list_users():
     return render_template('users.html', data = User.query.all())
 
-@login_required
 @users.route("/users/add", methods=['GET', 'POST'])
+@login_required
 def add_user():
     form = AddUserForm()
 
@@ -49,8 +51,8 @@ def add_user():
 
     return render_template('add_user.html', form=form)
 
-@login_required
 @users.route("/users/delete/<user_id>")
+@login_required
 def delete_user(user_id):
     user = User.query.get(user_id)
     if user:

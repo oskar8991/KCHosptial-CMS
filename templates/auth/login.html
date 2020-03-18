@@ -7,6 +7,14 @@
 
 {% block content%}
 <div class="container">
+
+  {% for message in get_flashed_messages()%}
+  <div class="alert alert-warning" id="error{{ loop.index }}" >
+    <button onclick="document.getElementById('error{{ loop.index }}').style.display = 'none';" type="button" class="close" data-dismiss="alert">&times;</button>
+    {{message}}
+  </div>
+
+  {% endfor %}
   <div class="row justify-content-center">
     <h2>Staff Login</h2>
   </div>

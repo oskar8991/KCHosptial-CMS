@@ -4,8 +4,8 @@ from dashboard.utils import *
 
 dashboard = Blueprint('dashboard', __name__)
 
-@login_required
 @dashboard.route("/dashboard")
+@login_required
 def dashboard_panel():
     analytics_data = {
         'weekData': week_data(datetime.today()),

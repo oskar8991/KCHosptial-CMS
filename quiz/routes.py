@@ -6,8 +6,8 @@ from quiz.forms import QuestionForm
 
 quiz = Blueprint('quiz', __name__)
 
-@login_required
 @quiz.route("/questions/add", methods=['GET', 'POST'])
+@login_required
 def add_question():
     form = QuestionForm()
 
@@ -29,8 +29,8 @@ def add_question():
 
     return render_template('questions/add.html', form=form)
 
-@login_required
 @quiz.route("/questions/delete/<question_id>")
+@login_required
 def delete_question(question_id):
     question = Questions.query.get(question_id)
     if question:
@@ -40,8 +40,8 @@ def delete_question(question_id):
     return redirect(url_for('quiz.questions'))
 
 #Update content table with input from edit.html
-@login_required
 @quiz.route("/questions/edit/<question_id>", methods=['GET', 'POST'])
+@login_required
 def edit_question(question_id):
     question = Questions.query.get(question_id)
     answers = Answers.query.filter_by(question_id = question.id)
@@ -69,8 +69,8 @@ def edit_question(question_id):
 
     return render_template('questions/edit.html', values=values, form=form)
 
-@login_required
 @quiz.route("/questions")
+@login_required
 def questions():
     questions = Questions.query.all()
 
