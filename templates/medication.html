@@ -20,7 +20,12 @@
 
         <tr>
           <td>
-            <input type="checkbox" name="{{ medication.name }}" checked>
+            <input type="checkbox" name="{{ medication.name }}"
+            {% if session['meds'] %}
+              {{session['meds'][medication.name]}}
+            {% else %}
+              checked
+            {% endif %}>
           </td>
           <td>{{ medication.name }}</td>
           <td>{{ medication.indications }}</td>
