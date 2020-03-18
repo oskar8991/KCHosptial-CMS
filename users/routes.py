@@ -23,7 +23,7 @@ def login():
         else:
             flash('Invalid credentials.', 'warning')
 
-    return render_template('auth/login.html', form=form)
+    return render_template('users/login.html', form=form)
 
 @users.route("/logout")
 @login_required
@@ -34,7 +34,7 @@ def logout():
 @users.route("/users")
 @login_required
 def list_users():
-    return render_template('users.html', data = User.query.all())
+    return render_template('users/list_users.html', data = User.query.all())
 
 @users.route("/users/add", methods=['GET', 'POST'])
 @login_required
@@ -49,7 +49,7 @@ def add_user():
         flash('User account has been created.', 'success')
         return redirect(url_for('users.list_users'))
 
-    return render_template('add_user.html', form=form)
+    return render_template('users/add_user.html', form=form)
 
 @users.route("/users/delete/<user_id>")
 @login_required
