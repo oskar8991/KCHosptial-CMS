@@ -11,8 +11,8 @@ class TestBase(TestCase):
 
     def create_app(self):
         # pass in test configurations
-        config_name = 'testing'
-        app = create_app(config_name)
+        #config_name = 'testing'
+        app = create_app()
         app.config.update(
             SQLALCHEMY_DATABASE_URI='sqlite:///data.db'
         )
@@ -33,7 +33,7 @@ class TestBase(TestCase):
 class TestModels(TestBase):
 
     """
-    Write test methods here
+    Write database test methods here
     """
 
 
@@ -43,6 +43,20 @@ class TestViews(TestBase):
     Write tests for each web page view
     """
 
+    def test_index_view(self):
+        """
+        Test that index page is accessible
+        """
+        response = self.client.get(url_for('main.index'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_view(self):
+        """
+        Test that login page is accessible
+        """
+        response = self.client.get(url_for('users.login'))
+        self.assertEqual(response.status_code, 200)
+
 
 class TestErrorPages(TestBase):
 
@@ -50,6 +64,10 @@ class TestErrorPages(TestBase):
     Write tests for erroneous pages...
     """
 
+    def test_404_not_found(self):
+        response = self.client.get('/testPage404')
+        self.assertEqual(response.status_code, 404)
+        self.assertTrue("404 Error" in response.data)
 
 if __name__ == '__main__':
     unittest.main()

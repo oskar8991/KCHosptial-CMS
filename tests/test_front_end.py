@@ -1,5 +1,5 @@
 import unittest #nose2 package to be able to run all tests simultaneously
-import urllib2
+import urllib
 
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
@@ -15,8 +15,8 @@ Set test variables (such as login information) below:
 class TestBase(LiveServerTestCase):
 
     def create_app(self):
-        config_name = 'testing'
-        app = create_app(config_name)
+        #config_name = 'testing'
+        app = create_app()
         app.config.update(
             # Specify the test database
             SQLALCHEMY_DATABASE_URI='sqlite:///data.db',
@@ -45,7 +45,7 @@ class TestBase(LiveServerTestCase):
         self.driver.quit()
 
     def test_server_is_up_and_running(self):
-        response = urllib2.urlopen(self.get_server_url())
+        response = urllib.urlopen(self.get_server_url())
         self.assertEqual(response.code, 200)
 
 
