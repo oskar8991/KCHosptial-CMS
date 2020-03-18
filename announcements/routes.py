@@ -6,8 +6,8 @@ from models import Announcement
 
 announcements = Blueprint('announcements', __name__)
 
-@login_required
 @announcements.route('/announcements/create', methods=['GET', 'POST'])
+@login_required
 def create_announcement():
     if request.method == 'POST':
         announcement = Announcement(
@@ -21,8 +21,8 @@ def create_announcement():
 
     return render_template('announcements/create.html')
 
-@login_required
 @announcements.route('/announcements/edit/<id>', methods=['GET', 'POST'])
+@login_required
 def edit_announcement(id):
     announcement = Announcement.query.get(id)
     if request.method == 'POST':
@@ -35,8 +35,8 @@ def edit_announcement(id):
 
     return render_template('announcements/edit.html', announcement=announcement)
 
-@login_required
 @announcements.route('/announcements/delete/<id>', methods=['GET', 'POST'])
+@login_required
 def delete_announcement(id):
     announcement = Announcement.query.get(id)
     if request.method == 'POST':

@@ -1,57 +1,62 @@
 from flask import (Blueprint, request, render_template, session, redirect, 
                    url_for, flash)
-from flask_login import login_required
+from flask_login import login_required, login_user, logout_user, current_user
 from app import db, bcrypt
 from models import User
+from users.forms import LoginForm, AddUserForm
 
 users = Blueprint('users', __name__)
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        user = User.query.filter_by(email = request.form['username']).first()
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard.dashboard_panel'))
 
-        if user and bcrypt.check_password_hash(user.password, request.form['password']):
-            session['logged_in'] = True
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email = form.email.data).first()
+
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
             return redirect(url_for('dashboard.dashboard_panel'))
         else:
-            flash('Invalid credentials')
+            flash('Invalid credentials.', 'warning')
 
-    return render_template('auth/login.html')
+    return render_template('users/login.html', form=form)
 
-@login_required
 @users.route("/logout")
+@login_required
 def logout():
-    session['logged_in'] = False
-    session.clear()
+    logout_user()
     return redirect(url_for('main.index'))
 
-@login_required
 @users.route("/users")
-def list_users():
-    return render_template('users.html', data = User.query.all())
-
 @login_required
+def list_users():
+    return render_template('users/list_users.html', data = User.query.all())
+
 @users.route("/users/add", methods=['GET', 'POST'])
+@login_required
 def add_user():
-    if request.method == 'POST':
-        hashed_password = bcrypt.generate_password_hash(request.form['userPassword']).decode('utf-8')
-        user = User(
-            email = request.form['userEmail'], 
-            password = hashed_password
-        )
+    form = AddUserForm()
+
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        flash('User account has been created.', 'success')
         return redirect(url_for('users.list_users'))
 
-    return render_template('add_user.html')
+    return render_template('users/add_user.html', form=form)
 
-@login_required
 @users.route("/users/delete/<user_id>")
+@login_required
 def delete_user(user_id):
     user = User.query.get(user_id)
     if user:
         db.session.delete(user)
         db.session.commit()
 
-    return redirect(url_for('list_users'))
+    return redirect(url_for('users.list_users'))
