@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %} Add User {% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/floating-labels.css')}}">
+{% endblock %}
+
+{% block content%}
+<div class='container'>
+  <div class="row justify-content-center">
+    <h2>Add user</h2>
+  </div>
+  <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-label-group">
+      {% if form.email.errors %}
+        {{ form.email(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.email.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.email(class="form-control", placeholder="Email") }}
+      {% endif %}
+      {{ form.email.label() }}
+    </div>
+    <div class="form-label-group">
+      {% if form.password.errors %}
+        {{ form.password(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.password.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.password(class="form-control", placeholder="Password") }}
+      {% endif %}
+      {{ form.password.label() }}
+    </div>
+    <div class="form-label-group">
+      {% if form.confirm_password.errors %}
+        {{ form.confirm_password(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.confirm_password.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.confirm_password(class="form-control", placeholder="Confirm password") }}
+      {% endif %}
+      {{ form.confirm_password.label() }}
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="show_password" onclick="toggle_password()">
+      <label class="form-check-label" for="show_password">Show Password</label>
+    </div>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+  </form>
+  <div class="border-top pt-3">
+    <small class="text-muted">
+      Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>
+    </small>
+  </div>
+</div>
+
+<script>
+  function toggle_password() {
+    var password_field = document.getElementById("password");
+    password_field.type = password_field.type === "text" ? "password" : "text"
+  }
+</script>
+
+{% endblock %}

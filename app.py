@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from sqlalchemy import create_engine, MetaData
 
@@ -7,6 +8,7 @@ from flask_track_usage import TrackUsage
 from flask_track_usage.storage.sql import SQLStorage
 
 db = SQLAlchemy()
+bcrypt = Bcrypt()
 login_manager = LoginManager()
 
 def create_app():
@@ -20,6 +22,7 @@ def create_app():
     app.config['TRACK_USAGE_COOKIE'] = True
 
     db.init_app(app)
+    bcrypt.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'users.login'
 

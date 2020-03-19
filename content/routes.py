@@ -13,8 +13,8 @@ content = Blueprint('content', __name__)
 #     db.session.commit()
 #     return redirect(url_for('index'))
 
-@login_required
 @content.route('/edit', methods=['GET', 'POST'])
+@login_required
 def edit_content():
     first_page = Content.query.get(1)
 

@@ -26,9 +26,9 @@
              <h4>{{temp.title}}</h4>
              <td>{{temp.description}} <br><br> {{temp.date.strftime("%d-%m-%Y")}}
 
-             {% if session['logged_in'] %}
+             {% if current_user.is_authenticated %}
                <a href="{{url_for('announcements.delete_announcement', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right;">Delete</a>
-               <a href="{{url_for('announcements.edit_announcement', id=temp.id, title=temp.title, description=temp.description)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
+               <a href="{{url_for('announcements.edit_announcement', id = temp.id)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
              {% endif %}
 
 
@@ -43,7 +43,7 @@
   </div>
 </div>
 
-{% if session['logged_in'] %}
+{% if current_user.is_authenticated %}
 <div class="mx-auto text-center">
   <a href="{{url_for('announcements.create_announcement')}}" class="btn btn-primary" role="button">Add Announcement</a>
 </div>
