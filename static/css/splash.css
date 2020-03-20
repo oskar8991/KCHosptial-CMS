@@ -130,11 +130,6 @@ body {
 	animation-duration: 0.5s;
 	animation-fill-mode: forwards;
 }
-/*
-.container .card:hover .iconText {
-	transition: opacity 0.5s ease-in-out;
-	opacity: 0;
-}*/
 
 .container .card .content {
 	position: absolute;
