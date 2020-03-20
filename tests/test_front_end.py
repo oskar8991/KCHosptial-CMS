@@ -33,6 +33,9 @@ class TestBase(LiveServerTestCase):
         """
         Setup the test driver and create test users
         In this test we are using Chrome as our test browser
+        install selenium using "pip install selenium" (pip3)
+        and then install ChromeDriver using "brew install chromedriver"
+        if on windows, download chromedriver binary and add to PATH
         """
         self.driver = webdriver.Chrome()
         self.driver.get(self.get_server_url())
