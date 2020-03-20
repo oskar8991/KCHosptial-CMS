@@ -6,7 +6,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 @main.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('splash.html')
 
 @main.route('/index')
 def index():
