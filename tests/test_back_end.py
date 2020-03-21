@@ -6,6 +6,8 @@ from flask_testing import TestCase
 from app import create_app
 from models import Content
 
+import os
+
 
 class TestBase(TestCase):
 
@@ -16,6 +18,10 @@ class TestBase(TestCase):
         app.config.update(
             SQLALCHEMY_DATABASE_URI='sqlite:///data.db'
         )
+
+        SECRET_KEY = os.urandom(32)
+        app.config['SECRET_KEY'] = SECRET_KEY
+
         return app
 
     def setUp(self):
@@ -50,6 +56,27 @@ class TestViews(TestBase):
         response = self.client.get(url_for('main.index'))
         self.assertEqual(response.status_code, 200)
 
+    def test_faq_view(self):
+        """
+        Test that faq page is accessible
+        """
+        response = self.client.get(url_for('main.faq'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_announcement_view(self):
+        """
+        Test that announcement page is accessible
+        """
+        response = self.client.get(url_for('main.announcements'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_about_view(self):
+        """
+        Test that about page is accessible
+        """
+        response = self.client.get(url_for('main.about'))
+        self.assertEqual(response.status_code, 200)
+
     def test_login_view(self):
         """
         Test that login page is accessible
@@ -57,6 +84,17 @@ class TestViews(TestBase):
         response = self.client.get(url_for('users.login'))
         self.assertEqual(response.status_code, 200)
 
+
+    def test_dashboard_view(self):
+        """
+        Test that dashboard is inaccessible without login
+        and redirects to login page
+        """
+        target_url = url_for('dashboard.dashboard_panel')
+        redirect_url = url_for('users.login', next=target_url)
+        response = self.client.get(target_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
 
 class TestErrorPages(TestBase):
 
@@ -67,7 +105,8 @@ class TestErrorPages(TestBase):
     def test_404_not_found(self):
         response = self.client.get('/testPage404')
         self.assertEqual(response.status_code, 404)
-        #self.assertTrue("404 Error" in response.data)
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,3 +1,4 @@
+'''
 import unittest #nose2 package to be able to run all tests simultaneously
 import urllib
 
@@ -54,3 +55,4 @@ class TestBase(LiveServerTestCase):
 
 if __name__ == '__main__':
     unittest.main()
+'''
