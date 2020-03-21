@@ -31,12 +31,14 @@ class TestBase(TestCase):
         """
         Will be called before every test
         """
+        db.create_all()
 
 
     def tearDown(self):
         """
         Will be called after every test
         """
+        db.session.remove()
 
 
 class TestModels(TestBase):
@@ -59,6 +61,40 @@ class TestModels(TestBase):
         db.session.delete(User.query.filter_by(email="ivan@test.com").first())
         db.session.commit()
         self.assertEqual(User.query.filter_by(email="ivan@test.com").count(), 0)
+
+    def test_content_add_model(self):
+        content = Content(header = "Test_Header", content = "Test_Content")
+        db.session.add(content)
+        db.session.commit()
+        self.assertEqual(Content.query.filter_by(header = "Test_Header", content = "Test_Content").count(), 1)
+
+    def test_content_delete_model(self):
+        db.session.delete(Content.query.filter_by(header = "Test_Header", content = "Test_Content").first())
+        db.session.commit()
+        self.assertEqual(Content.query.filter_by(header = "Test_Header", content = "Test_Content").count(), 0)
+
+
+    #def test_announcments_add_model(self):
+        #announcement = Announcement(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z")
+        #db.session.add(announcement)
+        #db.session.commit()
+        #self.assertEqual(Announcement.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").count(), 1)
+
+    #def test_announcments_delete_model(self):
+        #db.session.delete(Announcement.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").first())
+        #db.session.commit()
+        #self.assertEqual(Content.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").count(), 0)
+
+    def test_questions_add_model(self):
+        question = Question(question_text="Test_Question?", answer="Test_Answer")
+        db.session.add(question)
+        db.session.commit()
+        self.assertEqual(Question.query.filter_by(question_text="Test_Question?", answer="Test_Answer").count(), 1)
+
+    def test_questions_delete_model(self):
+        db.session.delete(Question.query.filter_by(question_text="Test_Question?", answer="Test_Answer").first())
+        db.session.commit()
+        self.assertEqual(Question.query.filter_by(question_text="Test_Question?", answer="Test_Answer").count(), 0)
 
 
 class TestViews(TestBase):
