@@ -70,6 +70,13 @@ class TestViews(TestBase):
         response = self.client.get(url_for('main.announcements'))
         self.assertEqual(response.status_code, 200)
 
+    def test_drug_chart_view(self):
+        """
+        Test that the drug chart page is accessible
+        """
+        response = self.client.get(url_for('drug_chart.medication'))
+        self.assertEqual(response.status_code, 200)
+
     def test_about_view(self):
         """
         Test that about page is accessible
@@ -83,7 +90,6 @@ class TestViews(TestBase):
         """
         response = self.client.get(url_for('users.login'))
         self.assertEqual(response.status_code, 200)
-
 
     def test_dashboard_view(self):
         """

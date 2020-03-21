@@ -9,17 +9,17 @@ dashboard = Blueprint('dashboard', __name__)
 def dashboard_panel():
     analytics_data = {
         'weekData': week_data(datetime.today()),
-        
+
         #User Platform Usage Queries
         'windowsCount': platform_usage('windows'),
-        'macCount': platform_usage('macosx'),
+        'macCount': platform_usage('macos'),
         'linuxCount': platform_usage('linux'),
         'mobileCount': platform_usage('mobile'),
 
         #General Count Queries
         'visitorCount': count_visitors(),
         'mostVisitedPage': most_visited(),
-    
+
         'totalVisits': total_visits()
     }
 
