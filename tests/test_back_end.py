@@ -3,8 +3,11 @@ import unittest #nose2 package to be able to run all tests simultaneously
 from flask import abort, url_for
 from flask_testing import TestCase
 
-from app import create_app
-from models import Content
+from app import create_app, db
+from models import Content, User
+
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine, MetaData
 
 import os
 
@@ -41,6 +44,21 @@ class TestModels(TestBase):
     """
     Write database test methods here
     """
+
+    def test_user_add_model(self):
+        """
+        Test that a user can be successfully added to database and queried
+        Then Test that the user is successfully deleted from the database
+        """
+        user = User(email="ivan@test.com", password="test")
+        db.session.add(user)
+        db.session.commit()
+        self.assertEqual(User.query.filter_by(email="ivan@test.com").count(), 1)
+
+    def test_user_delete_model(self):
+        db.session.delete(User.query.filter_by(email="ivan@test.com").first())
+        db.session.commit()
+        self.assertEqual(User.query.filter_by(email="ivan@test.com").count(), 0)
 
 
 class TestViews(TestBase):
