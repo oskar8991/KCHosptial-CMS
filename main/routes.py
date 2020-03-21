@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect, url_for
-from models import Content, Announcement
+from models import Content, Announcement, FAQQuestions
 
 main = Blueprint('main', __name__)
 
@@ -18,7 +18,8 @@ def index():
 
 @main.route('/faq')
 def faq():
-    return render_template('faq.html')
+    faqs = FAQQuestions.query.all()
+    return render_template('faq.html', data=faqs)
 
 @main.route('/about')
 def about():

@@ -65,6 +65,17 @@ class Answers(db.Model):
     correct = db.Column(db.Integer(), unique=False, nullable=False)
     question_id = db.Column(db.Integer(), db.ForeignKey('questions.id'), nullable=False)
 
+    #Creates a table to store FAQ Question and answer
+class FAQCategories(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    category = db.Column(db.String(100), nullable=False)
+
+class FAQQuestions(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    category = db.Column(db.Integer(), db.ForeignKey('faq_categories.id'), nullable=False)
+    question = db.Column(db.String(400), nullable=False)
+    answer = db.Column(db.String(10000), nullable=False)
+
 def init_db():
     db.create_all()
 
