@@ -9,6 +9,7 @@ from models import Content, User
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, MetaData
 
+
 import os
 
 
@@ -52,15 +53,15 @@ class TestModels(TestBase):
         Test that a user can be successfully added to database and queried
         Then Test that the user is successfully deleted from the database
         """
-        user = User(email="ivan@test.com", password="test")
+        user = User(email="test@test.com", password="test")
         db.session.add(user)
         db.session.commit()
-        self.assertEqual(User.query.filter_by(email="ivan@test.com").count(), 1)
+        self.assertEqual(User.query.filter_by(email="test@test.com").count(), 1)
 
     def test_user_delete_model(self):
-        db.session.delete(User.query.filter_by(email="ivan@test.com").first())
+        db.session.delete(User.query.filter_by(email="test@test.com").first())
         db.session.commit()
-        self.assertEqual(User.query.filter_by(email="ivan@test.com").count(), 0)
+        self.assertEqual(User.query.filter_by(email="test@test.com").count(), 0)
 
     def test_content_add_model(self):
         content = Content(header = "Test_Header", content = "Test_Content")
@@ -74,27 +75,38 @@ class TestModels(TestBase):
         self.assertEqual(Content.query.filter_by(header = "Test_Header", content = "Test_Content").count(), 0)
 
 
-    #def test_announcments_add_model(self):
-        #announcement = Announcement(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z")
-        #db.session.add(announcement)
-        #db.session.commit()
-        #self.assertEqual(Announcement.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").count(), 1)
+    def test_announcments_add_model(self):
+        announcement = Announcement(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z")
+        db.session.add(announcement)
+        db.session.commit()
+        self.assertEqual(Announcement.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").count(), 1)
 
-    #def test_announcments_delete_model(self):
-        #db.session.delete(Announcement.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").first())
-        #db.session.commit()
-        #self.assertEqual(Content.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").count(), 0)
+    def test_announcments_delete_model(self):
+        db.session.delete(Announcement.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").first())
+        db.session.commit()
+        self.assertEqual(Content.query.filter_by(title = "Title", description = "Description", date = "2012-12-31T23:55:13Z").count(), 0)
 
     def test_questions_add_model(self):
-        question = Question(question_text="Test_Question?", answer="Test_Answer")
+        question = Questions(question_text = "Test_Question?")
         db.session.add(question)
         db.session.commit()
-        self.assertEqual(Question.query.filter_by(question_text="Test_Question?", answer="Test_Answer").count(), 1)
+        self.assertEqual(Questions.query.filter_by(question_text="Test_Question?").count(), 1)
 
     def test_questions_delete_model(self):
-        db.session.delete(Question.query.filter_by(question_text="Test_Question?", answer="Test_Answer").first())
+        db.session.delete(Questions.query.filter_by(question_text="Test_Question?").first())
         db.session.commit()
-        self.assertEqual(Question.query.filter_by(question_text="Test_Question?", answer="Test_Answer").count(), 0)
+        self.assertEqual(Questions.query.filter_by(question_text="Test_Question?").count(), 0)
+
+    def test_answers_add_model(self):
+        answer = Answers()
+        db.session.add(question)
+        db.session.commit()
+        self.assertEqual(Answers.query.filter_by().count(), 1)
+
+    def test_answers_delete_model(self):
+        db.session.delete(Answers.query.filter_by().first())
+        db.session.commit()
+        self.assertEqual(Answers.query.filter_by().count(), 0)
 
 
 class TestViews(TestBase):
