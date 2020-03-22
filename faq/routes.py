@@ -10,7 +10,6 @@ faq = Blueprint('faq', __name__)
 def create_faq():
     if request.method == 'POST':
         faq = FAQQuestions(
-            category = request.form['categoryID'], 
             question = request.form['question'],
             answer = request.form['answer'], 
         )
@@ -26,7 +25,6 @@ def edit_faq(id):
     faq = FAQQuestions.query.get(id)
     if request.method == 'POST':
         if faq:
-            faq.category = request.form['newCategoryID']
             faq.question = request.form['newQuestion']
             faq.answer = request.form['newAnswer']
             db.session.commit()

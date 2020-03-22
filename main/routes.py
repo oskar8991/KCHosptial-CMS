@@ -19,7 +19,7 @@ def index():
 @main.route('/faq')
 def faq():
     faqs = FAQQuestions.query.all()
-    return render_template('faq.html', data=faqs)
+    return render_template('faq/index.html', data=faqs)
 
 @main.route('/about')
 def about():
