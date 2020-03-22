@@ -24,19 +24,20 @@
 					<div class="card">
 						<div class="card-header">
 							  <h2>
-						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseID1" aria-expanded="false" aria-controls="collapseID1">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseID{{ temp.id }}" aria-expanded="false" aria-controls="collapseID{{ temp.id }}">
 						          {{temp.question}}
 						        </button>
 						      </h2>
 						</div>
-						<div class="x"> 
-							  <div class="collapse" id="collapseID1"> {{temp.answer}} </div>
-							  <br>
+						
+							  <div class="collapse" id="collapseID{{ temp.id }}"> 
+								{{temp.answer}}
+								 </div>
 							  {% if current_user.is_authenticated %}
                					<a href="{{url_for('faq.delete_faq', id=temp.id)}}" style="text-align:right; float:right;">Delete</a>
               					 <a href="{{url_for('faq.edit_faq', id=temp.id)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
              					{% endif %}
-					    </div>
+					    
 					</div>
 					{% endfor %}
 				</div>
