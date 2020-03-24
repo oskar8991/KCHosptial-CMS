@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home Page</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="../static/css/splash.css">
+</head>
+
+<body>
+	<h1>King's Pediatric Liver Center</h1>
+	<div class="container">
+		<div class="card" id="content">
+			<div class="icon">
+				<div class="iconText">Home</div>
+				<img src="../static/resources/icon/home.png">
+			</div>
+			<div class="content">
+				<div>
+					<h3>Home</h3>
+					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut.</p>
+					<a href="{{url_for('main.index')}}">Read More</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="icon">
+				<div class="iconText">Drug Chart</div>
+				<img src="../static/resources/icon/drugChart.png">
+			</div>
+			<div class="content">
+				<div>
+					<h3>Drug Chart</h3>
+					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut.</p>
+					<a href="{{url_for('drug_chart.medication')}}">Read More</a>
+				</div>
+			</div>
+		</div>
+	
+		<div class="card">
+			<div class="icon">
+				<div class="iconText">FAQ</div>
+				<img src="../static/resources/icon/FAQ.png">
+			</div>
+			<div class="content">
+				<div>
+					<h3>FAQ</h3>
+					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut.</p>
+					<a href="{{url_for('main.faq')}}">Read More</a>
+				</div>
+			</div>
+		</div>
+	
+		<div class="card">
+			<div class="icon">
+				<div class="iconText">About</div>
+				<img src="../static/resources/icon/about.png">
+			</div>
+			<div class="content">
+				<div>
+					<h3>About</h3>
+					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut.</p>
+					<a href="{{url_for('main.about')}}">Read More</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="{{url_for('static', filename='/js/splash.js')}}">
+</body>
+</html>

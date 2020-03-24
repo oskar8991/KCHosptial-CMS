@@ -13,25 +13,21 @@
             <ul class="nav flex-column">
               <li class="nav-item">
                 <a class="nav-link active" href="#">
-                  <span data-feather="home"></span>
                   Dashboard <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="shopping-cart"></span>
-                  Add page
+                <a class="nav-link" href="{{url_for('quiz.questions')}}">
+                  Add quiz
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
                   Delete page
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for('edit')}}">
-                  <span data-feather="layers"></span>
+                <a class="nav-link" href="{{url_for('content.edit_content')}}">
                   Edit page
                 </a>
               </li>
@@ -74,40 +70,43 @@
         			<div class="card" style="width: 18rem;">
         				<div class="card-body">
         					<h5 class="card-title">Total visits: </h5>
-        					<p class="card-text">11,500</p>
+        					<p class="card-text">{{analyticsUsage.totalVisits}}</p>
         				</div>
         			</div>
         			<div class="card" style="width: 18rem;">
         				<div class="card-body">
-        					<h5 class="card-title">Total page views: </h5>
-        					<p class="card-text">11,500</p>
+        					<h5 class="card-title">Most Visited Page</h5>
+        					<p class="card-text">{{analyticsUsage.mostVisitedPage}}</p>
         				</div>
         			</div>
         			<div class="card" style="width: 18rem;">
         				<div class="card-body">
         					<h5 class="card-title">Unique visitors: </h5>
-        					<p class="card-text">123</p>
+        					<p class="card-text">{{analyticsUsage.visitorCount}}</p>
         				</div>
         			</div>
         		</div>
-        		<br>
+
 
         		<div class="row justify-content-around">
         			<div class="row">
-        			<button class="btn btn-primary" onclick="window.location.href ='{{url_for('addUser')}}' ;">Add user</button>
-        			<button class="btn btn-primary" onclick="window.location.href ='{{url_for('users')}}' ;">See users</button>
+        			<a class="btn btn-primary" href="{{url_for('users.add_user')}}" role="button">Add user</a>
+        			<a class="btn btn-primary" href="{{url_for('users.list_users')}}" role="button">See users</a>
         			</div>
         			<div class="row">
         			<button class="btn btn-primary">Delete page</button>
         			<button class="btn btn-primary">Add page</button>
-        			<button class="btn btn-primary" onclick="window.location.href ='{{url_for('edit')}}' ;">Edit page</button>
+        			<a class="btn btn-primary" href="{{url_for('content.edit_content')}}"role="button">Edit main page</a>
         		</div>
         		</div>
 				<br>
         		<div class="row justify-content-around">
         			<div class="card">
-        				<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+        				<canvas class="my-4 w-100" id="myChart" width="450" height="380"></canvas>
         			</div>
+							<div class="card">
+								<canvas id="pieChart" width="450" height="380"></canvas>
+							</div>
         		</div>
 
 
@@ -117,40 +116,71 @@
 </div>
 
 <!-- Graphs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <script>
-      var ctx = document.getElementById("myChart");
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-          datasets: [{
-            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#007bff',
-            borderWidth: 4,
-            pointBackgroundColor: '#007bff'
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: false
-              }
-            }]
-          },
-          legend: {
-            display: false,
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+  var ctx = document.getElementById("myChart");
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [
+        '{{analyticsUsage.weekData['6'].date}}',
+        '{{analyticsUsage.weekData['5'].date}}',
+        '{{analyticsUsage.weekData['4'].date}}',
+        '{{analyticsUsage.weekData['3'].date}}',
+        '{{analyticsUsage.weekData['2'].date}}',
+        '{{analyticsUsage.weekData['1'].date}}',
+        '{{analyticsUsage.weekData['today'].date}}'
+      ],
+      datasets: [{
+        data: [
+          {{analyticsUsage.weekData['6'].count}},
+          {{analyticsUsage.weekData['5'].count}},
+          {{analyticsUsage.weekData['4'].count}},
+          {{analyticsUsage.weekData['3'].count}},
+          {{analyticsUsage.weekData['2'].count}},
+          {{analyticsUsage.weekData['1'].count}},
+          {{analyticsUsage.weekData['today'].count}}
+        ],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
           }
-        }
-      });
-    </script>
+        }]
+      },
+      legend: {
+        display: false,
+      }
+    }
+  });
 
-
-
-
-
+  var ctxP = document.getElementById("pieChart").getContext('2d');
+  var myPieChart = new Chart(ctxP, {
+    type: 'pie',
+    data: {
+      labels: ["Windows", "MacOS", "Mobile"],
+      datasets: [{
+        data: [
+          {{analyticsUsage.windowsCount}},
+          {{analyticsUsage.macCount}},
+          {{analyticsUsage.mobileCount}}
+        ],
+        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"]
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+</script>
 
 {% endblock %}
