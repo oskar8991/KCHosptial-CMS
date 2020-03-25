@@ -65,6 +65,14 @@ class Answers(db.Model):
     correct = db.Column(db.Integer(), unique=False, nullable=False)
     question_id = db.Column(db.Integer(), db.ForeignKey('questions.id'), nullable=False)
 
+class Quiz(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), nullable=False)
+    page_ref = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
+
+#NEed to create a table like answers that connects the questions to the a specific quiz
+
+
 def init_db():
     db.create_all()
 
