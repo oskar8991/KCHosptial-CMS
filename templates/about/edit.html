@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %} About - edit card {% endblock %}
+
+
+{% block head %}
+<title>About - Edit card</title>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+  <div class="col-md-12">
+	   <div class="text-center">
+			    <br><h1> Edit About Card </h1>
+     </div>
+
+     <br>
+
+     <div class="row justify-content-center">
+       <form action="" method="POST" enctype="multipart/form-data">
+
+         <label for="card">Card ID</label>
+         <div class="md-form">
+           <textarea id="card" name="card" class="md-textarea form-control" rows="1" cols="35" readonly>{{about.id}}</textarea>
+         </div>
+         <br>
+         <label for="newTitle">Title</label>
+         <div class="md-form">
+           <textarea id="newTitle"  name="newTitle" class="md-textarea form-control" rows="3" cols="60" required>{{about.title}}</textarea>
+         </div>
+         <br><label for="newContent">Content</label>
+         <div class="md-form">
+           <textarea id="newContent" name="newContent" class="md-textarea form-control" rows="5" cols="35"  required>{{about.content}}</textarea>
+         </div>
+
+         <br>
+
+         <div class="row justify-content-center mt-5">
+           <a href="{{url_for('main.about')}}" class="btn btn-primary" role="button">Back</a>
+           <input type="submit" class="btn btn-primary ml-3" type="button" value="Update">
+         </div>
+
+         <br>
+
+       </form>
+     </div>
+
+
+  </div>
+</div>
+
+
+
+
+{% endblock %}
