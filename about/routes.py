@@ -10,7 +10,7 @@ about = Blueprint('about', __name__)
 def create_card():
     if request.method == 'POST':
         about = About(
-            title = request.form['title'],
+            title = request.form['subject'],
             content = request.form['content'], 
         )
         db.session.add(about)
@@ -25,7 +25,7 @@ def edit_card(id):
     about = About.query.get(id)
     if request.method == 'POST':
         if about:
-            about.question = request.form['newTitle']
+            about.title = request.form['newSubject']
             about.content = request.form['newContent']
             db.session.commit()
         
