@@ -9,11 +9,11 @@ $(document).ready(function(){
 
 	.setClassToggle('#section-1', 'fade-in')
 	
-	.addIndicators({
-		colorTrigger: 'black',
-		colorStart: 'green',
-		colorEnd: 'red'
-	})	//for testing purposes
+	// .addIndicators({
+	// 	colorTrigger: 'black',
+	// 	colorStart: 'green',
+	// 	colorEnd: 'red'
+	// })	//for testing purposes
 
 	.addTo(controller);
 });
@@ -27,11 +27,11 @@ $(document).ready(function(){
 		triggerHook: 0.4
 	})
 	
-	.addIndicators({
-		colorTrigger: 'black',
-		colorStart: 'green',
-		colorEnd: 'red'
-	})	//for testing purposes
+	// .addIndicators({
+	// 	colorTrigger: 'black',
+	// 	colorStart: 'green',
+	// 	colorEnd: 'red'
+	// })	//for testing purposes
 
 	.setClassToggle('#section-2', 'fade-in')
 	.addTo(controller);
