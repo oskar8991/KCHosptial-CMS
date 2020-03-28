@@ -338,6 +338,32 @@ h1 {
   padding-right: 50px;
 }
 
+#image4 {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#image5 {
+  width: 80%;
+}
+
+#image6 {
+  width: 80%;
+}
+
+#image7 {
+  width: 90%;
+}
+
+#image8 {
+  width: 60%;
+}
+
+#image9 {
+  width: 60%;
+}
+
 /*#section-1 {
   opacity: 0;
   transform: translateY(5px);
