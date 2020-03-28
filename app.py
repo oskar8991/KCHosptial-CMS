@@ -43,11 +43,13 @@ def create_app():
     from users.routes import users
     from main.routes import main
     from announcements.routes import announcements
+    from faq.routes import faq
+    from about.routes import about
     from content.routes import content
     from dashboard.routes import dashboard
     from quiz.routes import quiz
 
-    blueprints = [drug_chart, users, main, announcements, content, dashboard, 
+    blueprints = [drug_chart, users, main, faq, about, announcements, content, dashboard, 
         quiz
     ]
 
