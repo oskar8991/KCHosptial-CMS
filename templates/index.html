@@ -5,6 +5,7 @@
 
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
 <script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
  
 
@@ -199,8 +200,31 @@ $(document).on('click', '.cross', function() {
         well as the level of bilirubin. Liver function tests are
         also used to monitor a child’s liver disease over
         time to see if the liver is getting healthier, getting
-        worse or staying the same. <br>
-      ADD POP-UP FOR BLOOD TEST RESULTS</p>
+        worse or staying the same. <br> </p>
+
+    <div style="align-content: center;">
+      <input type="checkbox" id="click">
+      <label for="click" class="popUpButton">More details about blood tests</label>
+      <div class="popUp">
+        <div class="popUpHeader">
+          <div class="popUpTitle">Blood Test Results Explained</div>
+          <label for="click" class="close-btn">&times;</label>
+        </div>
+
+        <div class="popUpContent">
+          <p> How well the liver is functioning is assessed by measuring what the like is making, for example, albumin (a type of protein) and clotting factors all of which are made by the liver.</p>
+         <img id="image10" src="../static/resources/indexImages/image10.png"> <br> <br>
+
+         <p> Another blood test which is helpful to assess how the liver is working is a blood clotting test. Blood is taken, chemicals are added to it in the lab and the time taken for blood to clot is measured. <br>
+         <img id="image11" src="../static/resources/indexImages/image11.png"> <br>
+
+         <p> Other blood tests include: </p>
+
+         <img id="image12" src="../static/resources/indexImages/image12.png">
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </div>
 
         <p> <b> Urine and Stool <br></b> 
         The colour of urine (wee) and stool (poo) can
