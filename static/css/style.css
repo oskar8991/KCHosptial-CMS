@@ -265,6 +265,7 @@ color: #fff
 }
 
 .content {
+  overflow-x: hidden;
   width: 100%;
   margin-left: 8.1rem;
   min-height: 100vh;
@@ -281,7 +282,7 @@ color: #fff
 .card-header{
   background-color: rgb(239, 253, 255)!important;
 }
-.show{
+.show {
   padding: 3%;
   margin: auto;
 }
@@ -321,31 +322,71 @@ section {
 }
 
 h1 {
+  font-size: 70px;
+  font-weight: 400;
+  text-decoration: underline;
   text-align: center;
 }
 
+h2 {
+  font-size: 40px;
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+p {
+  font-size: 20px;
+}
+
+ul {
+  font-size: 20px;
+}
+
+#ul3 {
+  position: relative;
+  left: 50px;
+}
+
+#ul5 {
+  position: relative;
+  left: 130px;
+  padding-bottom: 20px;
+}
+
+#ul5 li, #ul12 li {
+  padding-bottom: 20px;
+}
+
+#ul12 {
+  padding-top: 20px;
+  position: relative;
+  left: 50px;
+}
+
+#ul15 {
+  position: relative;
+  left: 50px;
+  padding-bottom: 20px;
+}
+
+#chartLink {
+  color: #39ac73;
+}
+
 #image1 {
-  width: 40%;
+  width: 90%;
 }
 
 #image2 {
-  padding-left: 30px;
-  width: 50%;
+  position: relative;
+  top: 110px;
+  right: 160px;
 }
 
-#image3 {
-  width: 100%;
-  padding-right: 50px;
-}
-
-#image4 {
+#image3, #image4, #image5 {
   display: block;
   margin-right: auto;
   margin-left: auto;
-}
-
-#image5 {
-  width: 80%;
 }
 
 #image6 {
@@ -383,16 +424,18 @@ h1 {
 }
 
 .popUpButton{
+  position: relative;
+  left: 380px;
   display: block;
   margin: auto;
-  width: 400px;
-  height: 50px;
-  background: #37474F;
+  width: 380px;
+  height: 40px;
+  background: #39ac73;
   border: 2px solid black;
-  color: white;
   text-align: center;
-  line-height: 50px;
+  line-height: 35px;
   font-size: 20px;
+  font-weight: 700;
   border-radius: 7px;
   cursor: pointer;
 }
@@ -408,7 +451,7 @@ h1 {
 
 .popUp {
   overflow-y:scroll;
-  top: 50%;
+  top: 52%;
   left: 50%;
   position: fixed;
   border: 1px solid black;
@@ -417,7 +460,7 @@ h1 {
   visibility: hidden;
   width: 600px;
   max-width: 80%;
-  height: 800px;
+  height: 700px;
   background: white;
   transform: translate(-50%, -50%) scale(0);
   transition: 200ms ease-in-out;
@@ -560,7 +603,5 @@ h1 {
   opacity: 1;
   transform: translateY(0);
 }*/
-
-
 
 
