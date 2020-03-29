@@ -18,7 +18,7 @@
 	</head>
 
 	<body>
-		<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #39ac73;">
+		<nav class="navbar sticky-top navbar-expand-lg navbar-light" id="nav" style="background-color: #39ac73;">
 		  <a class="navbar-brand" href="{{url_for('main.home')}}"><i class="fas fa-home"></i></a>
 		  <div class="collapse navbar-collapse">
 		    <ul class="navbar-nav mr-auto">
@@ -38,28 +38,25 @@
 		        <a class="nav-link" href="{{url_for('main.about')}}" style="font-weight: 500;">About</a>
 		        <li>
 						 
-						 <script type="text/javascript" src="../static/js/hilitor.js"></script>
-						 <script>
-						   window.addEventListener("DOMContentLoaded", function(e) {
-						     var highlighter = new Hilitor("testText");
-						     highlighter.setMatchType("left");
-						     highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
-						   	highlighter.apply("input string,searchInput");
-						     document.getElementById("searchInput").addEventListener("keyup", function(e) {
-						       highlighter.apply(this.value);
-						     }, false);
-						   }, false);
-
-
-
-						 </script>
-					</li>
+					<script type="text/javascript" src="../static/js/hilitor.js"></script>
+					 <script>
+					   window.addEventListener("DOMContentLoaded", function(e) {
+					     var highlighter = new Hilitor("testText");
+					     highlighter.setMatchType("left");
+					     highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
+					   	highlighter.apply("input string,searchInput");
+					     document.getElementById("searchInput").addEventListener("keyup", function(e) {
+					       highlighter.apply(this.value);
+					     }, false);
+					   }, false);
+					 </script>
+				</li>
 
 		    </ul>
             <form class="form-inline">
                 <i class="fas fa-search" aria-hidden="true"></i>
                 <input id="searchInput" type="text" placeholder="Search" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
-</form>
+			</form>
         
 
 		    <ul class="navbar-nav">
@@ -77,6 +74,10 @@
 		    		</div>
 		    	</li>
 		    </ul>
+			<label>
+				<input type="checkbox" id="darkMode">
+				<span class="check"></span>
+			</label>
 		  </div>
 		</nav>
 
