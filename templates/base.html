@@ -19,7 +19,7 @@
 
 	<body>
 		<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #ff6600;">
-		  <a class="navbar-brand" href="{{url_for('main.index')}}"><i class="fas fa-home"></i></a>
+		  <a class="navbar-brand" href="{{url_for('main.home')}}"><i class="fas fa-home"></i></a>
 		  <div class="collapse navbar-collapse">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
@@ -82,6 +82,14 @@
 
     {% block body %} {% endblock %}
 	{% block content %}{% endblock %}
+    <div class="text-col">
+     <div class="question" id="question">Was this page helpful?</div>
+      <div class="buttonsContainer">
+          <button class="button neutral feedbackButton first" data-component="pageHelpfulYes">Yes</button>
+          <button class="button neutral feedbackButton" data-component="pageHelpfulNo">No</button>
+      </div>
+  </div>
+<br>
 
  <footer>
       <div class="upper-footer">

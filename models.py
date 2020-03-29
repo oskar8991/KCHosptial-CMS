@@ -65,6 +65,25 @@ class Answers(db.Model):
     correct = db.Column(db.Integer(), unique=False, nullable=False)
     question_id = db.Column(db.Integer(), db.ForeignKey('questions.id'), nullable=False)
 
+#Creates a table to store FAQ Question and answer
+class FAQQuestions(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    question = db.Column(db.String(400), nullable=False)
+    answer = db.Column(db.String(10000), nullable=False)
+
+# Creates table for about page cards
+class About(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(400), nullable=False)
+    content = db.Column(db.String(10000), nullable=False)
+
+class Quiz(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), nullable=False)
+    page_ref = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
+
+#NEed to create a table like answers that connects the questions to the a specific quiz
+
 def init_db():
     db.create_all()
 

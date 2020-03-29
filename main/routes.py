@@ -1,12 +1,12 @@
 from flask import render_template, Blueprint, redirect, url_for
-from models import Content, Announcement
+from models import Content, Announcement, FAQQuestions, About
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
 @main.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('splash.html')
 
 @main.route('/index')
 def index():
@@ -18,11 +18,13 @@ def index():
 
 @main.route('/faq')
 def faq():
-    return render_template('faq.html')
+    faqs = FAQQuestions.query.all()
+    return render_template('faq/index.html', data=faqs)
 
 @main.route('/about')
 def about():
-    return render_template('about.html')
+    about = About.query.all()
+    return render_template('about/index.html', data=about)
 
 @main.route('/announcements')
 def announcements():
