@@ -135,7 +135,6 @@ class TestModels(TestBase):
         """
         Test that shows flask usage stores the correct status code from a request.
         """
-
         response = self.client.get(url_for("main.faq"))
         flaskUsageCode = FlaskUsage.query.filter_by(path="/faq").order_by("datetime").first()
         if flaskUsageCode is not None:
@@ -203,12 +202,14 @@ class TestViews(TestBase):
         self.assertRedirects(response, redirect_url)
 
 class TestErrorPages(TestBase):
-
     """
     Write tests for erroneous pages...
     """
 
     def test_404_not_found(self):
+    """
+    Test an imaginary page in order to get a 404 status code.
+    """
         response = self.client.get('/testPage404')
         self.assertEqual(response.status_code, 404)
 
