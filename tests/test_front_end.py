@@ -1,17 +1,21 @@
-'''
+
 import unittest #nose2 package to be able to run all tests simultaneously
 import urllib
+import time
+
+from flask import url_for
 
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
 
-from app import create_app
+from app import create_app, db
 from models import User, Announcement, Questions, Answers
 
 """
 Set test variables (such as login information) below:
 """
-
+test_email = "test@admin.com"
+test_password = "admin"
 
 class TestBase(LiveServerTestCase):
 
@@ -38,8 +42,18 @@ class TestBase(LiveServerTestCase):
         and then install ChromeDriver using "brew install chromedriver"
         if on windows, download chromedriver binary and add to PATH
         """
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome('./chromedriver')
         self.driver.get(self.get_server_url())
+
+        db.session.commit()
+        db.drop_all()
+        db.create_all()
+
+        #create a test user
+        self.admin = User (email = test_email, password = test_password)
+
+        db.session.add(self.admin)
+        db.session.commit()
 
 
     def tearDown(self):
@@ -49,10 +63,31 @@ class TestBase(LiveServerTestCase):
         self.driver.quit()
 
     def test_server_is_up_and_running(self):
-        response = urllib.urlopen(self.get_server_url())
+        """
+        Tests if the server is up and running
+        """
+        response = urllib.request.urlopen(self.get_server_url())
         self.assertEqual(response.code, 200)
+
+
+class TestLogin(TestBase):
+
+    def test_login(self):
+        """
+        Test that a user can login and that they will be redirected to
+        the dashboard
+        """
+
+        # Click on login icon
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+
+        # Click on login button
+        self.driver.find_element_by_id("loginButton").click()
+        assert url_for('users.login') in self.driver.current_url
+
 
 
 if __name__ == '__main__':
     unittest.main()
-'''
+
