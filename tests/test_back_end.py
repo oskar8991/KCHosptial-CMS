@@ -150,10 +150,10 @@ class TestViews(TestBase):
 
     def test_index_view(self):
         """
-        Test that index page is accessible (302, as redirected)
+        Test that index page is accessible
         """
         response = self.client.get(url_for('main.index'))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_faq_view(self):
         """
@@ -207,9 +207,9 @@ class TestErrorPages(TestBase):
     """
 
     def test_404_not_found(self):
-    """
-    Test an imaginary page in order to get a 404 status code.
-    """
+        """
+        Test an imaginary page in order to get a 404 status code.
+        """
         response = self.client.get('/testPage404')
         self.assertEqual(response.status_code, 404)
 
