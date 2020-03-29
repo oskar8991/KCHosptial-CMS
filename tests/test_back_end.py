@@ -4,10 +4,10 @@ from flask import abort, url_for
 from flask_testing import TestCase
 
 from app import create_app, db
-from models import Content, User, Questions, Answers, Announcement
+from models import Content, User, Questions, Answers, Announcement, FlaskUsage
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine, MetaData, func, and_
 
 from datetime import datetime
 
@@ -123,6 +123,24 @@ class TestModels(TestBase):
         self.assertEqual(Questions.query.filter_by(question_text="Test_Question?").count(), 0)
         self.assertEqual(Answers.query.filter_by(answer_text = "Answer_Test").count(), 0)
 
+    def test_flask_usage_request(self):
+        """
+        Test that a record is succesfully stored in database table after a request.
+        """
+        beforeRequestCount = FlaskUsage.query.filter_by(path="/index").count()
+        response = self.client.get(url_for('main.index'))
+        self.assertEqual(FlaskUsage.query.filter_by(path="/index").count(), (beforeRequestCount+1))
+
+    def test_flask_usage_status_code(self):
+        """
+        Test that shows flask usage stores the correct status code from a request.
+        """
+
+        response = self.client.get(url_for("main.faq"))
+        flaskUsageCode = FlaskUsage.query.filter_by(path="/faq").order_by("datetime").first()
+        if flaskUsageCode is not None:
+            self.assertEqual(flaskUsageCode.status, response.status_code)
+
 
 
 class TestViews(TestBase):
@@ -133,10 +151,10 @@ class TestViews(TestBase):
 
     def test_index_view(self):
         """
-        Test that index page is accessible
+        Test that index page is accessible (302, as redirected)
         """
         response = self.client.get(url_for('main.index'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_faq_view(self):
         """
