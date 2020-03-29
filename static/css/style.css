@@ -181,10 +181,10 @@ color: #fff
   transform: translateY(150%);
 }
 .menubar.cross .bar:nth-child(1) {
-  transform: translateX(415%) rotate(45deg);
+  transform: translateX(715%) rotate(45deg);
 }
 .menubar.cross .bar:nth-child(3) {
-  transform: translateX(415%) rotate(-45deg);
+  transform: translateX(715%) rotate(-45deg);
 }
 .menubar.cross .bar:nth-child(2) {
   opacity: 0;
@@ -198,26 +198,29 @@ color: #fff
 }
 
 #sidebar {
+  overflow: auto;
   left: 0px;
   position: fixed;
-  width: 8rem;
+  width: 13rem;
   height: 100vh;
   z-index: 100;
   background: #F79862;
-  transition: all 0.3s;
+  transition: all 0.5s ease;
+  padding-bottom: 50px;
 }
 
 #sidebar.hidden {
-  margin-left: -8rem;
+  margin-left: -13rem;
 }
 
-#sideLine.hidden {
-  margin-left: -8rem;
+#content.hidden {
+  margin-left: 13.5rem;
 }
+
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -8rem;
+        margin-left: -13rem;
     }
 
     #sidebar.hidden {
@@ -226,18 +229,6 @@ color: #fff
 }
 
 
-#sideLine {
-  top: 0;
-  left: 8rem;
-  overflow-x: hidden;
-  padding-top: 5rem;
-  position: fixed;
-  float:left;
-  width: 6px;
-  height: 100%;
-  transition: all 0.3s;
-}
-
 #sidebar ul {
   list-style: none;
   margin: 0;
@@ -245,7 +236,7 @@ color: #fff
 }
 
 #sidebar ul li a {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   text-align: center;
   display: block;
   padding: 1.5rem 1rem;
@@ -260,16 +251,16 @@ color: #fff
 
 #sidebar ul li a.current {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #CDCDCD;
 }
 
 .content {
   overflow-x: hidden;
   width: 100%;
-  margin-left: 8.1rem;
+  margin-left: 1.8rem;
   min-height: 100vh;
-  transition: all 0.3s;
+  transition: all 0.5s ease;
 }
 
 #collapse {
@@ -329,9 +320,12 @@ h1 {
 }
 
 h2 {
+  color: white;
   font-size: 40px;
   font-weight: 300;
-  text-decoration: underline;
+  border: solid;
+  background-color: black;
+  padding-left: 1rem;
 }
 
 p {
@@ -344,6 +338,7 @@ ul {
 
 #ul3 {
   position: relative;
+  padding: 10px;
   left: 50px;
 }
 

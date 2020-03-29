@@ -4,6 +4,6 @@
 	    });
 
 	    $('#collapse').on('click', function () {
-	        $('#sideLine').toggleClass('hidden');
+	        $('#content').toggleClass('hidden');
 	    });
 	});
