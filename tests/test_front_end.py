@@ -80,11 +80,13 @@ class TestLogin(TestBase):
         #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(1)
+        self.driver.find_element_by_id("read_more").click()
         assert url_for('main.index') in self.driver.current_url
 
         # Click on login icon
+        time.sleep(1)
         self.driver.find_element_by_id("navbarLogin").click()
-        time.sleep(2)
+        time.sleep(1)
 
         # Click on login button
         self.driver.find_element_by_id("loginButton").click()

@@ -10,11 +10,9 @@ def home():
 
 @main.route('/index')
 def index():
-    first_page = Content.query.get(1)
-    if first_page:
-        return render_template('index.html', content=first_page.content)
+    #first_page = Content.query.get(1)
+    return render_template('index.html')#, content=first_page.content)
 
-    return redirect(url_for('main.index'))
 
 @main.route('/faq')
 def faq():
