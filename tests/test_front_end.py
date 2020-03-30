@@ -1,7 +1,7 @@
 
 import unittest #nose2 package to be able to run all tests simultaneously
 import urllib
-import time
+import time, os
 
 from flask import url_for
 
@@ -9,7 +9,12 @@ from flask_testing import LiveServerTestCase
 from selenium import webdriver
 
 from app import create_app, db
-from models import User, Announcement, Questions, Answers
+from models import User, Questions, Answers, Announcement, FlaskUsage
+
+from flask_bcrypt import Bcrypt
+
+from flask_track_usage import TrackUsage
+from flask_track_usage.storage.sql import SQLStorage
 
 """
 Set test variables (such as login information) below:
@@ -17,10 +22,13 @@ Set test variables (such as login information) below:
 test_email = "test@admin.com"
 test_password = "admin"
 
+
+
 class TestBase(LiveServerTestCase):
 
     def create_app(self):
         #config_name = 'testing'
+        bcrypt = Bcrypt()
         app = create_app()
         app.config.update(
             # Specify the test database
@@ -28,7 +36,13 @@ class TestBase(LiveServerTestCase):
             #Set the port that the live server will listen on below:
             #LIVESERVER_PORT=5000
         )
+
+        SECRET_KEY = os.urandom(32)
+        app.config['SECRET_KEY'] = SECRET_KEY
+
+
         return app
+
 
     def setUp(self):
         """
@@ -80,17 +94,22 @@ class TestLogin(TestBase):
         #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(1)
-        self.driver.find_element_by_id("read_more").click()
+        self.driver.find_element_by_id("readMore").click()
         assert url_for('main.index') in self.driver.current_url
 
         # Click on login icon
-        time.sleep(1)
         self.driver.find_element_by_id("navbarLogin").click()
         time.sleep(1)
 
         # Click on login button
         self.driver.find_element_by_id("loginButton").click()
         assert url_for('users.login') in self.driver.current_url
+
+        #Send keys inside placeholders
+        self.driver.find_element_by_id("email").send_keys(test_email)
+        self.driver.find_element_by_id("password").send_keys(test_password)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(1)
 
 
 
