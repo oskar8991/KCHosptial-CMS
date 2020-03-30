@@ -77,10 +77,14 @@ class TestLogin(TestBase):
         Test that a user can login and that they will be redirected to
         the dashboard
         """
+        #Click on Read More on spash page
+        self.driver.find_element_by_id("splashHomeId").click()
+        time.sleep(1)
+        assert url_for('main.index') in self.driver.current_url
 
         # Click on login icon
         self.driver.find_element_by_id("navbarLogin").click()
-        time.sleep(1)
+        time.sleep(2)
 
         # Click on login button
         self.driver.find_element_by_id("loginButton").click()
@@ -90,4 +94,3 @@ class TestLogin(TestBase):
 
 if __name__ == '__main__':
     unittest.main()
-
