@@ -3,20 +3,112 @@
 
 
 {% block content%}
+
+
+
 <div class='container'>
   <div class="row justify-content-center">
     <h2>Edit Main Content Page</h2>
   </div>
 
+  <!--Dropdown primary-->
+<div class="dropdown dropright">
+  <!--Trigger-->
+  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1-1"
+    data-toggle="dropdown">Choose Heading</button>
+
+  <!--Menu-->
+  <div class="dropdown-menu dropdown-primary" id="headingMenu">
+    <input class="form-control" type="text" placeholder="New Heading" aria-label="Search">
+    <a class="dropdown-item" >Placeholder_Heading_1</a>
+  </div>
+</div>
+<!--/Dropdown primary-->
+<br>
+<!--Dropdown primary-->
+<div class="dropdown dropright">
+<!--Trigger-->
+<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1-3"
+  data-toggle="dropdown">Position in list: </button>
+
+<!--Menu-->
+<div class="dropdown-menu dropdown-primary" id="positionMenu">
+  <input class="form-control" type="text" placeholder="New Title" aria-label="Search">
+  <a class="dropdown-item">1</a>
+  <a class="dropdown-item">2</a>
+  <a class="dropdown-item">3</a>
+</div>
+</div>
+<!--/Dropdown primary-->
+<br>
+<!--Dropdown primary-->
+<div class="dropdown dropright">
+<!--Trigger-->
+<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1-2"
+  data-toggle="dropdown">Choose title of paragraph</button>
+
+<!--Menu-->
+<div class="dropdown-menu dropdown-primary" id="titleMenu">
+  <input class="form-control" type="text" placeholder="New Title" aria-label="Search">
+  <a class="dropdown-item">Placeholder_Title_1</a>
+</div>
+</div>
+<!--/Dropdown primary-->
+
+<!-- Script to select heading and title to display as button text, respectively-->
+<script>
+$("#titleMenu a").click(function(e){
+  e.preventDefault(); // cancel the link behaviour
+  var selText = $(this).text();
+  $("#dropdownMenu1-2").text("Chosen Title: " + selText);
+});
+
+$("#headingMenu a").click(function(e){
+  e.preventDefault(); // cancel the link behaviour
+  var selText = $(this).text();
+  $("#dropdownMenu1-1").text("Chosen Heading: " + selText);
+});
+
+$("#positionMenu a").click(function(e){
+  e.preventDefault(); // cancel the link behaviour
+  var selText = $(this).text();
+  $("#dropdownMenu1-3").text("Position in list: " + selText);
+});
+
+</script>
+
+<br>
+
+<!-- Create the editor container -->
+<div id="editor">
+  <p>Hello World!</p>
+  <p>Some initial <strong>bold</strong> text</p>
+  <p><br></p>
+</div>
+
+<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+  var quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+</script>
+
+
   <form action="" method="POST">
 
-    <div class="form-group">
-      <label for="exampleFormControlTextarea1">Edit content inside this box component...</label>
-      <textarea class="form-control" id="editBox" name="editBox" rows="3">{{content}}</textarea>
+    <div class="row justify-content-center">
+      <input type="submit" class="btn btn-warning" value="Upload Image">
     </div>
+    <br>
 
     <div class="row justify-content-center">
-      <input type="submit" class="btn btn-primary" value="Save Changes">
+      <input type="submit" class="btn btn-success" value="Save Changes">
+      <input type="submit" class="btn btn-danger" value="Remove Selected Article">
     </div>
 
   </form>
