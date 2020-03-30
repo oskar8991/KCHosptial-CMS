@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %} About - Delete card {% endblock %}
+
+
+{% block head %}
+<title>About -  Delete Card</title>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+  <div class="col-md-12">
+	   <div class="text-center">
+			    <br><h1> Delete About card </h1>
+     </div>
+
+     <br>
+
+     <div class="row justify-content-center">
+       <form action="" method="POST" enctype="multipart/form-data">
+
+         <div class="text-center">
+    			    <h4> Are you sure you want to delete the following About card? </h4>
+              <br>
+         </div>
+
+
+         <label for="aboutID">About card ID</label>
+         <div class="md-form">
+           <textarea id="aboutID" name="aboutID" class="md-textarea form-control" rows="1" cols="35" readonly>{{about.id}}</textarea>
+         </div>
+         <br>
+         <label for="subject">Subject</label>
+         <div class="md-form">
+           <textarea id="subject" name="subject" class="md-textarea form-control" rows="3" cols="35" readonly>{{about.title}}</textarea>
+         </div>
+         <br><label for="content">Content</label>
+         <div class="md-form">
+           <textarea id="content" name="content" class="md-textarea form-control" rows="5" cols="35" readonly>{{about.content}}</textarea>
+         </div>
+
+
+         <div class="row justify-content-center mt-5">
+           <a href="{{url_for('main.about')}}" class="btn btn-primary" role="button">Back</a>
+           <input type="submit" class="btn btn-primary ml-3" type="button" value="Delete">
+         </div>
+
+         <br><br>
+
+       </form>
+     </div>
+
+
+  </div>
+</div>
+
+
+
+
+{% endblock %}

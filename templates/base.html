@@ -4,47 +4,109 @@
 
 	<!-- bootstrap link -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dashboard.css')}}">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   	<script src="https://kit.fontawesome.com/a8a067ebb4.js" crossorigin="anonymous"></script>
+
 
 	<title>{% block title %}{% endblock %}</title>
 	{% block head %} {% endblock %}
 	</head>
 
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		  <a class="navbar-brand" href="{{url_for('index')}}">WW</a>
-
+		<nav class="navbar sticky-top navbar-expand-lg navbar-light" id="nav" style="background-color: #39ac73;">
+		  <a class="navbar-brand" href="{{url_for('main.home')}}"><i class="fas fa-home"></i></a>
 		  <div class="collapse navbar-collapse">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('index')}}">Home</a>
+		        <a class="nav-link" href="{{url_for('main.index')}}" style="font-weight: 500;">Home</a>
 		      </li>
 		      <li class="nav-item active">
-		        <a class="nav-link" href="#">Drug Chart</a>
+		        <a class="nav-link" href="{{url_for('drug_chart.medication')}}" style="font-weight: 500;">Drug Chart</a>
 		      </li>
 		      <li class="nav-item active">
-		        <a class="nav-link" href="#">FAQ</a>
-		      </li>
+		        <a class="nav-link" href="{{url_for('main.faq')}}" style="font-weight: 500;">FAQ</a>
+		       <li>
+					<li class="nav-item active">
+						<a class="nav-link" href="{{url_for('main.announcements')}}" style="font-weight: 500;">Announcements</a>
+					<li>
+		       <li class="nav-item active">
+		        <a class="nav-link" href="{{url_for('main.about')}}" style="font-weight: 500;">About</a>
+		        <li>
+						 
+					<script type="text/javascript" src="../static/js/hilitor.js"></script>
+					 <script>
+					   window.addEventListener("DOMContentLoaded", function(e) {
+					     var highlighter = new Hilitor("testText");
+					     highlighter.setMatchType("left");
+					     highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
+					   	highlighter.apply("input string,searchInput");
+					     document.getElementById("searchInput").addEventListener("keyup", function(e) {
+					       highlighter.apply(this.value);
+					     }, false);
+					   }, false);
+					 </script>
+				</li>
+
 		    </ul>
+            <form class="form-inline">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <input id="searchInput" type="text" placeholder="Search" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+			</form>
+        
+
 		    <ul class="navbar-nav">
-		    	{% if session['logged_in'] %}
-		      <li class="nav-item active">
-		      	<a class="nav-link" href="{{url_for('dashboard')}}">Dashboard</a>
-		      </li>
-		      <li class="nav-item active">
-		      	<a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-		      </li>
-		      	{%else%}
-		        <a class="nav-link" href="{{url_for('login')}}">Staff Login</a>
-		        {%endif%}
-		      </li>
+		    	<li class="nav-item dropdown">
+		    		<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria expanded="false">
+		    			<i class="fas fa-user"></i>
+		    		</a>
+		    		<div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+		    			{% if current_user.is_authenticated %}
+                            <a class="dropdown-item" href="{{url_for('dashboard.dashboard_panel')}}">Dashboard</a>
+                            <a class="dropdown-item" href="{{url_for('users.logout')}}">Logout</a>
+                        {%else%}
+                            <a class="dropdown-item" href="{{url_for('users.login')}}">Staff Login</a>
+                        {%endif%}
+		    		</div>
+		    	</li>
 		    </ul>
+			<label>
+				<input type="checkbox" id="darkMode">
+				<span class="check"></span>
+			</label>
 		  </div>
 		</nav>
-		<br>
-		{% block content %}{% endblock %}
-	</body>
 
-	<footer></footer>
+    {% block body %} {% endblock %}
+	{% block content %}{% endblock %}
+    <div class="text-col">
+     <div class="question" id="question">Was this page helpful?</div>
+      <div class="buttonsContainer">
+          <button class="button neutral feedbackButton first" data-component="pageHelpfulYes">Yes</button>
+          <button class="button neutral feedbackButton" data-component="pageHelpfulNo">No</button>
+      </div>
+  </div>
+<br>
+
+ <footer>
+      <div class="upper-footer">
+        <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li class="p1"><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+   <div class="lower-footer">
+      <p>King's College London</p>
+   </div>
+
+   <div class="something-wrong">
+      <p>Something wrong with this page? <a href="#">Tell us!</a></p>
+   </div>
+</footer>
+
 </html>

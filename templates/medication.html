@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Drug Chart</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <form method="post">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Medication</th>
+          <th scope="col">Indications</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for medication in medications %}
+
+        <tr>
+          <td>
+            <input type="checkbox" name="{{ medication.name }}"
+            {% if session['meds'] %}
+              {{session['meds'][medication.name]}}
+            {% else %}
+              checked
+            {% endif %}>
+          </td>
+          <td>{{ medication.name }}</td>
+          <td>{{ medication.indications }}</td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="mx-auto text-center">
+      <button type="submit" class="btn btn-primary">Generate Chart</button>
+    </div>
+  </form>
+</div>
+<br>
+{% endblock %}
