@@ -14,7 +14,7 @@ def index():
     if first_page:
         return render_template('index.html', content=first_page.content)
 
-    return redirect(url_for('main.home'))
+    return redirect(url_for('main.index'))
 
 @main.route('/faq')
 def faq():
