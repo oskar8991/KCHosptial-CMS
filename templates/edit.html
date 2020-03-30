@@ -93,17 +93,32 @@ $("#positionMenu a").click(function(e){
 
 <!-- Initialize Quill editor -->
 <script>
+  var toolbarOptions = ['bold', 'italic', 'underline', 'strike'];
   var quill = new Quill('#editor', {
-    theme: 'snow'
+    theme: 'snow',
+    modules: {
+      syntax: true,
+      toolbar: [
+            [{ 'font': [] }, { 'size': [] }],
+            [ 'bold', 'italic', 'underline', 'strike' ],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'script': 'super' }, { 'script': 'sub' }],
+            [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block' ],
+            [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }],
+            [ 'direction', { 'align': [] }],
+            [ 'link', 'image', 'video', 'formula' ],
+            [ 'clean' ]
+      ]
+
+
+    }
+
   });
 </script>
 
 
   <form action="" method="POST">
 
-    <div class="row justify-content-center">
-      <input type="submit" class="btn btn-warning" value="Upload Image">
-    </div>
     <br>
 
     <div class="row justify-content-center">
