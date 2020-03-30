@@ -8,7 +8,7 @@
 }
 
 h1 {
-	color: #19334d;
+	color: #206040;
 	text-decoration: underline;
 	font-size: 40px;
 	top: 5%;
@@ -35,7 +35,7 @@ body {
 }
 
 .container .card {
-	border: solid #19334d 3px;
+	border: solid #206040 3px;
 	position: relative;
 	height: 250px;
 	background: #fff;
@@ -50,7 +50,7 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: #336699;
+	background: #39ac73;
 	z-index: 1;
 	display: flex;
 	justify-content: center;
