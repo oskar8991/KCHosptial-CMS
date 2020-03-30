@@ -8,19 +8,16 @@ from flask import url_for
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
 
-from app import create_app, db
+from app import create_app, db, bcrypt
 from models import User, Questions, Answers, Announcement, FlaskUsage
 
-from flask_bcrypt import Bcrypt
-
-from flask_track_usage import TrackUsage
-from flask_track_usage.storage.sql import SQLStorage
 
 """
 Set test variables (such as login information) below:
 """
 test_email = "test@admin.com"
 test_password = "admin"
+test_wrong_email = "wrong@admin.com"
 
 
 
@@ -28,7 +25,6 @@ class TestBase(LiveServerTestCase):
 
     def create_app(self):
         #config_name = 'testing'
-        bcrypt = Bcrypt()
         app = create_app()
         app.config.update(
             # Specify the test database
@@ -64,7 +60,8 @@ class TestBase(LiveServerTestCase):
         db.create_all()
 
         #create a test user
-        self.admin = User (email = test_email, password = test_password)
+        hashed_password = bcrypt.generate_password_hash(test_password).decode('utf-8')
+        self.admin = User (email = test_email, password = hashed_password)
 
         db.session.add(self.admin)
         db.session.commit()
@@ -104,13 +101,135 @@ class TestLogin(TestBase):
         # Click on login button
         self.driver.find_element_by_id("loginButton").click()
         assert url_for('users.login') in self.driver.current_url
+        time.sleep(1)
 
         #Send keys inside placeholders
         self.driver.find_element_by_id("email").send_keys(test_email)
         self.driver.find_element_by_id("password").send_keys(test_password)
         self.driver.find_element_by_id("submit").click()
+        time.sleep(3)
+
+        #Checks if the user has been redirected to dashboard_
+        assert url_for('dashboard.dashboard_panel') in self.driver.current_url
+
+
+
+
+    def test_login_wrong_email(self):
+        """
+        Test that a user can't login with wrong email and that the error will display
+        """
+        #Click on Read More on spash page
+        self.driver.find_element_by_id("splashHomeId").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("readMore").click()
+        assert url_for('main.index') in self.driver.current_url
+
+        # Click on login icon
+        self.driver.find_element_by_id("navbarLogin").click()
         time.sleep(1)
 
+        # Click on login button
+        self.driver.find_element_by_id("loginButton").click()
+        assert url_for('users.login') in self.driver.current_url
+        time.sleep(1)
+
+        # Fill in login form
+        self.driver.find_element_by_id("email").send_keys(test_wrong_email)
+        self.driver.find_element_by_id("password").send_keys(test_password)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(3)
+
+        # Assert that error message is shown
+        error_message = self.driver.find_element_by_class_name("alert").text
+        assert "Invalid credentials." in error_message
+
+
+
+    def test_login_invalid_email_format(self):
+        """
+        Test that a user cannot login using an invalid email format and that error will display
+        """
+
+        #Click on Read More on spash page
+        self.driver.find_element_by_id("splashHomeId").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("readMore").click()
+        assert url_for('main.index') in self.driver.current_url
+
+        # Click on login icon
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+
+        # Click on login button
+        self.driver.find_element_by_id("loginButton").click()
+        assert url_for('users.login') in self.driver.current_url
+        time.sleep(1)
+
+        # Fill in login form
+        self.driver.find_element_by_id("email").send_keys("wrong_format")
+        self.driver.find_element_by_id("password").send_keys(test_password)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(3)
+
+        # Assert that error message is shown
+        error_message = self.driver.find_element_by_class_name("invalid-feedback").text
+        assert "Invalid email address." in error_message
+
+
+    def test_login_wrong_password(self):
+        """
+        Test that a user can't login with wrong password and that the error will display
+        """
+        #Click on Read More on spash page
+        self.driver.find_element_by_id("splashHomeId").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("readMore").click()
+        assert url_for('main.index') in self.driver.current_url
+
+        # Click on login icon
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+
+        # Click on login button
+        self.driver.find_element_by_id("loginButton").click()
+        assert url_for('users.login') in self.driver.current_url
+        time.sleep(1)
+
+        # Fill in login form
+        self.driver.find_element_by_id("email").send_keys(test_email)
+        self.driver.find_element_by_id("password").send_keys("wrong_password")
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(3)
+
+        # Assert that error message is shown
+        error_message = self.driver.find_element_by_class_name("alert").text
+        assert "Invalid credentials." in error_message
+
+
+
+class CreateObjects(object):
+
+    """
+    If we need to be logged in in the futher test, these method should
+    be called, for simplifiyng the process
+    """
+
+    def login_admin(self):
+        #Log in as an admin
+        self.driver.find_element_by_id("splashHomeId").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("readMore").click()
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("loginButton").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("email").send_keys(test_email)
+        self.driver.find_element_by_id("password").send_keys(test_password)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(3)
+
+        
 
 
 if __name__ == '__main__':
