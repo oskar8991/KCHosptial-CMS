@@ -331,7 +331,7 @@ class TestUser(CreateObjects, TestBase):
         self.assertEqual(User.query.count(), 1)
 
 
-'''
+
 #This section is not done because the adding quiz question is not fully implemented
 
 class TestQuiz(CreateObjects, TestBase):
@@ -353,22 +353,22 @@ class TestQuiz(CreateObjects, TestBase):
         time.sleep(3)
 
         # Fill in add department form
-        self.driver.find_element_by_id("questionInput").send_keys(test_add_question_question)
+        self.driver.find_element_by_id("test_add_question_question").send_keys(test_add_question_question)
         time.sleep(1)
-        self.driver.find_element_by_id("questionAnswer1").send_keys(test_add_question_answer1)
+        self.driver.find_element_by_id("test_add_question_answer1").send_keys(test_add_question_answer1)
         time.sleep(1)
-        self.driver.find_element_by_id("questionAnswer2").send_keys(test_add_question_answer2)
+        self.driver.find_element_by_id("test_add_question_answer2").send_keys(test_add_question_answer2)
         time.sleep(1)
-        self.driver.find_element_by_id("questionAnswer3").send_keys(test_add_question_answer3)
+        self.driver.find_element_by_id("test_add_question_answer3").send_keys(test_add_question_answer3)
         time.sleep(1)
-        self.driver.find_element_by_id("questionAnswerCorrect").send_keys(test_add_question_answerCorrect)
+        self.driver.find_element_by_id("test_add_question_answerCorrect").send_keys(test_add_question_answerCorrect)
         time.sleep(1)
         self.driver.find_element_by_id("submit").click()
         time.sleep(2)
 
         # Assert that there is still only 1 department in the database
-        self.assertEqual(Questions.query.count(), 2)
-'''
+        self.assertEqual(Questions.query.count(), 1)
+
 
 class TestAnnouncement(CreateObjects, TestBase):
 
