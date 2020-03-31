@@ -19,11 +19,11 @@
 	<div class="row justify-content-center">
 		<div class="col-md-12">
             {% for temp in data %}
-			<div class="card bg-default">
+			<div class="card bg-default" id="card-header">
 				<h5 class="card-header">
 					<strong>{{temp.title}}</strong>
 				</h5>
-				<div class="card-body">
+				<div class="card-body" id="card-body">
 					<p>
 						{{temp.content}}
                     </p>
@@ -51,11 +51,11 @@
 {% else %}
 <div class="mx-auto text-center">
   <br>
-  <a href="{{url_for('users.login')}}">Please log in as a staff member to add/update content</a>
+  <a id='plz' href="{{url_for('users.login')}}">Please log in as a staff member to add/update content</a>
 </div>
 <br><br><br>
 {% endif %}
 
 <br>
-			
+<script type="text/javascript" src="{{url_for('static', filename='/js/darkModeIndex.js')}}"></script>	
 {% endblock %}
