@@ -24,6 +24,7 @@ class Content(db.Model):
     page_id = db.Column(db.Integer, primary_key=True)
     header = db.Column(db.Text, nullable=True)
     content = db.Column(db.Text, nullable=True)
+    position = db.Column(db.Integer, nullable=True)
 
 
 class FlaskUsage(db.Model):

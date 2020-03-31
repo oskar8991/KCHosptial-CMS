@@ -2,6 +2,7 @@ from flask import render_template, Blueprint, request, redirect, url_for
 from flask_login import login_required
 from app import db
 from models import Content
+import json
 
 content = Blueprint('content', __name__)
 
@@ -18,18 +19,26 @@ content = Blueprint('content', __name__)
 def edit_content():
     first_page = Content.query.get(1)
 
+
     if request.method == 'POST':
         if first_page:
-            first_page.content = request.form["editBox"]
+                data=request.form.get('data')
+
+                first_page.content = data
+                db.session.commit()
+
+                #data = request.get_json(force=True)
+                #for name in data:
+                #    print(name['firstName'])
+                #print(data.get("title"))
         else:
             first_page = Content(
                 header = 'default',
-                content = request.form["editBox"]
+                content = "failure?"
             )
             db.session.add(first_page)
-    
-        db.session.commit()
-        return redirect(url_for('main.index'))
+
+            db.session.commit()
 
     return render_template(
         'edit.html',

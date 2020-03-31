@@ -22,13 +22,8 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  Delete page
-                </a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href="{{url_for('content.edit_content')}}">
-                  Edit page
+                  Edit Content
                 </a>
               </li>
             </ul>
@@ -94,9 +89,7 @@
         			<a class="btn btn-primary" href="{{url_for('users.list_users')}}" role="button">See users</a>
         			</div>
         			<div class="row">
-        			<button class="btn btn-primary">Delete page</button>
-        			<button class="btn btn-primary">Add page</button>
-        			<a class="btn btn-primary" href="{{url_for('content.edit_content')}}"role="button">Edit main page</a>
+        			<a class="btn btn-primary" href="{{url_for('content.edit_content')}}"role="button">Edit main page content</a>
         		</div>
         		</div>
 				<br>

@@ -3,7 +3,7 @@
 
 
 {% block content%}
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
 <div class='container'>
@@ -79,12 +79,24 @@ $("#positionMenu a").click(function(e){
 
 <br>
 
-<!-- Create the editor container -->
+
 <div id="editor">
-  <p>Hello World!</p>
-  <p>Some initial <strong>bold</strong> text</p>
-  <p><br></p>
+  <h2>What is the liver? </h2>
+  <p> <br>
+    <b>Throughout this site, a lot of technical vocabulary is used, please use the glossary (found on the top right of this page) if you are unsure of the meaning of something.</b> <br> <br>
+    The liver is a large organ found at the top of the abdomen (tummy area) on the right side. It is made up of cells; blood vessels and bile ducts. <br> <br> The main cells in the liver are known as <b>hepatocytes</b>.
+    <div class="row">
+        <img id="image1" src="../static/resources/indexImages/image1.png">
+    </div>
+  </p>
+
+  <p>
+    The liver is made up of two main parts: the right lobe and the left lobe. The right lobe is large, whilst the left lobe is smaller.
+  </p>
 </div>
+
+
+
 
 <!-- Include stylesheet -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -97,7 +109,6 @@ $("#positionMenu a").click(function(e){
   var quill = new Quill('#editor', {
     theme: 'snow',
     modules: {
-      syntax: true,
       toolbar: [
             [{ 'font': [] }, { 'size': [] }],
             [ 'bold', 'italic', 'underline', 'strike' ],
@@ -109,24 +120,31 @@ $("#positionMenu a").click(function(e){
             [ 'link', 'image', 'video', 'formula' ],
             [ 'clean' ]
       ]
-
-
     }
 
   });
+
 </script>
 
 
-  <form action="" method="POST">
-
     <br>
-
     <div class="row justify-content-center">
-      <input type="submit" class="btn btn-success" value="Save Changes">
+      <input type="submit" class="btn btn-success" value="Save Changes" id="save" name="save">
       <input type="submit" class="btn btn-danger" value="Remove Selected Article">
     </div>
 
-  </form>
+
 </div>
+<script type="text/javascript">
+
+  quillHTML = quill.root.innerHTML.trim();
+  $("#save").click(function(){
+  $.ajax({
+    type : 'POST',
+    url : "{{url_for('content.edit_content')}}",
+    data : {'data': quillHTML}
+  });
+   });
+</script>>
 
 {% endblock %}
