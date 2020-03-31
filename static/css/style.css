@@ -457,6 +457,34 @@ ul {
   cursor: pointer;
 }
 
+#toTop {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 100px;
+  height: 100px;  
+  animation: bounce 0.8s;
+  animation-direction: alternate;
+  animation-iteration-count: 6;
+}
+
+#toTop:hover {
+  animation: bounce 0.8s;
+  animation-direction: alternate;
+  animation-iteration-count: 6;
+}
+
+#toTop:focus {
+  outline: none !important;
+}
+
+@keyframes bounce { 
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50px); }
+}
+
+
 #click:checked ~ .popUp, #click2:checked ~ .popUp {
   visibility: visible;
   transform: translate(-50%, -50%) scale(1);
@@ -521,6 +549,7 @@ ul {
   background-color: rgba(0,0,0,0.5);
   pointer-events: none; /*user can click the button*/
 }
+
 
 /*#section-1 {
   opacity: 0;
