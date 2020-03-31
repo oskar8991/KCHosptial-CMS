@@ -20,7 +20,9 @@
   <!--Menu-->
   <div class="dropdown-menu dropdown-primary" id="headingMenu">
     <input class="form-control" type="text" placeholder="New Heading" aria-label="Search">
-    <a class="dropdown-item" >Placeholder_Heading_1</a>
+    {% for heading in content.headings %}
+      <a class="dropdown-item" >{{heading}}</a>
+    {% endfor %}
   </div>
 </div>
 <!--/Dropdown primary-->
@@ -45,12 +47,14 @@
 <div class="dropdown dropright">
 <!--Trigger-->
 <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1-2"
-  data-toggle="dropdown">Choose title of paragraph</button>
+  data-toggle="dropdown">Choose section:</button>
 
 <!--Menu-->
 <div class="dropdown-menu dropdown-primary" id="titleMenu">
   <input class="form-control" type="text" placeholder="New Title" aria-label="Search">
-  <a class="dropdown-item">Placeholder_Title_1</a>
+  {% for record in content.records %}
+    <a class="dropdown-item">{{record.page_id}}</a>
+  {% endfor %}
 </div>
 </div>
 <!--/Dropdown primary-->
@@ -66,7 +70,13 @@ $("#titleMenu a").click(function(e){
 $("#headingMenu a").click(function(e){
   e.preventDefault(); // cancel the link behaviour
   var selText = $(this).text();
+  $.ajax({
+    type : 'POST',
+    url : "{{url_for('content.newData')}}",
+    data : {'heading': selText}
+  });
   $("#dropdownMenu1-1").text("Chosen Heading: " + selText);
+
 });
 
 $("#positionMenu a").click(function(e){
@@ -76,27 +86,10 @@ $("#positionMenu a").click(function(e){
 });
 
 </script>
-
 <br>
-
-
 <div id="editor">
-  <h2>What is the liver? </h2>
-  <p> <br>
-    <b>Throughout this site, a lot of technical vocabulary is used, please use the glossary (found on the top right of this page) if you are unsure of the meaning of something.</b> <br> <br>
-    The liver is a large organ found at the top of the abdomen (tummy area) on the right side. It is made up of cells; blood vessels and bile ducts. <br> <br> The main cells in the liver are known as <b>hepatocytes</b>.
-    <div class="row">
-        <img id="image1" src="../static/resources/indexImages/image1.png">
-    </div>
-  </p>
-
-  <p>
-    The liver is made up of two main parts: the right lobe and the left lobe. The right lobe is large, whilst the left lobe is smaller.
-  </p>
+  {{content.editContent | safe}}
 </div>
-
-
-
 
 <!-- Include stylesheet -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -125,15 +118,11 @@ $("#positionMenu a").click(function(e){
   });
 
 </script>
-
-
     <br>
     <div class="row justify-content-center">
       <input type="submit" class="btn btn-success" value="Save Changes" id="save" name="save">
       <input type="submit" class="btn btn-danger" value="Remove Selected Article">
     </div>
-
-
 </div>
 <script type="text/javascript">
 
