@@ -18,6 +18,15 @@ Set test variables (such as login information) below:
 test_email = "test@admin.com"
 test_password = "admin"
 test_wrong_email = "wrong@admin.com"
+test_wrong_password = "aaadminn"
+test_add_email = "added@admin.com"
+test_add_password = "adminadd"
+test_add_question_question = "What is the liver located in? "
+test_add_question_answer1 = "Head"
+test_add_question_answer2 = "Pancreas"
+test_add_question_answer3 = "Aspectic"
+test_add_question_answerCorrect = "Human Body"
+
 
 
 
@@ -181,7 +190,7 @@ class TestLogin(TestBase):
         """
         Test that a user can't login with wrong password and that the error will display
         """
-        #Click on Read More on spash page
+       #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(1)
         self.driver.find_element_by_id("readMore").click()
@@ -198,14 +207,13 @@ class TestLogin(TestBase):
 
         # Fill in login form
         self.driver.find_element_by_id("email").send_keys(test_email)
-        self.driver.find_element_by_id("password").send_keys("wrong_password")
+        self.driver.find_element_by_id("password").send_keys(test_wrong_password)
         self.driver.find_element_by_id("submit").click()
         time.sleep(3)
 
         # Assert that error message is shown
         error_message = self.driver.find_element_by_class_name("alert").text
         assert "Invalid credentials." in error_message
-
 
 
 class CreateObjects(object):
@@ -229,7 +237,133 @@ class CreateObjects(object):
         self.driver.find_element_by_id("submit").click()
         time.sleep(3)
 
-        
+
+
+
+class TestUser(CreateObjects, TestBase):
+
+    def test_add_user(self):
+        """
+        Test that an admin user can add a user and checks that it is in database
+        """
+
+        # Login as admin user
+        self.login_admin()
+
+        # Click departments menu link
+        self.driver.find_element_by_id("addUser").click()
+        time.sleep(1)
+
+
+        # Fill in add department form
+        self.driver.find_element_by_id("input_email").send_keys(test_add_email)
+        time.sleep(1)
+        self.driver.find_element_by_id("input_password1").send_keys(test_add_password)
+        time.sleep(1)
+        self.driver.find_element_by_id("input_password2").send_keys(test_add_password)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        # Assert that there are now 2 users in the database
+        self.assertEqual(User.query.count(), 2)
+
+
+
+
+    def test_delete_user(self):
+        """
+        Tests that admin can delete a user and that databaes is updated
+        """
+
+        # Login as admin user
+        self.login_admin()
+
+        #Click on user list in the dahsboard
+        self.driver.find_element_by_id("seeUser").click()
+        time.sleep(1)
+
+
+        #Click on delete user button
+        self.driver.find_element_by_class_name("btn").click()
+        time.sleep(2)
+
+
+        # Assert that there are now 2 users in the database
+        self.assertEqual(User.query.count(), 0)
+
+
+    def test_add_existing_user(self):
+        """
+        Test that an admin user cannot add another user with the same email.
+        Checks if the error message is valid and that it didn't add it to database.
+        """
+
+        # Login as admin user
+        self.login_admin()
+
+        #Click on user list in the dahsboard
+        self.driver.find_element_by_id("addUser").click()
+        time.sleep(1)
+
+        # Fill in add department form
+        self.driver.find_element_by_id("input_email").send_keys(test_email)
+        time.sleep(1)
+        self.driver.find_element_by_id("input_password1").send_keys(test_add_password)
+        time.sleep(1)
+        self.driver.find_element_by_id("input_password2").send_keys(test_add_password)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        # Assert error message is shown
+        error_message = self.driver.find_element_by_class_name("invalid-feedback").text
+        assert "That email is taken. Please choose a different one." in error_message
+
+        # Assert that there is still only 1 department in the database
+        self.assertEqual(User.query.count(), 1)
+
+
+
+class TestQuiz(CreateObjects, TestBase):
+
+    def test_add_question(self):
+        """
+        Test that an admin user can add a question to a quiz
+        Checks if it's added to databse
+        """
+
+        # Login as admin user
+        self.login_admin()
+
+        #Click on user list in the dahsboard
+        self.driver.find_element_by_id("addQuiz").click()
+        time.sleep(1)
+
+        self.driver.find_element_by_id("addQuestion").click()
+        time.sleep(3)
+
+        # Fill in add department form
+        self.driver.find_element_by_id("questionInput").send_keys(test_add_question_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("questionAnswer1").send_keys(test_add_question_answer1)
+        time.sleep(1)
+        self.driver.find_element_by_id("questionAnswer2").send_keys(test_add_question_answer2)
+        time.sleep(1)
+        self.driver.find_element_by_id("questionAnswer3").send_keys(test_add_question_answer3)
+        time.sleep(1)
+        self.driver.find_element_by_id("questionAnswerCorrect").send_keys(test_add_question_answerCorrect)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        # Assert that there is still only 1 department in the database
+        self.assertEqual(Questions.query.count(), 2)
+
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -17,7 +17,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for('quiz.questions')}}">
+                <a class="nav-link" href="{{url_for('quiz.questions')}} " id = "addQuiz">
                   Add quiz
                 </a>
               </li>
@@ -90,8 +90,8 @@
 
         		<div class="row justify-content-around">
         			<div class="row">
-        			<a class="btn btn-primary" href="{{url_for('users.add_user')}}" role="button">Add user</a>
-        			<a class="btn btn-primary" href="{{url_for('users.list_users')}}" role="button">See users</a>
+        			<a class="btn btn-primary" href="{{url_for('users.add_user')}}" role="button" id="addUser">Add user</a>
+        			<a class="btn btn-primary" href="{{url_for('users.list_users')}}" id="seeUser" role="button">See users</a>
         			</div>
         			<div class="row">
         			<button class="btn btn-primary">Delete page</button>

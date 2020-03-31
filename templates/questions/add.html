@@ -21,21 +21,21 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.question(class="form-control") }}
+        {{ form.question(class="form-control" , id = "questionInput") }}
       {% endif %}
     </div>
 
     <div class="form-group">
       <label>Write multiple answers</label>
       {% if form.first_answer.errors %}
-        {{ form.first_answer(class="form-control is-invalid") }}
+        {{ form.first_answer(class="form-control is-invalid"") }}
         <div class="invalid-feedback">
           {% for error in form.first_answer.errors %}
             <span>{{ error }}</span>
           {% endfor %}
         </div>
       {% else %}
-        {{ form.first_answer(class="form-control") }}
+        {{ form.first_answer(class="form-control") , id = "questionAnswer1}}
       {% endif %}
 
       {% if form.second_answer.errors %}
@@ -46,7 +46,7 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.second_answer(class="form-control") }}
+        {{ form.second_answer(class="form-control" , id = "questionAnswer2") }}
       {% endif %}
 
       {% if form.third_answer.errors %}
@@ -57,21 +57,21 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.third_answer(class="form-control") }}
+        {{ form.third_answer(class="form-control" , id = "questionAnswer3") }}
       {% endif %}
     </div>
 
     <div class="form-group">
       <label for="correct_answer">Write the correct answer</label>
       {% if form.correct_answer.errors %}
-        {{ form.correct_answer(class="form-control is-invalid") }}
+        {{ form.correct_answer(class="form-control is-invalid" ) }}
         <div class="invalid-feedback">
           {% for error in form.correct_answer.errors %}
             <span>{{ error }}</span>
           {% endfor %}
         </div>
       {% else %}
-        {{ form.correct_answer(class="form-control") }}
+        {{ form.correct_answer(class="form-control" , id = "questionAnswerCorrect") }}
       {% endif %}
     </div>
 

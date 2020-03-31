@@ -16,7 +16,7 @@ def load_user(user_id):
 #Creates a table for login form with id, email and password
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 
 #Creates a table for web page content with id and text
