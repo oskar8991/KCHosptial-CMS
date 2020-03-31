@@ -45,19 +45,7 @@
         </nav>
 
 
-  <script>
-      $(document).on('click', '.hamburger', function() {
-        $('.menubar')
-          .removeClass('hamburger')
-          .addClass('cross');
-      });
 
-      $(document).on('click', '.cross', function() {
-        $('.menubar')
-          .removeClass('cross')
-          .addClass('hamburger');
-      });
-  </script>
 
   <div type="button" id="collapse" class='menubar hamburger'>
       <div class='bar'></div>
@@ -1068,6 +1056,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
 
+
+<script type="text/javascript" src="{{url_for('static', filename='/js/hamburger.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='/js/toTop.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='/js/scroll.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='/js/sidebar.js')}}"></script>
