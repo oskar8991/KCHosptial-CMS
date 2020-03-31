@@ -19,6 +19,7 @@ test_email = "test@admin.com"
 test_password = "admin"
 test_wrong_email = "wrong@admin.com"
 test_wrong_password = "aaadminn"
+
 test_add_email = "added@admin.com"
 test_add_password = "adminadd"
 test_add_question_question = "What is the liver located in? "
@@ -26,6 +27,9 @@ test_add_question_answer1 = "Head"
 test_add_question_answer2 = "Pancreas"
 test_add_question_answer3 = "Aspectic"
 test_add_question_answerCorrect = "Human Body"
+
+test_add_title = "Test title."
+test_add_description = "Test description."
 
 
 
@@ -88,6 +92,7 @@ class TestBase(LiveServerTestCase):
         """
         response = urllib.request.urlopen(self.get_server_url())
         self.assertEqual(response.code, 200)
+
 
 
 class TestLogin(TestBase):
@@ -216,6 +221,8 @@ class TestLogin(TestBase):
         assert "Invalid credentials." in error_message
 
 
+
+
 class CreateObjects(object):
 
     """
@@ -324,6 +331,8 @@ class TestUser(CreateObjects, TestBase):
         self.assertEqual(User.query.count(), 1)
 
 
+'''
+#This section is not done because the adding quiz question is not fully implemented
 
 class TestQuiz(CreateObjects, TestBase):
 
@@ -359,11 +368,122 @@ class TestQuiz(CreateObjects, TestBase):
 
         # Assert that there is still only 1 department in the database
         self.assertEqual(Questions.query.count(), 2)
+'''
+
+class TestAnnouncement(CreateObjects, TestBase):
+
+    def test_add_announcement(self):
+        """
+        Checks that announcement is added to the page and checks that it is in database
+        """
+
+        # Login as admin user
+        self.login_admin()
+
+        #Click on announcements in the navbar
+        self.driver.find_element_by_id("announcement").click()
+        time.sleep(1)
+
+        #Click on add announcement
+        self.driver.find_element_by_id("addAnnouncement").click()
+        time.sleep(1)
+
+        #Input the announcement
+        self.driver.find_element_by_id("title").send_keys(test_add_title)
+        time.sleep(1)
+        self.driver.find_element_by_id("description").send_keys(test_add_description)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #Check if the announcement is in database
+        self.assertEqual(Announcement.query.count(), 1)
 
 
+    def test_edit_announcement(self):
+        """
+        Checks that announcement is added to the page and then you can
+        edit it and it updates in the database
+        """
+        # Login as admin user
+        self.login_admin()
+
+        #Click on announcements in the navbar
+        self.driver.find_element_by_id("announcement").click()
+        time.sleep(1)
+
+        #Click on add announcement
+        self.driver.find_element_by_id("addAnnouncement").click()
+        time.sleep(1)
+
+        #Input the announcement
+        self.driver.find_element_by_id("title").send_keys(test_add_title)
+        time.sleep(1)
+        self.driver.find_element_by_id("description").send_keys(test_add_description)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #Check that it redirects to the all announcement page
+        assert url_for('main.announcements') in self.driver.current_url
+
+        #Click on edit button
+        self.driver.find_element_by_id("edit").click()
+        time.sleep(2)
+
+        #Add a new title and submit
+        self.driver.find_element_by_id("newTitle").send_keys(test_add_title)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        updatedTitle = Announcement.query.filter_by(title='Test title.Test title.').first()
+
+        #Check that it redirects to the all announcement page
+        assert url_for('main.announcements') in self.driver.current_url
+        #Checks that the content has been updated in the database
+        assert "Test title.Test title." in updatedTitle.title
 
 
+    def test_delete_announcement(self):
+        """
+        Checks that announcement is added to the page and then you can
+        delete it and it updates in the database
+        """
+        # Login as admin user
+        self.login_admin()
 
+        #Click on announcements in the navbar
+        self.driver.find_element_by_id("announcement").click()
+        time.sleep(1)
+
+        #Click on add announcement
+        self.driver.find_element_by_id("addAnnouncement").click()
+        time.sleep(1)
+
+        #Input the announcement
+        self.driver.find_element_by_id("title").send_keys(test_add_title)
+        time.sleep(1)
+        self.driver.find_element_by_id("description").send_keys(test_add_description)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #Check that it redirects to the all announcement page
+        assert url_for('main.announcements') in self.driver.current_url
+
+        #Click on delete button and confirm the deletion
+        self.driver.find_element_by_id("delete").click()
+        time.sleep(2)
+        #Click on edit button
+        self.driver.find_element_by_id("deleteConfirm").click()
+        time.sleep(2)
+
+        #Check that it redirects to the all announcement page
+        assert url_for('main.announcements') in self.driver.current_url
+
+        #Check if the announcement was deleted from the database
+        self.assertEqual(Announcement.query.count(), 0)
 
 
 if __name__ == '__main__':
