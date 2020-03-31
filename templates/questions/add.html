@@ -9,7 +9,7 @@
 </div>
 
 <div class="container">
-  <form action="" method="POST">
+  <form action=" method="POST">
     {{ form.hidden_tag() }}
     <div class="form-group">
       <label for="question">Write a question</label>
@@ -28,14 +28,14 @@
     <div class="form-group">
       <label>Write multiple answers</label>
       {% if form.first_answer.errors %}
-        {{ form.first_answer(class="form-control is-invalid"") }}
+        {{ form.first_answer(class="form-control is-invalid") }}
         <div class="invalid-feedback">
           {% for error in form.first_answer.errors %}
             <span>{{ error }}</span>
           {% endfor %}
         </div>
       {% else %}
-        {{ form.first_answer(class="form-control") , id = "questionAnswer1}}
+        {{ form.first_answer(class="form-control" , id = "questionAnswer1")}}
       {% endif %}
 
       {% if form.second_answer.errors %}
