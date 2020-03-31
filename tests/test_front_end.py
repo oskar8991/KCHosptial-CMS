@@ -28,6 +28,8 @@ test_add_question_answer2 = "Pancreas"
 test_add_question_answer3 = "Aspectic"
 test_add_question_answerCorrect = "Human Body"
 
+test_edit_question_question = "and where? "
+
 test_add_title = "Test title."
 test_add_description = "Test description."
 
@@ -345,14 +347,15 @@ class TestQuiz(CreateObjects, TestBase):
         # Login as admin user
         self.login_admin()
 
-        #Click on user list in the dahsboard
+        #Click on add quiz in the dahsboard
         self.driver.find_element_by_id("addQuiz").click()
         time.sleep(1)
 
+        #Click on add question
         self.driver.find_element_by_id("addQuestion").click()
         time.sleep(3)
 
-        # Fill in add department form
+        # Fill in the question form
         self.driver.find_element_by_id("test_add_question_question").send_keys(test_add_question_question)
         time.sleep(1)
         self.driver.find_element_by_id("test_add_question_answer1").send_keys(test_add_question_answer1)
@@ -366,8 +369,102 @@ class TestQuiz(CreateObjects, TestBase):
         self.driver.find_element_by_id("submit").click()
         time.sleep(2)
 
-        # Assert that there is still only 1 department in the database
+        # Assert that there is still only 1 question in the database
         self.assertEqual(Questions.query.count(), 1)
+
+
+    def test_edit_question(self):
+        """
+        Checks that question is added to the page and then you can
+        edit it and it updates in the database
+        """
+        # Login as admin user
+        self.login_admin()
+
+        #Click on add quiz
+        self.driver.find_element_by_id("addQuiz").click()
+        time.sleep(1)
+
+        #Click on add question
+        self.driver.find_element_by_id("addQuestion").click()
+        time.sleep(1)
+
+        # Fill in add question form
+        self.driver.find_element_by_id("test_add_question_question").send_keys(test_add_question_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer1").send_keys(test_add_question_answer1)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer2").send_keys(test_add_question_answer2)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer3").send_keys(test_add_question_answer3)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answerCorrect").send_keys(test_add_question_answerCorrect)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #Check that it redirects to the all quiz page
+        assert url_for('quiz.questions') in self.driver.current_url
+
+        #Click on edit button
+        self.driver.find_element_by_id("editQuestion").click()
+        time.sleep(2)
+
+        #Add a new title and submit
+        self.driver.find_element_by_id("new_question").send_keys(test_edit_question_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        updatedQuestion = Questions.query.filter_by(question_text='What is the liver located in? and where? ').first()
+
+        #Check that it redirects to the all announcement page
+        assert url_for('quiz.questions') in self.driver.current_url
+        #Checks that the content has been updated in the database
+        assert "What is the liver located in? and where? " in updatedQuestion.question_text
+
+
+    def test_delete_question(self):
+        """
+        Test that an admin user can delete a question from a quiz
+        Checks if it's delted from databse
+        """
+
+        # Login as admin user
+        self.login_admin()
+
+        #Click on add quizin dahsboard
+        self.driver.find_element_by_id("addQuiz").click()
+        time.sleep(1)
+
+        #Click on add question
+        self.driver.find_element_by_id("addQuestion").click()
+        time.sleep(3)
+
+        # Add the questions input
+        self.driver.find_element_by_id("test_add_question_question").send_keys(test_add_question_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer1").send_keys(test_add_question_answer1)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer2").send_keys(test_add_question_answer2)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer3").send_keys(test_add_question_answer3)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answerCorrect").send_keys(test_add_question_answerCorrect)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #Check that it redirects to the all questions page
+        assert url_for('quiz.questions') in self.driver.current_url
+
+        #Click on delete question button
+        self.driver.find_element_by_id("deleteQuestion").click()
+        time.sleep(2)
+
+        #Check that it is deleted from the database
+        self.assertEqual(Questions.query.count(), 0)
+
 
 
 class TestAnnouncement(CreateObjects, TestBase):
@@ -376,7 +473,6 @@ class TestAnnouncement(CreateObjects, TestBase):
         """
         Checks that announcement is added to the page and checks that it is in database
         """
-
         # Login as admin user
         self.login_admin()
 
@@ -484,6 +580,8 @@ class TestAnnouncement(CreateObjects, TestBase):
 
         #Check if the announcement was deleted from the database
         self.assertEqual(Announcement.query.count(), 0)
+
+
 
 
 if __name__ == '__main__':
