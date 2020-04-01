@@ -22,7 +22,7 @@ def get_records():
     Retrives all records from content table.
     '''
     all_records = (db.session
-        .query(Content.title, Content.content)
+        .query(Content.title, Content.content, Content.header)
     )
 
 

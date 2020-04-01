@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for
 from models import Content, Announcement, FAQQuestions, About
+from content.utils import *
 
 main = Blueprint('main', __name__)
 
@@ -10,11 +11,12 @@ def home():
 
 @main.route('/index')
 def index():
-    first_page = Content.query.get(1)
-    if first_page:
-        return render_template('index.html', content=first_page.content)
+    contentDictionary = {
+        'headings' : get_headings(),
+        'records' : get_records()
+    }
 
-    return redirect(url_for('main.home'))
+    return render_template('index.html', content=contentDictionary)
 
 @main.route('/faq')
 def faq():
