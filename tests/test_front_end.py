@@ -9,7 +9,7 @@ from flask_testing import LiveServerTestCase
 from selenium import webdriver
 
 from app import create_app, db, bcrypt
-from models import User, Questions, Answers, Announcement, FlaskUsage
+from models import User, Questions, Answers, Announcement, FlaskUsage, FAQQuestions
 
 
 """
@@ -32,6 +32,9 @@ test_edit_question_question = "and where? "
 
 test_add_title = "Test title."
 test_add_description = "Test description."
+
+test_question = "Test quetion?"
+test_answer = "Test answer"
 
 
 
@@ -582,7 +585,66 @@ class TestAnnouncement(CreateObjects, TestBase):
         self.assertEqual(Announcement.query.count(), 0)
 
 
+class TestFAQ(CreateObjects, TestBase):
 
+    def test_add_faq(self):
+        """
+        Checks that faq is added to the page and checks that it is in database
+        """
+        # Login as admin user
+        self.login_admin()
+
+        #Click on faq in the navbar
+        self.driver.find_element_by_id("faq").click()
+        time.sleep(1)
+
+        #Click on add faq
+        self.driver.find_element_by_id("addFaq").click()
+        time.sleep(1)
+
+        #Input the faq
+        self.driver.find_element_by_id("question").send_keys(test_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("answer").send_keys(test_answer)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #Check if the faq is in database
+        self.assertEqual(FAQQuestions.query.count(), 1)
+
+
+    def test_delete_announcement(self):
+        """
+        Checks that faq is added to the page and then you can
+        delete it and it updates in the database
+        """
+
+        # Login as admin user
+        self.login_admin()
+
+        #Click on faq in the navbar
+        self.driver.find_element_by_id("faq").click()
+        time.sleep(1)
+
+        #Click on add faq
+        self.driver.find_element_by_id("addFaq").click()
+        time.sleep(1)
+
+        #Input the faq
+        self.driver.find_element_by_id("question").send_keys(test_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("answer").send_keys(test_answer)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #click on faq
+        self.driver.find_element_by_id("deleteButton").click()
+        time.sleep(2)
+
+        #Check if the faq is not in database
+        self.assertEqual(FAQQuestions.query.count(), 0)
 
 if __name__ == '__main__':
     unittest.main()
