@@ -8,6 +8,8 @@ from flask import url_for
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
 
+import chromedriver_binary
+
 from app import create_app, db, bcrypt
 from models import User, Questions, Answers, Announcement, FlaskUsage, FAQQuestions
 
@@ -70,7 +72,7 @@ class TestBase(LiveServerTestCase):
         and then install ChromeDriver using "brew install chromedriver"
         if on windows, download chromedriver binary and add to PATH
         """
-        self.driver = webdriver.Chrome('./chromedriver')
+        self.driver = webdriver.Chrome()
         self.driver.get(self.get_server_url())
 
         db.session.commit()
