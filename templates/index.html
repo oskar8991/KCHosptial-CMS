@@ -57,12 +57,12 @@
     <div>
 
     <div>
-    <input type="checkbox" id="click2">
-      <label for="click2" class="popUpButtonCircle"><img src="../static/resources/icon/glossary.png"></label>
-      <div class="popUp">
+    <input type="checkbox" name="popUpCircle" id="click2">
+      <label for="click2"  class="popUpButtonCircle"><img src="../static/resources/icon/glossary.png"></label>
+      <div class="popUp" id="circlePopUp">
         <div class="popUpHeader">
           <div class="popUpTitle">Glossary of Liver Terms</div>
-          <label for="click2" class="close-btn">&times;</label>
+          <!-- <label for="click2" class="close-btn">&times;</label> -->
         </div>
 
         <div class="popUpContent">
@@ -485,7 +485,7 @@
 
         </div>
       </div>
-      <div class="overlay"></div>
+      <div class="overlay" id="overlay"></div>
     </div>
 
       <h1>Liver Disease</h1>
@@ -609,7 +609,7 @@
       <div class="popUp">
         <div class="popUpHeader">
           <div class="popUpTitle">Blood Test Results Explained</div>
-          <label for="click" class="close-btn">&times;</label>
+          <!-- <label for="click" class="close-btn">&times;</label> -->
         </div>
 
         <div class="popUpContent">
@@ -1065,3 +1065,4 @@
 <script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script>
 
 {% endblock %}
+
