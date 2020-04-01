@@ -510,7 +510,7 @@ ul {
 }
 #click:checked ~ .overlay, #click2:checked ~ .overlay {
   opacity: 1;
-  pointer-events: all; /*nothing can be clicked behind*/
+  /*pointer-events: all; nothing can be clicked behind*/
 }
 
 .popUp {
@@ -548,14 +548,14 @@ ul {
   padding: 10px 15px;
 }
 
-.popUpHeader .close-btn {
+/*.popUpHeader .close-btn {
   cursor: pointer;
   border: none;
   outline: none;
   background: none;
   font-size: 1.25rem;
   font-weight: bold;
-}
+}*/
 
 .overlay {
   position: fixed;
@@ -668,6 +668,5 @@ ul {
   opacity: 1;
   transform: translateY(0);
 }*/
-
 
 
