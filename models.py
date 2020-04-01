@@ -58,6 +58,8 @@ class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question_text = db.Column(db.String(30), nullable=False)
     answer = db.relationship("Answers", backref='question', cascade="delete")
+    correct = db.Column(db.Integer, nullable=True)
+    incorrect = db.Column(db.Integer, nullable=True)
 
 class Answers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
