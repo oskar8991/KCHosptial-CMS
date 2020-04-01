@@ -17,13 +17,12 @@ def get_headings():
         headings.append(heading.header)
     return headings
 
-def get_records(input_heading):
+def get_records():
     '''
     Retrives all records from content table.
     '''
     all_records = (db.session
-        .query(Content.page_id)
-        .filter_by(header = input_heading)
+        .query(Content.title, Content.content)
     )
 
 

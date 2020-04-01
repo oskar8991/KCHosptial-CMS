@@ -14,13 +14,12 @@ def edit_content():
 
     first_page = Content.query.get(1)
     contentDictionary = {
-        "editContent" : first_page.content,
         "headings" : get_headings(),
-        "records" : get_records(get_headings()[0])
+        "records" : get_records()
     }
 
     if request.method == "POST" and request.form.get('heading'):
-        contentDictionary["records"] = get_records(request.form.get("heading"))
+        contentDictionary["records"] = get_records()
 
     if request.method == 'POST' and request.form.get('data'):
         if first_page:
@@ -42,3 +41,13 @@ def edit_content():
         'edit.html',
         content=contentDictionary if first_page else ''
     )
+
+@content.route('/edit_record_content', methods=["GET"])
+def edit_record_content():
+    text = request.args.get('jsdata')
+    for record in get_records():
+        if record.title == text:
+            record_content = record.content
+
+
+    return render_template('editor.html', content=record_content)
