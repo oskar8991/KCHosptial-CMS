@@ -11,7 +11,7 @@ from selenium import webdriver
 import chromedriver_binary
 
 from app import create_app, db, bcrypt
-from models import User, Questions, Answers, Announcement, FlaskUsage, FAQQuestions
+from models import User, Questions, Answers, Announcement, FlaskUsage, FAQQuestions, About
 
 
 """
@@ -35,10 +35,11 @@ test_edit_question_question = "and where? "
 test_add_title = "Test title."
 test_add_description = "Test description."
 
-test_question = "Test quetion?"
-test_answer = "Test answer"
+test_question = "Test quetion? "
+test_answer = "Test answer "
 
-
+test_subject = "Test Subject "
+test_content = "Testing content text "
 
 
 class TestBase(LiveServerTestCase):
@@ -111,7 +112,7 @@ class TestLogin(TestBase):
         """
         #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
-        time.sleep(1)
+        time.sleep(5)
         self.driver.find_element_by_id("readMore").click()
         assert url_for('main.index') in self.driver.current_url
 
@@ -132,9 +133,6 @@ class TestLogin(TestBase):
 
         #Checks if the user has been redirected to dashboard_
         assert url_for('dashboard.dashboard_panel') in self.driver.current_url
-
-
-
 
     def test_login_wrong_email(self):
         """
@@ -228,8 +226,6 @@ class TestLogin(TestBase):
         assert "Invalid credentials." in error_message
 
 
-
-
 class CreateObjects(object):
 
     """
@@ -240,8 +236,9 @@ class CreateObjects(object):
     def login_admin(self):
         #Log in as an admin
         self.driver.find_element_by_id("splashHomeId").click()
-        time.sleep(1)
+        time.sleep(6)
         self.driver.find_element_by_id("readMore").click()
+        time.sleep(5)
         self.driver.find_element_by_id("navbarLogin").click()
         time.sleep(1)
         self.driver.find_element_by_id("loginButton").click()
@@ -250,7 +247,6 @@ class CreateObjects(object):
         self.driver.find_element_by_id("password").send_keys(test_password)
         self.driver.find_element_by_id("submit").click()
         time.sleep(3)
-
 
 
 
@@ -598,27 +594,27 @@ class TestFAQ(CreateObjects, TestBase):
 
         #Click on faq in the navbar
         self.driver.find_element_by_id("faq").click()
-        time.sleep(1)
+        time.sleep(2)
 
         #Click on add faq
         self.driver.find_element_by_id("addFaq").click()
-        time.sleep(1)
+        time.sleep(2)
 
         #Input the faq
         self.driver.find_element_by_id("question").send_keys(test_question)
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element_by_id("answer").send_keys(test_answer)
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element_by_id("submit").click()
         time.sleep(2)
 
         #Check if the faq is in database
         self.assertEqual(FAQQuestions.query.count(), 1)
 
-        def test_edit_faq(self):
-            """
-        Checks that announcement is added to the page and then you can
-        edit it and it updates in the database
+    def test_delete_faq(self):
+        """
+        Checks that faq is added to the page and then you can
+        delete it and it updates in the database
         """
         # Login as admin user
         self.login_admin()
@@ -638,9 +634,48 @@ class TestFAQ(CreateObjects, TestBase):
         time.sleep(1)
         self.driver.find_element_by_id("submit").click()
         time.sleep(2)
+        self.driver.find_element_by_id("faqQuestion").click()
+        time.sleep(2)
+        self.driver.find_element_by_id("deleteButton").click()
+        time.sleep(2)
+
+        #click on faq
+        self.driver.find_element_by_id("delete_Button").click()
+        time.sleep(2)
+
+        #Check if the faq is not in database
+        self.assertEqual(FAQQuestions.query.count(), 0)
+
+
+    def test_edit_faq(self):
+ 
+        # Login as admin user
+        self.login_admin()
+        time.sleep(3)
+
+        #Click on faq in the navbar
+        self.driver.find_element_by_id("faq").click()
+        time.sleep(2)
+
+        #Click on add faq
+        self.driver.find_element_by_id("addFaq").click()
+        time.sleep(2)
+
+        #Input the faq
+        self.driver.find_element_by_id("question").send_keys(test_question)
+        time.sleep(2)
+        self.driver.find_element_by_id("answer").send_keys(test_answer)
+        time.sleep(2)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(3)
 
         #Check that it redirects to the all announcement page
         assert url_for('main.faq') in self.driver.current_url
+        
+        time.sleep(2)
+        self.driver.find_element_by_id("faqQuestion").click()
+        time.sleep(2)
+
 
         #Click on edit button
         self.driver.find_element_by_id("edit").click()
@@ -648,56 +683,127 @@ class TestFAQ(CreateObjects, TestBase):
 
         #Add a new title and submit
         self.driver.find_element_by_id("newQuestion").send_keys(test_add_title)
-        time.sleep(1)
+        time.sleep(3)
         self.driver.find_element_by_id("newAnswer").send_keys(test_add_title)
-        time.sleep(1)
-        self.driver.find_element_by_id("submit").click()
-        time.sleep(2)
+        time.sleep(3)
+        self.driver.find_element_by_id("update").click()
+        time.sleep(3)
 
-        updatedTitle = Announcement.query.filter_by(title='Test title.Test title.').first()
-
-        updatedAnswer = Announcement.query,filter_by(title='Test title.Test title').first()
-
+        updatedQuestion = FAQQuestions.query.filter_by(question='Test quetion? Test title.').first()
+        updatedAnswer = FAQQuestions.query.filter_by(answer='Test answer Test title.').first()
+        time.sleep(3)
         #Check that it redirects to the all announcement page
         assert url_for('main.faq') in self.driver.current_url
         #Checks that the content has been updated in the database
-        assert "Test title.Test title." in updatedTitle.title
-        assert "Test title.Test title." in updatedAnswer.title
+        time.sleep(3)
+        assert "Test quetion? Test title." in updatedQuestion.question
+        time.sleep(3)
+        assert "Test answer Test title." in updatedAnswer.answer
 
+class TestAbout(CreateObjects, TestBase):
 
-    def test_delete_faq(self):
+    def test_add_about(self):
         """
-        Checks that faq is added to the page and then you can
-        delete it and it updates in the database
+        Checks that about card is added to the page and checks that it is in database
         """
-
         # Login as admin user
         self.login_admin()
-
-        #Click on faq in the navbar
-        self.driver.find_element_by_id("faq").click()
+        time.sleep(2)
+        #Click on about in the navbar
+        self.driver.find_element_by_id("about").click()
         time.sleep(1)
 
-        #Click on add faq
-        self.driver.find_element_by_id("addFaq").click()
+        #Click on add card
+        self.driver.find_element_by_id("addCard").click()
         time.sleep(1)
 
-        #Input the faq
-        self.driver.find_element_by_id("question").send_keys(test_question)
+        #Input the card
+        self.driver.find_element_by_id("subject").send_keys(test_subject)
         time.sleep(1)
-        self.driver.find_element_by_id("answer").send_keys(test_answer)
+        self.driver.find_element_by_id("content").send_keys(test_content)
         time.sleep(1)
         self.driver.find_element_by_id("submit").click()
         time.sleep(2)
 
-        #click on faq
-        self.driver.find_element_by_id("deleteButton").click()
+        #Check if the card is in database
+        self.assertEqual(About.query.count(), 1)
+
+    def test_edit_about(self):
+        """
+        Checks that about card is added to the page and checks that it is in database
+        """
+        # Login as admin user
+        self.login_admin()
+        time.sleep(2)
+        #Click on about in the navbar
+        self.driver.find_element_by_id("about").click()
+        time.sleep(3)
+
+        #Click on add about
+        self.driver.find_element_by_id("addCard").click()
         time.sleep(2)
 
-        #Check if the faq is not in database
-        self.assertEqual(FAQQuestions.query.count(), 0)
+          #Input the card
+        self.driver.find_element_by_id("subject").send_keys(test_subject)
+        time.sleep(1)
+        self.driver.find_element_by_id("content").send_keys(test_content)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
 
-    
+        #Check that it redirects to the about page
+        assert url_for('main.about') in self.driver.current_url
+        time.sleep(2)
+        #Click on edit button
+        self.driver.find_element_by_id("edit").click()
+        time.sleep(2)
+
+        #Add a new title and submit
+        self.driver.find_element_by_id("newSubject").send_keys(test_add_title)
+        time.sleep(3)
+        self.driver.find_element_by_id("newContent").send_keys(test_add_title)
+        time.sleep(3)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(3)
+
+        updatedtitle = About.query.filter_by(title='Test Subject Test title.').first()
+        updatedcontent = About.query.filter_by(content='Testing content text Test title.').first()
+        time.sleep(2)
+        #Check that it redirects to the all announcement page
+        assert url_for('main.about') in self.driver.current_url
+        time.sleep(2)
+        #Checks that the content has been updated in the database
+        assert "Test Subject Test title." in updatedtitle.title
+        time.sleep(2)
+        assert "Testing content text Test title." in updatedcontent.content
+
+    def test_delete_about(self):
+        self.login_admin()
+        #Click on about in the navbar
+        self.driver.find_element_by_id("about").click()
+        time.sleep(1)
+
+        #Click on add card
+        self.driver.find_element_by_id("addCard").click()
+        time.sleep(1)
+
+        #Input the card
+        self.driver.find_element_by_id("subject").send_keys(test_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("content").send_keys(test_answer)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        assert url_for('main.about') in self.driver.current_url
+        time.sleep(2)
+        #click on delete
+        self.driver.find_element_by_id("delete").click()
+        time.sleep(2)
+
+        #Check if the card is not in database
+        self.assertEqual(About.query.count(), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
