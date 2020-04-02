@@ -615,8 +615,57 @@ class TestFAQ(CreateObjects, TestBase):
         #Check if the faq is in database
         self.assertEqual(FAQQuestions.query.count(), 1)
 
+        def test_edit_faq(self):
+            """
+        Checks that announcement is added to the page and then you can
+        edit it and it updates in the database
+        """
+        # Login as admin user
+        self.login_admin()
 
-    def test_delete_announcement(self):
+        #Click on faq in the navbar
+        self.driver.find_element_by_id("faq").click()
+        time.sleep(1)
+
+        #Click on add faq
+        self.driver.find_element_by_id("addFaq").click()
+        time.sleep(1)
+
+        #Input the faq
+        self.driver.find_element_by_id("question").send_keys(test_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("answer").send_keys(test_answer)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #Check that it redirects to the all announcement page
+        assert url_for('main.faq') in self.driver.current_url
+
+        #Click on edit button
+        self.driver.find_element_by_id("edit").click()
+        time.sleep(2)
+
+        #Add a new title and submit
+        self.driver.find_element_by_id("newQuestion").send_keys(test_add_title)
+        time.sleep(1)
+        self.driver.find_element_by_id("newAnswer").send_keys(test_add_title)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        updatedTitle = Announcement.query.filter_by(title='Test title.Test title.').first()
+
+        updatedAnswer = Announcement.query,filter_by(title='Test title.Test title').first()
+
+        #Check that it redirects to the all announcement page
+        assert url_for('main.faq') in self.driver.current_url
+        #Checks that the content has been updated in the database
+        assert "Test title.Test title." in updatedTitle.title
+        assert "Test title.Test title." in updatedAnswer.title
+
+
+    def test_delete_faq(self):
         """
         Checks that faq is added to the page and then you can
         delete it and it updates in the database
@@ -647,6 +696,8 @@ class TestFAQ(CreateObjects, TestBase):
 
         #Check if the faq is not in database
         self.assertEqual(FAQQuestions.query.count(), 0)
+
+    
 
 if __name__ == '__main__':
     unittest.main()
