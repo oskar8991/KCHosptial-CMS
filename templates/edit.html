@@ -69,46 +69,7 @@
   <input type="text" class="form-control" value="New Title" aria-label="title" aria-describedby="basic-addon1" id="titleInput">
 </div>
 
-<!-- Script to select heading and title to display as button text, respectively-->
-<script>
-$("#titleMenu a").click(function(e){
-  e.preventDefault(); // cancel the link behaviour
-  var selText = $(this).text();
-  $("#dropdownMenu1-2").text("Chosen Title: " + selText);
-  document.getElementById("titleInput").value = selText;
-  $.ajax({
-     url: "{{url_for('content.edit_record_content')}}",
-     type: "get",
-     data: {jsdata: selText},
-     success: function(response) {
-      $("#editor").html(response);
-     },
-     error: function(xhr) {
-       //Do Something to handle error
-        $("#dropdownMenu1-3").text("Fail!");
-     }
-   });
-});
 
-$("#headingMenu a").click(function(e){
-  e.preventDefault(); // cancel the link behaviour
-  var selText = $(this).text();
-  $.ajax({
-    type : 'POST',
-    url : "{{url_for('content.edit_content')}}",
-    data : {'heading': selText}
-  });
-  $("#dropdownMenu1-1").text("Chosen Heading: " + selText);
-
-});
-
-$("#positionMenu a").click(function(e){
-  e.preventDefault(); // cancel the link behaviour
-  var selText = $(this).text();
-  $("#dropdownMenu1-3").text("Position in list: " + selText);
-});
-
-</script>
 <br>
 <div id="editor">
 
@@ -139,6 +100,69 @@ $("#positionMenu a").click(function(e){
     }
 
   });
+  function loadQuill() {
+    quill.destroy();
+    var toolbarOptions = ['bold', 'italic', 'underline', 'strike'];
+    var quill = new Quill('#editor2', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+              [{ 'font': [] }, { 'size': [] }],
+              [ 'bold', 'italic', 'underline', 'strike' ],
+              [{ 'color': [] }, { 'background': [] }],
+              [{ 'script': 'super' }, { 'script': 'sub' }],
+              [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block' ],
+              [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }],
+              [ 'direction', { 'align': [] }],
+              [ 'link', 'image', 'video', 'formula' ],
+              [ 'clean' ]
+        ]
+      }
+
+    });
+  }
+
+
+</script>
+<!-- Script to select heading and title to display as button text, respectively-->
+<script>
+$("#titleMenu a").click(function(e){
+  e.preventDefault(); // cancel the link behaviour
+  var selText = $(this).text();
+  $("#dropdownMenu1-2").text("Chosen Title: " + selText);
+  document.getElementById("titleInput").value = selText;
+  $.ajax({
+     url: "{{url_for('content.edit_record_content')}}",
+     type: "get",
+     data: {jsdata: selText},
+     success: function(response) {
+       $("#editor").html(response);
+
+     },
+     error: function(xhr) {
+       //Do Something to handle error
+        $("#dropdownMenu1-3").text("Fail!");
+     }
+   });
+});
+
+$("#headingMenu a").click(function(e){
+  e.preventDefault(); // cancel the link behaviour
+  var selText = $(this).text();
+  $.ajax({
+    type : 'POST',
+    url : "{{url_for('content.edit_content')}}",
+    data : {'heading': selText}
+  });
+  $("#dropdownMenu1-1").text("Chosen Heading: " + selText);
+
+});
+
+$("#positionMenu a").click(function(e){
+  e.preventDefault(); // cancel the link behaviour
+  var selText = $(this).text();
+  $("#dropdownMenu1-3").text("Position in list: " + selText);
+});
 
 </script>
     <br>
@@ -148,15 +172,25 @@ $("#positionMenu a").click(function(e){
     </div>
 </div>
 <script type="text/javascript">
-
-  quillHTML = quill.root.innerHTML.trim();
   $("#save").click(function(){
-  $.ajax({
-    type : 'POST',
-    url : "{{url_for('content.edit_content')}}",
-    data : {'data': quillHTML}
-  });
-   });
+
+    titleInput = document.getElementById("titleInput").value;
+
+    quillHTML = quill.root.innerHTML.trim();
+    window.alert(quillHTML);
+    $.ajax({
+      url : "{{url_for('content.save_record')}}",
+      type : 'get',
+      data : {jsdata: quillHTML, title : titleInput},
+      success: function(response) {
+       window.alert("Sent to python")
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+         window.alert("Failed")
+      }
+    });
+     });
 </script>>
 
 {% endblock %}

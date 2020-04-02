@@ -7,10 +7,30 @@ import json
 
 content = Blueprint('content', __name__)
 
+@content.route('/save_record', methods=["GET"])
+@login_required
+def save_record():
+    print("Start")
+    inputText = request.args.get('jsdata')
+    inputTitle = request.args.get('title')
+
+    print(inputText)
+    if (db.session.query(Content.title).filter_by(title=inputTitle).count()) == 1:
+        db.session.query(Content.title).filter_by(title=inputTitle).update({Content.content:inputText})
+        db.session.commit()
+        print("update")
+    else:
+        newRecord = Content(header="Liver Disease", title=inputTitle, content=inputText)
+        db.session.add(newRecord)
+        db.session.commit()
+        print("New")
+    print("Finish")
+    return redirect(url_for('main.index'))
 
 @content.route('/edit', methods=['GET', 'POST'])
 @login_required
 def edit_content():
+
 
     first_page = Content.query.get(1)
     contentDictionary = {
