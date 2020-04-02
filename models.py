@@ -83,6 +83,10 @@ class Quiz(db.Model):
     name = db.Column(db.String(30), nullable=False)
     page_ref = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
 
+class Glossary(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    term = db.Column(db.Text)
+    description = db.Column(db.Text)
 #NEed to create a table like answers that connects the questions to the a specific quiz
 
 def init_db():

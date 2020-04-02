@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect, url_for
-from models import Content, Announcement, FAQQuestions, About
+from models import Content, Announcement, FAQQuestions, About, Glossary
 from content.utils import *
 
 main = Blueprint('main', __name__)
@@ -13,7 +13,8 @@ def home():
 def index():
     contentDictionary = {
         'headings' : get_headings(),
-        'records' : get_records()
+        'records' : get_records(),
+        'glossary' : get_glossary()
     }
 
     return render_template('index.html', content=contentDictionary)

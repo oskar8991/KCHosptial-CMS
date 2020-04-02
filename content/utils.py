@@ -1,6 +1,6 @@
 from sqlalchemy import func, and_, desc
 from app import db
-from models import Content, FlaskUsage
+from models import Content, FlaskUsage, Glossary
 
 
 def get_headings():
@@ -27,3 +27,13 @@ def get_records():
 
 
     return all_records
+
+def get_glossary():
+    '''
+    Retrieves a list of all the terms in the glossary.
+    '''
+    glossary = (db.session
+        .query(Glossary.term, Glossary.description)
+    )
+
+    return glossary
