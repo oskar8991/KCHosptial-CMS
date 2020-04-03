@@ -191,7 +191,7 @@ color: #fff
   overflow: auto;
   left: 0px;
   position: fixed;
-  width: 13rem;
+  width: 12rem;
   height: 100vh;
   z-index: 100;
   background: #d9f2e6;
@@ -202,11 +202,6 @@ color: #fff
 #sidebar.hidden {
   margin-left: -13rem;
 }
-
-#content.hidden {
-  margin-left: 13.5rem;
-}
-
 
 @media (max-width: 768px) {
     #sidebar {
@@ -449,7 +444,7 @@ ul {
   position: absolute;
   padding-left: 18px;
   top: 70px;
-  left: 1330px;
+  right: 70px;
   display: block;
   margin: auto;
   width: 100px;
@@ -507,9 +502,8 @@ ul {
   border-radius: 10px;
   z-index: 10;
   visibility: hidden;
-  width: 600px;
-  max-width: 80%;
-  height: 700px;
+  width: 80%;
+  height: 80%;
   background: white;
   transform: translate(-50%, -50%) scale(0);
   transition: 200ms ease-in-out;

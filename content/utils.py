@@ -1,4 +1,5 @@
 from sqlalchemy import func, and_, desc
+from collections import OrderedDict
 from app import db
 from models import Content, FlaskUsage, Glossary
 
@@ -32,8 +33,15 @@ def get_glossary():
     '''
     Retrieves a list of all the terms in the glossary.
     '''
-    glossary = (db.session
+    words = (db.session
         .query(Glossary.term, Glossary.description)
     )
 
-    return glossary
+    initials = {word.term[0] for word in words}
+
+    glossary = {
+        initial: [word for word in words if word.term[0] == initial] \
+        for initial in initials
+    }
+
+    return OrderedDict(sorted(glossary.items()))

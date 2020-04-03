@@ -9,408 +9,87 @@
 
 
 <div class="wrapper">
-
-        <nav id="sidebar" class="hidden">
-          <ul>
-
-              {% for header in content.headings %}
-              <li>
-              <a href="#{{header[0:3]}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{ header }}</a>
-                  {% for record in content.records %}
-
-                  <ul class="collapse list-unstyled" id="{{header[0:3]}}">
-
-                    {% if record.header == header%}
-                    <li><a href="#section-{{record.page_id}}">{{record.title}}</a></li>
-
-                    {% endif %}
-                    </ul>
-                  {% endfor %}
+  <nav id="sidebar" class="hidden">
+    <ul>
+      {% for header in content.headings %}
+        <li>
+          <a href="#{{header[0:3]}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{ header }}</a>
+          {% for record in content.records %}
+            <ul class="collapse list-unstyled" id="{{header[0:3]}}">
+              {% if record.header == header%}
+                <li>
+                  <a href="#section-{{record.page_id}}">{{record.title}}</a>
                 </li>
-                {% endfor %}
-
-          </ul>
-        </nav>
-
-
-
+              {% endif %}
+            </ul>
+          {% endfor %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
 
   <div type="button" id="collapse" class='menubar hamburger'>
-      <div class='bar'></div>
-      <div class='bar'></div>
-      <div class='bar'></div>
+    <div class='bar'></div>
+    <div class='bar'></div>
+    <div class='bar'></div>
    </div>
 
   <div id="content" class="content">
     <div>
-
-    <div>
-    <input type="checkbox" id="click2">
-      <label for="click2" class="popUpButtonCircle"><img src="../static/resources/icon/glossary.png"></label>
-      <div class="popUp">
-        <div class="popUpHeader">
-          <div class="popUpTitle">Glossary of Liver Terms</div>
-          <label for="click2" class="close-btn">&times;</label>
-        </div>
-
-        <div class="popUpContent">
-        <p>
-          There are many medical terms which are used by those caring for children and young people with liver disease. It can be really helpful to know these terms which may be used during appointments.<br> <br>
-          If you come across a medical term you don’t know you can look up an explanation here.
-          <br> <br>
-
-          <a href="#glossaryA">A </a>|
-          <a href="#glossaryB">B </a>|
-          <a href="#glossaryC">C </a>|
-          <a href="#glossaryD">D </a>|
-          <a href="#glossaryE">E </a>|
-          <a href="#glossaryF">F </a>|
-          <a href="#glossaryG">G </a>|
-          <a href="#glossaryH">H </a>|
-          <a href="#glossaryI">I </a>|
-          <a href="#glossaryJ">J </a>|
-          <a href="#glossaryK">K </a>|
-          <a href="#glossaryL">L </a>|
-          <a href="#glossaryM">M </a>|
-          <a href="#glossaryN">N </a>|
-          <a href="#glossaryO">O </a>|
-          <a href="#glossaryP">P </a>|
-          <a href="#glossaryR">R </a>|
-          <a href="#glossaryS">S </a>|
-          <a href="#glossaryT">T </a>|
-          <a href="#glossaryU">U </a>|
-          <a href="#glossaryV">V </a>|
-          <a href="#glossaryW">W </a>|
-          <a href="#glossaryX">X </a>
-
-          <br> <br>
-
-          <a id="glossaryA">
-          <b> A</b> <br> </a>
-          {% for term in content.glossary %}
-          {% if term.term[0] == 'A' %}
-          {{ term.term + '-' + term.description}}
-          <br>
-          {% endif %}
-
-          {% endfor %}
-          <div class="line"></div>
-        </p>
-        <p>
-          <a id="glossaryB">
-          <b> B </b> <br> </a>
-          {% for term in content.glossary %}
-          {% if term.term[0] == 'B' %}
-          {{ term.term + '-' + term.description}}
-          <br>
-          {% endif %}
-
-          {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryC">
-        <b> C </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'C' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryD">
-        <b> D </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'D' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryE">
-        <b> E </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'E' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryF">
-        <b> F </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'F' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryG">
-        <b> G </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'G' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryH">
-        <b> H </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'H' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <b> I </b> <br>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'I' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-        <p>
-        <a id="glossaryJ">
-        <b> J </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'J' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryK">
-        <b> K </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'K' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryL">
-        <b> L </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'L' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryM">
-        <b> M </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'M' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryN">
-        <b> N </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'N' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryO">
-        <b> O </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'O' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryP">
-        <b> P </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'P' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryR">
-        <b> R </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'R' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryS">
-        <b> S </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'S' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryT">
-        <b> T </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'T' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryU">
-        <b> U </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'U' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryV">
-        <b> V </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'V' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        <div class="line"></div>
-
-        <p>
-        <a id="glossaryX">
-        <b> X </b> <br> </a>
-        {% for term in content.glossary %}
-        {% if term.term[0] == 'X' %}
-        {{ term.term + '-' + term.description}}
-        <br>
-        {% endif %}
-
-        {% endfor %}
-        </p>
-
-        </div>
-      </div>
-      <div class="overlay"></div>
-    </div>
-
-  {% for header in content.headings %}
-
-  <h1>{{ header }} </h1>
-    {% for record in content.records %}
-      {% if record.header == header%}
       <div>
-        {{ record.content | safe }}
+        <input type="checkbox" id="click2">
+        <label for="click2" class="popUpButtonCircle"><img src="../static/resources/icon/glossary.png"></label>
+        <div class="popUp">
+          <div class="popUpHeader">
+            <div class="popUpTitle">Glossary of Liver Terms</div>
+            <label for="click2" class="close-btn">&times;</label>
+          </div>
+
+          <div class="popUpContent">
+          <p>
+            There are many medical terms which are used by those caring for children and young people with liver disease. It can be really helpful to know these terms which may be used during appointments.<br>
+            If you come across a medical term you don’t know you can look up an explanation here.
+            <br> <br>
+
+            {% for initial, _ in content.glossary.items() %}
+              <a href="#glossary{{ initial }}">{{ initial }} </a>|
+            {% endfor %}
+
+            <br> <br>
+          </p>
+
+            {% for initial, words in content.glossary.items() %}
+              <p>
+                <a id="glossary{{initial}}"><b> {{initial}}</b> <br> </a>
+                {% for word in words %}
+                  {{ word.term + '-' + word.description}}
+                  <br>
+                {% endfor %}
+                <div class="line"></div>
+              </p>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="overlay"></div>
       </div>
-      <div class="line"> </div>
-      {% endif %}
 
+    {% for header in content.headings %}
+
+    <h1>{{ header }} </h1>
+      {% for record in content.records %}
+        {% if record.header == header%}
+        <section id="section-{{record.page_id}}">
+          <div class="line"> </div>
+          {{ record.content | safe }}
+        </section>
+        {% endif %}
+
+      {% endfor %}
     {% endfor %}
-  {% endfor %}
 
-</div>
-
-
-
-  <input onclick="top()" id="toTop" type="image" src="../static/resources/icon/arrow.png">
     </div>
+    <input onclick="top()" id="toTop" type="image" src="../static/resources/icon/arrow.png">
+  </div>
 </div>
 
 
