@@ -1,9 +1,56 @@
-body {
-    color: black;
-    background-color: white;
+:root {
+	--font-color: black;
+	--bg-color: white;
+	--h2-font-color:black;
+	--h2-bg-color: #39ac73;
+	--nav-color: #39ac73;
+	--sidebar-color:#d9f2e6;
 }
 
-body[data-theme="dark"] {
-    color: #ebebeb;
-    background-color: #0d1a26;
+[data-theme="dark"] {
+	--font-color: #ebebeb;
+	--bg-color: #0d1a26;
+	--h2-font-color:black;
+	--h2-bg-color: #ebebeb;
+	--nav-color: black;
+	--sidebar-color: #1a344c;
+}
+
+body {
+	color: var(--font-color);
+	background-color: var(--bg-color);
+}
+
+body .indexh2 {
+	color: var(--h2-font-color);
+	background-color: var(--h2-bg-color);
+}
+
+body .popUpButtonCircle {
+    background-color: var(--h2-bg-color);
+}
+
+body .popUpButton {
+    background-color: var(--h2-bg-color);
+    color: var(--h2-font-color);
+}
+
+body .menubar .bar {
+	background-color: var(--font-color);
+}
+
+body .toTop {
+	filter: invert(50%);
+}
+
+body #sidebar {
+    background-color: var(--sidebar-color);
+}
+
+body #sidebar ul li a {
+    color: var(--font-color);
+}
+
+body #sidebar ul li a:hover {
+    color: var(--nav-color);
 }
