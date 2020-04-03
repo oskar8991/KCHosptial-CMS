@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="../static/css/splash.css">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/switch.css')}}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dark-light.css')}}">
 </head>
 
 <body>
@@ -15,6 +16,10 @@
 			<input type="checkbox" name="darkMode" id="darkMode">
 			<span class="darkModeBtn"></span>
 		</label>
+        <label>
+            <input type="checkbox" id="darkMode2">
+            <span class="darkModeBtn"></span>
+        </label>
 
 	<div class="container">
 		<div class="card" id="content">
@@ -75,5 +80,10 @@
 	</div>
 	
 	<script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script>
+	<script type="text/javascript">
+	    document.getElementById('darkMode2').addEventListener('change', function(event){
+	      (event.target.checked) ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme');
+	    });
+	</script>
 </body>
 </html>
