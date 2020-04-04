@@ -24,3 +24,13 @@ def dashboard_panel():
     }
 
     return render_template('dashboard.html', analyticsUsage=analytics_data)
+
+@dashboard.route("/dashboard/helpful-pages")
+@login_required
+def helpful_pages():
+    return render_template('helpful_pages.html')
+
+@dashboard.route("/dashboard/quiz-statistics")
+@login_required
+def quiz_statistics():
+    return render_template('quiz_statistics.html')
