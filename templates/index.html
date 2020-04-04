@@ -3,12 +3,12 @@
 
 {% block content%}
 
-<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}"> -->
 <!-- For the quiz. -->
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src='https://jchamill.github.io/jquery-quiz/jquery.quiz-min.js'></script>
+<!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
+<script type="text/javascript" src="{{url_for('static', filename='/js/jquery.quiz.js')}}"></script>
 
 
 <div class="wrapper">
@@ -16,12 +16,16 @@
     <ul>
       {% for header in content.headings %}
         <li>
-          <a href="#{{header[0:3]}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{ header }}</a>
+          <a href="#{{header[0:3]}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            {{ header }}
+          </a>
           {% for record in content.records %}
             <ul class="collapse list-unstyled" id="{{header[0:3]}}">
               {% if record.header == header%}
                 <li>
-                  <a href="#section-{{record.page_id}}">{{record.title}}</a>
+                  <a href="#section-{{record.page_id}}">
+                    {{record.title}}
+                  </a>
                 </li>
               {% endif %}
             </ul>
@@ -35,94 +39,105 @@
     <div class='bar'></div>
     <div class='bar'></div>
     <div class='bar'></div>
-   </div>
+  </div>
 
-  <div id="content" class="content">
-    <div>
-      <div>
-        <input type="checkbox" id="click2">
-        <label for="click2" class="popUpButtonCircle"><img src="../static/resources/icon/glossary.png"></label>
-        <div class="popUp">
-          <div class="popUpHeader">
-            <div class="popUpTitle">Glossary of Liver Terms</div>
-            <label for="click2" class="close-btn">&times;</label>
-          </div>
-
-          <div class="popUpContent">
-          <p>
-            There are many medical terms which are used by those caring for children and young people with liver disease. It can be really helpful to know these terms which may be used during appointments.<br>
-            If you come across a medical term you don’t know you can look up an explanation here.
-            <br> <br>
-
-            {% for initial, _ in content.glossary.items() %}
-              <a href="#glossary{{ initial }}">{{ initial }} </a>|
-            {% endfor %}
-
-            <br> <br>
-          </p>
-
-            {% for initial, words in content.glossary.items() %}
-              <p>
-                <a id="glossary{{initial}}"><b> {{initial}}</b> <br> </a>
-                {% for word in words %}
-                  {{ word.term + '-' + word.description}}
-                  <br>
-                {% endfor %}
-                <div class="line"></div>
-              </p>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="overlay"></div>
+  <div>
+    <input type="checkbox" id="click2">
+    <label for="click2" class="popUpButtonCircle">
+      <img src="../static/resources/icon/glossary.png">
+    </label>
+    <div class="popUp">
+      <div class="popUpHeader">
+        <div class="popUpTitle">Glossary of Liver Terms</div>
+        <label for="click2" class="close-btn">&times;</label>
       </div>
 
-    {% for header in content.headings %}
+      <div class="popUpContent">
+        <p>
+          There are many medical terms which are used by those caring for children and young people with liver disease. It can be really helpful to know these terms which may be used during appointments.
+          <br>
+          If you come across a medical term you don’t know you can look up an explanation here.
+          <br><br>
 
-    <h1>{{ header }} </h1>
+          {% for initial, _ in content.glossary.items() %}
+            <a href="#glossary{{ initial }}">{{ initial }} </a>|
+          {% endfor %}
+
+          <br><br>
+        </p>
+
+        {% for initial, words in content.glossary.items() %}
+          <p>
+            <a id="glossary{{initial}}"><b>{{initial}}</b><br></a>
+            {% for word in words %}
+              {{ word.term + '-' + word.description}}
+              <br>
+            {% endfor %}
+            <div class="line"></div>
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="overlay"></div>
+  </div>
+
+  <div class="container">
+    {% for header in content.headings %}
+      <h1>{{ header }}</h1>
       {% for record in content.records %}
         {% if record.header == header%}
-          <section id="section-{{record.page_id}}">
-            <div class="line"> </div>
-            {{ record.content | safe }}
-          </section>
+          <div class="row">
+            <section id="section-{{record.page_id}}">
+              <div class="line"></div>
+              {{ record.content | safe }}
+            </section>
+          </div>
+
           {% if content.questions[record.page_id] %}
-            <div class="col text-center">
-              <button onclick="hide_show('quiz-container-{{record.page_id}}')" class="btn btn-primary">Try Quiz</button>
-            </div>
-            <br>
-            <div id="quiz-container-{{record.page_id}}" class="w3-container d-none border rounded">
-              <h4>Quiz for section {{record.page_id}}</h4>
-              <div id="quiz-{{record.page_id}}">
-                <div id="quiz-header">
-                  <h5>Try this quiz to see if you understood this section</h5>
-                </div>
-                <div id="quiz-start-screen">
-                  <p><a href="#" id="quiz-start-btn" class="btn btn-primary">Start</a></p>
+            <div class="row">
+              <div class="col">
+                <div class="card">
+                  <div class="card-header">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#quiz-card-{{record.page_id}}">
+                      Try the quiz for section {{record.page_id}}.
+                    </button>
+                  </div>
+                  <div id="quiz-card-{{record.page_id}}" class="card-body collapse">
+                    <div id="quiz{{record.page_id}}">
+                      <div id="quiz-header">
+                        <h5 class="card-title">Quiz for section {{record.page_id}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                          Try this quiz to see if you understood this section. 
+                          <a id="quiz-home-btn{{record.page_id}}" href="">Reset</a>
+                        </h6>
+                      </div>
+                      <div id="quiz-start-screen{{record.page_id}}">
+                        <p><a href="" id="quiz-start-btn{{record.page_id}}">Start</a></p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <script type="text/javascript">
-                $('#quiz-{{record.page_id}}').quiz({
-                  counterFormat: 'Question %current of %total',
-                  questions: {{ content.questions[record.page_id]|tojson }}
-                });
-              </script>
             </div>
+
+            <script type="text/javascript">
+              $('#quiz{{record.page_id}}').quiz({
+                quizIndex: {{record.page_id}},
+                counterFormat: 'Question %current of %total',
+                questions: {{ content.questions[record.page_id]|tojson }}
+              });
+            </script>
           {% endif %}
         {% endif %}
-
       {% endfor %}
     {% endfor %}
-
-    </div>
-    <input onclick="top()" id="toTop" type="image" src="../static/resources/icon/arrow.png">
   </div>
+  <input onclick="top()" id="toTop" type="image" src="../static/resources/icon/arrow.png">
 </div>
-
 
 <!-- ScrollMagic Javascript library -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script> -->
 
 
 <script type="text/javascript" src="{{url_for('static', filename='/js/hamburger.js')}}"></script>
@@ -131,11 +146,5 @@
 <script type="text/javascript" src="{{url_for('static', filename='/js/sidebar.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='/js/collapse.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script>
-<script>
-  function hide_show(id) {
-    var x = document.getElementById(id);
-    x.classList.toggle("d-none");
-  }
-</script>
 
 {% endblock %}

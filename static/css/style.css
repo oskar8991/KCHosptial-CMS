@@ -241,7 +241,7 @@ color: #fff
   color: #CDCDCD;
 }
 
-.content {
+/*.content {
   overflow-x: hidden;
   width: 100%;
   padding-left: 10rem;
@@ -250,7 +250,7 @@ color: #fff
   margin-right: 3rem;
   min-height: 100vh;
   transition: all 0.5s ease;
-}
+}*/
 
 #collapse {
   position: fixed;
@@ -547,103 +547,3 @@ ul {
   background-color: rgba(0,0,0,0.5);
   pointer-events: none; /*user can click the button*/
 }
-
-
-/*#section-1 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-1.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#section-2 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-2.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#section-3 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-3.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#section-4 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-4.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#section-5 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-5.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#section-6 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-6.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#section-7 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-7.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#section-8 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-8.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#section-9 {
-  opacity: 0;
-  transform: translateY(5px);
-  transition: all 1s ease-out;
-}
-
-#section-9.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}*/
