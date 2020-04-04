@@ -31,35 +31,14 @@ def save_record():
 @login_required
 def edit_content():
 
-
-    first_page = Content.query.get(1)
     contentDictionary = {
         "headings" : get_headings(),
         "records" : get_records()
     }
 
-    if request.method == "POST" and request.form.get('heading'):
-        contentDictionary["records"] = get_records()
-
-    if request.method == 'POST' and request.form.get('data'):
-        if first_page:
-            data=request.form.get('data')
-
-            first_page.content = data
-            db.session.commit()
-        else:
-            first_page = Content(
-                header = 'default',
-                content = "failure?"
-            )
-            db.session.add(first_page)
-
-            db.session.commit()
-
-
     return render_template(
         'edit.html',
-        content=contentDictionary if first_page else ''
+        content=contentDictionary
     )
 
 @content.route('/edit_record_content', methods=["GET"])
