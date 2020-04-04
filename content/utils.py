@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from app import db
-from models import Content, FlaskUsage, Glossary
+from models import Content, FlaskUsage, Glossary, Questions
+from quiz.utils import get_questions
 
 
 def get_headings():
@@ -28,3 +29,14 @@ def get_glossary():
     }
 
     return OrderedDict(sorted(glossary.items()))
+
+def get_by_title(title):
+    return Content.query.filter_by(title = title).first()
+
+def assossiated_questions():
+    quiz = {
+        record.page_id: get_questions(record.page_id)
+        for record in Content.query.all() if get_questions(record.page_id)
+    }
+
+    return quiz

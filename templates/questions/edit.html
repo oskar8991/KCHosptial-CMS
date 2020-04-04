@@ -74,6 +74,20 @@
     </div>
 
     <div class="form-group">
+      <label for="content">Select the section linked to this question.</label>
+      {% if form.content.errors %}
+        {{ form.content(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.content.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.content(class="form-control") }}
+      {% endif %}
+    </div>
+
+    <div class="form-group">
       {{ form.submit(class="btn btn-primary") }}
     </div>
   </form>

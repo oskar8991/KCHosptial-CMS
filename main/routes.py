@@ -14,7 +14,8 @@ def index():
     contentDictionary = {
         'headings' : get_headings(),
         'records' : get_records(),
-        'glossary' : get_glossary()
+        'glossary' : get_glossary(),
+        'questions': assossiated_questions()
     }
 
     return render_template('index.html', content=contentDictionary)

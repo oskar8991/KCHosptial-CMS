@@ -4,8 +4,11 @@
 {% block content%}
 
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+<!-- For the quiz. -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 <script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src='https://jchamill.github.io/jquery-quiz/jquery.quiz-min.js'></script>
 
 
 <div class="wrapper">
@@ -78,10 +81,34 @@
     <h1>{{ header }} </h1>
       {% for record in content.records %}
         {% if record.header == header%}
-        <section id="section-{{record.page_id}}">
-          <div class="line"> </div>
-          {{ record.content | safe }}
-        </section>
+          <section id="section-{{record.page_id}}">
+            <div class="line"> </div>
+            {{ record.content | safe }}
+          </section>
+          {% if content.questions[record.page_id] %}
+            <div class="col text-center">
+              <button onclick="hide_show('quiz-container-{{record.page_id}}')" class="btn btn-primary">Try Quiz</button>
+            </div>
+            <br>
+            <div id="quiz-container-{{record.page_id}}" class="w3-container d-none border rounded">
+              <h4>Quiz for section {{record.page_id}}</h4>
+              <div id="quiz-{{record.page_id}}">
+                <div id="quiz-header">
+                  <h5>Try this quiz to see if you understood this section</h1>
+                </div>
+                <div id="quiz-start-screen">
+                  <p><a href="#" id="quiz-start-btn" class="btn btn-primary">Start</a></p>
+                </div>
+              </div>
+
+              <script type="text/javascript">
+                $('#quiz-{{record.page_id}}').quiz({
+                  counterFormat: 'Question %current of %total',
+                  questions: {{ content.questions[record.page_id]|tojson }}
+                });
+              </script>
+            </div>
+          {% endif %}
         {% endif %}
 
       {% endfor %}
@@ -104,5 +131,11 @@
 <script type="text/javascript" src="{{url_for('static', filename='/js/sidebar.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='/js/collapse.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script>
+<script>
+  function hide_show(id) {
+    var x = document.getElementById(id);
+    x.classList.toggle("d-none");
+  }
+</script>
 
 {% endblock %}

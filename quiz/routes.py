@@ -1,8 +1,9 @@
 from flask import render_template, Blueprint, request, redirect, url_for
 from flask_login import login_required
 from app import db
-from models import Questions, Answers
+from models import Questions, Answers, Content
 from quiz.forms import QuestionForm
+from content.utils import get_by_title
 
 quiz = Blueprint('quiz', __name__)
 
@@ -10,9 +11,10 @@ quiz = Blueprint('quiz', __name__)
 @login_required
 def add_question():
     form = QuestionForm()
+    form.content.choices = [(r.page_id, r.title) for r in Content.query.all()]
 
     if form.validate_on_submit():
-        question = Questions(question_text = form.question.data)
+        question = Questions(question_text = form.question.data, content = Content.query.filter_by(page_id = form.content.data).first())
         answers = [
             Answers(answer_text = form.first_answer.data, correct = 0, question = question),
             Answers(answer_text = form.second_answer.data, correct = 0, question = question),
@@ -54,11 +56,13 @@ def edit_question(question_id):
         'correct_answer': correct_answer.answer_text
     }
 
-    form = QuestionForm()
+    form = QuestionForm(content = question.content_id)
+    form.content.choices = [(r.page_id, r.title) for r in Content.query.all()]
     form.new_question = False
 
     if form.validate_on_submit():
         question.question_text = form.question.data
+        question.content = Content.query.filter_by(page_id = form.content.data).first()
         wrong_answers[0].answer_text = form.first_answer.data
         wrong_answers[1].answer_text = form.second_answer.data
         wrong_answers[2].answer_text = form.third_answer.data

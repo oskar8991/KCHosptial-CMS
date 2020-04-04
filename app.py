@@ -49,8 +49,8 @@ def create_app():
     from dashboard.routes import dashboard
     from quiz.routes import quiz
 
-    blueprints = [drug_chart, users, main, faq, about, announcements, content, dashboard, 
-        quiz
+    blueprints = [drug_chart, users, main, faq, about, announcements, content,
+        dashboard, quiz
     ]
 
     for blueprint in blueprints:

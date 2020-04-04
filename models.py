@@ -25,6 +25,7 @@ class Content(db.Model):
     header = db.Column(db.Text, nullable=True)
     content = db.Column(db.Text, nullable=True)
     title = db.Column(db.Text, nullable=True)
+    question = db.relationship("Questions", backref='content', cascade="delete")
 
 
 class FlaskUsage(db.Model):
@@ -59,6 +60,7 @@ class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question_text = db.Column(db.String(30), nullable=False)
     answer = db.relationship("Answers", backref='question', cascade="delete")
+    content_id = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
 
 class Answers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
