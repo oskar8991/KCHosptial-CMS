@@ -59,9 +59,13 @@
           If you come across a medical term you don’t know you can look up an explanation here.
           <br><br>
 
-          {% for initial, _ in content.glossary.items() %}
-            <a href="#glossary{{ initial }}">{{ initial }} </a>|
-          {% endfor %}
+          <ol class="breadcrumb">
+            {% for initial, _ in content.glossary.items() %}
+              <li class="breadcrumb-item">
+                <a href="#glossary{{ initial }}">{{ initial }}</a>
+              </li>
+            {% endfor %}
+          </ol>
 
           <br><br>
         </p>
@@ -121,7 +125,20 @@
             </div>
 
             <script type="text/javascript">
+              $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+              var answerCallback = function(currentQuestion, selected, question) {
+                correct = (selected === question.correctIndex) ? 1 : 0;
+                $.getJSON($SCRIPT_ROOT + '/_answered_question', {
+                  question_id: question.question_id,
+                  answer: correct
+                }, function(data) {
+                  // We don't get an answer for this url.
+                });
+              };
+
               $('#quiz{{record.page_id}}').quiz({
+                answerCallback: answerCallback,
                 quizIndex: {{record.page_id}},
                 counterFormat: 'Question %current of %total',
                 questions: {{ content.questions[record.page_id]|tojson }}

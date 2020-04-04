@@ -12,7 +12,8 @@ def get_questions(content_id):
             'options': [a.answer_text for a in answers],
             'correctIndex': answers.index(correct_answer),
             'correctResponse': 'Good job !',
-            'incorrectResponse': 'That\'s the wrong answer.'
+            'incorrectResponse': 'That\'s the wrong answer.',
+            'question_id': q.id
         })
 
     return quiz_questions

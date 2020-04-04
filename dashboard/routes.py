@@ -29,8 +29,3 @@ def dashboard_panel():
 @login_required
 def helpful_pages():
     return render_template('helpful_pages.html')
-
-@dashboard.route("/dashboard/quiz-statistics")
-@login_required
-def quiz_statistics():
-    return render_template('quiz_statistics.html')

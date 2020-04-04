@@ -27,7 +27,6 @@ class Content(db.Model):
     title = db.Column(db.Text, nullable=True)
     question = db.relationship("Questions", backref='content', cascade="delete")
 
-
 class FlaskUsage(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     url = db.Column(db.String(128))
@@ -61,6 +60,8 @@ class Questions(db.Model):
     question_text = db.Column(db.String(30), nullable=False)
     answer = db.relationship("Answers", backref='question', cascade="delete")
     content_id = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
+    stat_right = db.Column(db.Integer(), default=0)
+    stat_wrong = db.Column(db.Integer(), default=0)
 
 class Answers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -89,10 +90,6 @@ class Glossary(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     term = db.Column(db.Text)
     description = db.Column(db.Text)
-#NEed to create a table like answers that connects the questions to the a specific quiz
 
 def init_db():
     db.create_all()
-
-if __name__ == '__main__':
-    init_db()

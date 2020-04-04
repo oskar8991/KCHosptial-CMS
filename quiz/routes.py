@@ -79,3 +79,27 @@ def questions():
     questions = Questions.query.all()
 
     return render_template('questions/quiz.html', questions = questions)
+
+@quiz.route('/_answered_question')
+def answered_question():
+    question_id = request.args.get('question_id', -1, type=int)
+    answer = request.args.get('answer', -1, type=int)
+
+    question = Questions.query.get(question_id)
+    if not question or answer == -1:
+        return
+
+    if answer:
+        question.stat_right = question.stat_right + 1
+    else:
+        question.stat_wrong = question.stat_wrong + 1
+    db.session.commit()
+
+    return "Nothing"
+
+@quiz.route("/dashboard/quiz-statistics")
+@login_required
+def quiz_statistics():
+    data = Questions.query.all()
+
+    return render_template('quiz_statistics.html', questions=data)
