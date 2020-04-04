@@ -7,53 +7,27 @@
 <script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-
+<br>
 <div class='container'>
   <div class="row justify-content-center">
     <h2>Edit Main Content Page</h2>
   </div>
 
-  <!--Dropdown primary-->
-<div class="dropdown dropright">
-  <!--Trigger-->
-  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1-1"
-    data-toggle="dropdown">Choose Heading</button>
+<!--Button to add new section-->
+<br>
+<button type="button" onClick="addNewSection()" class="btn btn-info" id="newSectionAdd">Add New Section</button>
+<br>
 
-  <!--Menu-->
-  <div class="dropdown-menu dropdown-primary" id="headingMenu">
-    <input class="form-control" type="text" placeholder="New Heading" aria-label="Search">
-    {% for heading in content.headings %}
-      <a class="dropdown-item" >{{heading}}</a>
-    {% endfor %}
-  </div>
-</div>
-<!--/Dropdown primary-->
+
 <br>
 <!--Dropdown primary-->
-<div class="dropdown dropright">
-<!--Trigger-->
-<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1-3"
-  data-toggle="dropdown">Position in list: </button>
-
-<!--Menu-->
-<div class="dropdown-menu dropdown-primary" id="positionMenu">
-  <input class="form-control" type="text" placeholder="New Title" aria-label="Search">
-  <a class="dropdown-item">1</a>
-  <a class="dropdown-item">2</a>
-  <a class="dropdown-item">3</a>
-</div>
-</div>
-<!--/Dropdown primary-->
-<br>
-<!--Dropdown primary-->
-<div class="dropdown dropright">
+<div class="dropdown dropright" id="existingTitles">
 <!--Trigger-->
 <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1-2"
   data-toggle="dropdown">Select from available titles:</button>
 
 <!--Menu-->
 <div class="dropdown-menu dropdown-primary" id="titleMenu">
-  <input class="form-control" type="text" placeholder="New Title" aria-label="Search">
   {% for record in content.records %}
     <a class="dropdown-item">{{record.title}}</a>
   {% endfor %}
@@ -61,6 +35,13 @@
 </div>
 <!--/Dropdown primary-->
 <br>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">Heading: </span>
+  </div>
+  <input type="text" class="form-control" value="New Heading" aria-label="heading" aria-describedby="basic-addon1" id="headingInput">
+</div>
+
 <div class="input-group mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text" id="basic-addon1">Title: </span>
@@ -73,7 +54,20 @@
 <div id="editor">
 
 </div>
+<div id="newSectionEditor">
+  <div id="editorDiv">
 
+  </div>
+</div>
+
+
+<br>
+<div class="row justify-content-center">
+  <input type="submit" class="btn btn-success" value="Save Changes" id="save" name="save">
+  <input type="submit" class="btn btn-danger" value="Remove Selected Article" id="delete">
+  <input type="submit" class="btn btn-success" value="Submit New Section" id="addNew">
+</div>
+</div>
 <!-- Include stylesheet -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <!-- Include the Quill library -->
@@ -102,31 +96,62 @@ $("#titleMenu a").click(function(e){
    });
 });
 
-$("#headingMenu a").click(function(e){
-  e.preventDefault(); // cancel the link behaviour
-  var selText = $(this).text();
-  $.ajax({
-    type : 'POST',
-    url : "{{url_for('content.edit_content')}}",
-    data : {'heading': selText}
-  });
-  $("#dropdownMenu1-1").text("Chosen Heading: " + selText);
+var newQuill = new Quill('#editorDiv', {
+  theme: 'snow',
+  modules: {
+    toolbar: [
+          [{ 'font': [] }, { 'size': [] }],
+          [ 'bold', 'italic', 'underline', 'strike' ],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'script': 'super' }, { 'script': 'sub' }],
+          [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block' ],
+          [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }],
+          [ 'direction', { 'align': [] }],
+          [ 'link', 'image', 'video', 'formula' ],
+          [ 'clean' ]
+    ]
+  }
 
 });
 
-$("#positionMenu a").click(function(e){
-  e.preventDefault(); // cancel the link behaviour
-  var selText = $(this).text();
-  $("#dropdownMenu1-3").text("Position in list: " + selText);
-});
+var addNew = document.getElementById("addNew");
+var editor = document.getElementById("newSectionEditor");
+editor.style.display = "none";
+addNew.style.display = "none";
+
+function addNewSection(){
+
+  var editor = document.getElementById("newSectionEditor");
+  var titles = document.getElementById("existingTitles");
+  var existingEditor = document.getElementById("editor");
+  var saveButton = document.getElementById("save");
+  var deleteButton = document.getElementById("delete");
+  var addNew = document.getElementById("addNew");
+
+  if (titles.style.display === "none") {
+   titles.style.display = "block";
+   $("#newSectionAdd").text("Add New Section");
+   editor.style.display = "none"
+   existingEditor.style.display = "block";
+   saveButton.style.display = "block";
+   deleteButton.style.display = "block";
+   addNew.style.display = "none";
+
+  } else {
+   titles.style.display = "none";
+   editor.style.display = "block";
+   existingEditor.style.display = "none";
+   $("#newSectionAdd").text("Go Back");
+   saveButton.style.display = "none";
+   deleteButton.style.display = "none";
+   addNew.style.display = "block";
+
+  }
+
+}
 
 </script>
-    <br>
-    <div class="row justify-content-center">
-      <input type="submit" class="btn btn-success" value="Save Changes" id="save" name="save">
-      <input type="submit" class="btn btn-danger" value="Remove Selected Article">
-    </div>
-</div>
+
 <script type="text/javascript">
   $("#save").click(function(){
 
