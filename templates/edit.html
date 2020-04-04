@@ -153,11 +153,9 @@ function addNewSection(){
 </script>
 
 <script type="text/javascript">
-  $("#save").click(function(){
-
-    titleInput = document.getElementById("titleInput").value;
-
-    quillHTML = quill.root.innerHTML.trim();
+  $("#addNew").click(function(){
+    var titleInput = document.getElementById("titleInput").value;
+    var quillHTML = newQuill.root.innerHTML.trim();
     window.alert(quillHTML);
     $.ajax({
       url : "{{url_for('content.save_record')}}",
@@ -172,6 +170,24 @@ function addNewSection(){
       }
     });
      });
+  $("#save").click(function(){
+    var titleInput = document.getElementById("titleInput").value;
+    var quillHTML = quill.root.innerHTML.trim();
+    window.alert(quillHTML);
+    $.ajax({
+      url : "{{url_for('content.save_record')}}",
+      type : 'get',
+      data : {jsdata: quillHTML, title : titleInput},
+      success: function(response) {
+       window.alert("Sent to python")
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+         window.alert("Failed")
+      }
+    });
+     });
+
 </script>>
 
 {% endblock %}
