@@ -10,6 +10,12 @@
 	--faq-color: #d9f2e6;
 	--about-card-header: #b3e6cc;
 	--about-card-body: white;
+	--splash-container-color:#39ac73;
+	--splash-border-color: #206040;
+	--splash-content-color: white;
+	--splash-heading-color: #206040;
+	--icon-color: #39ac73;
+	--popup-color: white;
 }
 
 [data-theme="dark"] {
@@ -24,6 +30,12 @@
 	--faq-color: #1f4261;
 	--about-card-header: #060d13;
 	--about-card-body: #1f4261;
+	--splash-container-color: #060d13;
+	--splash-border-color: #060d13;
+	--splash-content-color:#060d13;
+	--splash-heading-color: #ebebeb;
+	--icon-color: #1f4261;
+	--popup-color: #1a344c;
 }
 
 body {
@@ -43,6 +55,14 @@ body .popUpButtonCircle {
 body .popUpButton {
     background-color: var(--h2-bg-color);
     color: var(--h2-font-color);
+}
+
+body .popUp {
+	background: var(--popup-color);
+}
+
+body .popUpHeader {
+	background-color: var(--splash-content-color);
 }
 
 body .menubar .bar {
@@ -117,3 +137,35 @@ body h5 {
 body #plz {
 	color: var(--font-color);
 }
+
+body .darkModeContainer {
+	background-color: var(--splash-container-color);
+	border-color: var(--splash-border-color);
+}
+
+body #content {
+	background-color: var(--splash-content-color);
+	border-color: var(--splash-border-color);
+}
+
+body .icon {
+	background-color: var(--icon-color);
+}
+
+body h1 {
+	color: var(--splash-heading-color);
+}
+
+#nav {
+	background-color: var(--splash-container-color);
+	border-bottom: 2px solid black;"
+}
+
+.navbar-light .navbar-nav .active>.nav-link {
+	color: var(--font-color);
+}
+
+#home {
+	filter:invert(100%);
+}
+
