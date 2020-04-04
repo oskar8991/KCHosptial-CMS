@@ -80,10 +80,6 @@
 				<input type="checkbox" name="darkMode" id="darkMode">
 				<span class="darkModeBtn"></span>
 			</label>
-			<label>
-				<input type="checkbox" id="darkMode2">
-				<span class="darkModeBtn"></span>
-			</label>
 		  </div>
 		</nav>
 
@@ -107,5 +103,11 @@
 	  </div>
    </div>
 </footer>
+
+<script type="text/javascript">
+  document.getElementById('darkMode').addEventListener('change', function(event){
+    (event.target.checked) ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme');
+  });
+</script>
 
 </html>
