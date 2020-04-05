@@ -1,13 +1,28 @@
+window.onclick = function(evt) {
+   if(evt.target.id == "click2" || evt.target.id == "click"){
+   		return
+   } else {
+   		closePopUp();
+   }
+   
+};
+
+function closePopUp (){
+		click.checked = false;
+		click2.checked = false;
+
+}
+
 $(document).ready(function(){
 	var controller = new ScrollMagic.Controller();	//init scrollMagic
 
 	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-1',
-		duration: '125%',
-		triggerHook: 0.4
+		triggerElement: '#image1',
+		duration: '80%',
+		triggerHook: 0.55
 	})
 
-	.setClassToggle('#section-1', 'fade-in')
+	.setClassToggle('#image1', 'fade-in')
 	
 	// .addIndicators({
 	// 	colorTrigger: 'black',
@@ -22,18 +37,69 @@ $(document).ready(function(){
 	var controller = new ScrollMagic.Controller();	//init scrollMagic
 
 	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-2',
+		triggerElement: '#image2',
+		duration: '110%',
+		triggerHook: 0.75
+	})
+
+	.setClassToggle('#image2', 'fade-in')
+
+	.addTo(controller);
+});
+
+$(document).ready(function(){
+	var controller = new ScrollMagic.Controller();	//init scrollMagic
+
+	var scene = new ScrollMagic.Scene ({
+		triggerElement: '.popUpButton',
+		duration: '40%',
+		triggerHook: 0.5
+	})
+
+	.setClassToggle('.popUpButton', 'fade-in')
+	.addTo(controller);
+});
+
+$(document).ready(function(){
+	var controller = new ScrollMagic.Controller();	//init scrollMagic
+
+	var scene = new ScrollMagic.Scene ({
+		triggerElement: '#ul5',
 		duration: '125%',
 		triggerHook: 0.4
 	})
+
+	.setClassToggle('.childliverdisease', 'fade-in')
+	.addTo(controller);
+});
+
+$(document).ready(function(){
+	var controller = new ScrollMagic.Controller();	//init scrollMagic
+
+	var scene = new ScrollMagic.Scene ({
+		triggerElement: '#image3',
+		duration: '80%',
+		triggerHook: 0.55
+	})
+
+	.setClassToggle('#image3', 'fade-in')
+
+	.addTo(controller);
+});
+
+$(document).ready(function(){
+	var controller = new ScrollMagic.Controller();	//init scrollMagic
+
+	var scene = new ScrollMagic.Scene ({
+		triggerElement: '#image4',
+		duration: '70%',
+		triggerHook: 0.55
+	})
+
 	
-	// .addIndicators({
-	// 	colorTrigger: 'black',
-	// 	colorStart: 'green',
-	// 	colorEnd: 'red'
-	// })	//for testing purposes
 
-	.setClassToggle('#section-2', 'fade-in')
+	.setClassToggle('#image4', 'fade-in')
+
 	.addTo(controller);
 });
 
@@ -41,94 +107,13 @@ $(document).ready(function(){
 	var controller = new ScrollMagic.Controller();	//init scrollMagic
 
 	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-3',
-		duration: '125%',
-		triggerHook: 0.4
+		triggerElement: '#image5',
+		duration: '70%',
+		triggerHook: 0.55
 	})
 
-	.setClassToggle('#section-3', 'fade-in')
+	.setClassToggle('#image5', 'fade-in')
+
 	.addTo(controller);
 });
-
-$(document).ready(function(){
-	var controller = new ScrollMagic.Controller();	//init scrollMagic
-
-	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-4',
-		duration: '125%',
-		triggerHook: 0.4
-	})
-
-	.setClassToggle('#section-4', 'fade-in')
-	.addTo(controller);
-});
-
-$(document).ready(function(){
-	var controller = new ScrollMagic.Controller();	//init scrollMagic
-
-	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-5',
-		duration: '125%',
-		triggerHook: 0.4
-	})
-
-	.setClassToggle('#section-5', 'fade-in')
-	.addTo(controller);
-});
-
-$(document).ready(function(){
-	var controller = new ScrollMagic.Controller();	//init scrollMagic
-
-	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-6',
-		duration: '125%',
-		triggerHook: 0.4
-	})
-
-	.setClassToggle('#section-6', 'fade-in')
-	.addTo(controller);
-});
-
-$(document).ready(function(){
-	var controller = new ScrollMagic.Controller();	//init scrollMagic
-
-	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-7',
-		duration: '125%',
-		triggerHook: 0.4
-	})
-
-	.setClassToggle('#section-7', 'fade-in')
-	.addTo(controller);
-});
-
-$(document).ready(function(){
-	var controller = new ScrollMagic.Controller();	//init scrollMagic
-
-	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-8',
-		duration: '125%',
-		triggerHook: 0.4
-	})
-
-	.setClassToggle('#section-8', 'fade-in')
-	.addTo(controller);
-});
-
-$(document).ready(function(){
-	var controller = new ScrollMagic.Controller();	//init scrollMagic
-
-	var scene = new ScrollMagic.Scene ({
-		triggerElement: '#section-9',
-		duration: '125%',
-		triggerHook: 0.4
-	})
-
-	.setClassToggle('#section-9', 'fade-in')
-	.addTo(controller);
-});
-
-
-
-
 
