@@ -390,39 +390,37 @@ ul {
 
 #chartLink {
   color: #39ac73;
+  text-decoration: underline;
+}
+
+#image1.fade-in, #image2.fade-in, #image3.fade-in, #image4.fade-in, #image5.fade-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #image1 {
   width: 90%;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s ease-in-out;
 }
 
 #image2 {
-  z-index: -1;
   position: relative;
-  top: 110px;
-  right: 160px;
+  top: 160px;
+  right: 85px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s ease-in-out;
 }
 
 #image3, #image4, #image5 {
   display: block;
   margin-right: auto;
   margin-left: auto;
-}
-
-#image6 {
-  width: 80%;
-}
-
-#image7 {
-  width: 90%;
-}
-
-#image8 {
-  width: 60%;
-}
-
-#image9 {
-  width: 60%;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s ease-in-out;
 }
 
 #image10 {
@@ -437,12 +435,9 @@ ul {
   width: 100%;
 }
 
-
-
 #click, #click2{
   display: none;  /*hide checkbox*/
 }
-
 .popUpButton{
   position: relative;
   left: 380px;
@@ -458,6 +453,16 @@ ul {
   font-weight: 700;
   border-radius: 7px;
   cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s ease-in-out;
+  visibility: hidden;
+}
+
+.popUpButton.fade-in {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .popUpButtonCircle{
@@ -510,7 +515,7 @@ ul {
 }
 #click:checked ~ .overlay, #click2:checked ~ .overlay {
   opacity: 1;
-  /*pointer-events: all; nothing can be clicked behind*/
+  pointer-events: all; /*nothing can be clicked behind*/
 }
 
 .popUp {
@@ -668,5 +673,6 @@ ul {
   opacity: 1;
   transform: translateY(0);
 }*/
+
 
 
