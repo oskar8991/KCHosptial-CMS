@@ -91,5 +91,11 @@ class Glossary(db.Model):
     term = db.Column(db.Text)
     description = db.Column(db.Text)
 
+class Helpful(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    page = db.Column(db.String(400), nullable=False) 
+    yesAnswer = db.Column(db.Integer(), default=0)
+    noAnswer = db.Column(db.Integer(), default=0)
+
 def init_db():
     db.create_all()

@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect, url_for
-from models import Content, Announcement, FAQQuestions, About, Glossary
+from models import Content, Announcement, FAQQuestions, About, Glossary, Helpful
 from content.utils import *
 
 main = Blueprint('main', __name__)
@@ -41,3 +41,15 @@ def announcements():
 def searchBarSample():
     return render_template('searchBarSample.html')
 #############################################
+
+@main.route('/_helpful_feedback')
+def helpful_feedback():
+    page = request.args.get('page', "Unknown", type=String)
+    yesAnswer = request.args.get('yesAnswer', 0, type=int)
+    noAnswer = request.args.get('noAnswer', 0, type=int)
+
+    helpful = Helpful(page=page, yesAnswer=yesAnswer,noAnswer=noAnswer)
+    db.session.add(helpful)
+    db.session.commit()
+
+    return "Thank You for your feedback!"
