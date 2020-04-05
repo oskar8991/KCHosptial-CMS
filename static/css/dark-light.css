@@ -1,11 +1,14 @@
 :root {
+	--home-font-color: black;
+	--staff-color: black;
 	--font-color: black;
 	--bg-color: white;
 	--h2-font-color:black;
 	--h2-bg-color: #39ac73;
+	--link-color: #39ac73;
 	--nav-color: #39ac73;
 	--sidebar-color:#d9f2e6;
-	--hover-color: grey;
+	--hover-color: #39ac73;
 	--card-color: #b3e6cc;
 	--faq-color: #d9f2e6;
 	--about-card-header: #b3e6cc;
@@ -19,20 +22,23 @@
 }
 
 [data-theme="dark"] {
+	--home-font-color: white;
+	--staff-color: white;
 	--font-color: #ebebeb;
 	--bg-color: #0d1a26;
-	--h2-font-color:black;
+	--h2-font-color: #060d13;
 	--h2-bg-color: #ebebeb;
-	--nav-color: black;
+	--link-color: white;
+	--nav-color: #060d13;
 	--sidebar-color: #1a344c;
-	--hover-color: #595959;
+	--hover-color: white;
 	--card-color: #061313;
 	--faq-color: #1f4261;
 	--about-card-header: #060d13;
 	--about-card-body: #1f4261;
 	--splash-container-color: #060d13;
 	--splash-border-color: #060d13;
-	--splash-content-color:#060d13;
+	--splash-content-color: #060d13;
 	--splash-heading-color: #ebebeb;
 	--icon-color: #1f4261;
 	--popup-color: #1a344c;
@@ -110,6 +116,10 @@ body #faqBtn {
 	color: var(--font-color);
 }
 
+body .card {
+	background: var(--nav-color);
+}
+
 body #faqText {
 	background: var(--faq-color);
 }
@@ -141,11 +151,16 @@ body #plz {
 body .darkModeContainer {
 	background-color: var(--splash-container-color);
 	border-color: var(--splash-border-color);
+	color: var(--splash-color);
 }
 
 body #content {
 	background-color: var(--splash-content-color);
 	border-color: var(--splash-border-color);
+}
+
+body #chartLink {
+	color: var(--link-color);
 }
 
 body .icon {
@@ -164,8 +179,10 @@ body h1 {
 .navbar-light .navbar-nav .active>.nav-link {
 	color: var(--font-color);
 }
-
-#home {
-	filter:invert(100%);
+.navbar-light .navbar-brand> #house {
+	color: var(--home-font-color);
 }
 
+#navbarDropdownMenuLink-333{
+	color: var(--staff-color);
+}
