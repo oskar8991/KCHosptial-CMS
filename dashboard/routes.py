@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint
 from flask_login import login_required
 from dashboard.utils import *
+from models import Helpful
 
 dashboard = Blueprint('dashboard', __name__)
 
@@ -28,4 +29,6 @@ def dashboard_panel():
 @dashboard.route("/dashboard/helpful-pages")
 @login_required
 def helpful_pages():
-    return render_template('helpful_pages.html')
+    data = Helpful.query.all()
+
+    return render_template('helpful_pages.html', stats=data)

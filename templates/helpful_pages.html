@@ -5,128 +5,92 @@
 {% block body%}
 
 <div class="container-fluid">
-		<div class="row">
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
-					<ul class="nav flex-column">
-						<li class="nav-item">
-							<a class="nav-link" href="{{url_for('dashboard.dashboard_panel')}}">
-								Dashboard <span class="sr-only">(current)</span>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{url_for('quiz.questions')}}">
-								Add quiz
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">
-								Delete page
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{url_for('content.edit_content')}}">
-								Edit page
-							</a>
-						</li>
-					</ul>
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('dashboard.dashboard_panel')}}">
+              Dashboard <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('quiz.questions')}}">
+              Add quiz
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Delete page
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('content.edit_content')}}">
+              Edit page
+            </a>
+          </li>
+        </ul>
 
-					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span>User feedback</span>
-						<a class="d-flex align-items-center text-muted" href="#">
-							<span data-feather="plus-circle"></span>
-						</a>
-					</h6>
-					<ul class="nav flex-column mb-2">
-						<li class="nav-item">
-							<a class="nav-link active" href="{{url_for('dashboard.helpful_pages')}}">
-								<span data-feather="file-text"></span>
-								Help pages statistics
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{url_for('quiz.quiz_statistics')}}">
-								<span data-feather="file-text"></span>
-								Quiz statistics
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">
-								<span data-feather="file-text"></span>
-								Social engagement
-							</a>
-						</li>
-					</ul>
-				</div>
-			</nav>
-
-
-			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-				<div class="container">
-					<h1 class="text-dark" style="text-decoration-line:underline;" align="center"> Pages</h1>
-					<hr>
-					<div class="row justify-content-around">
-					 <div class="card" style="width: 18rem;">
-						 <div class="card-body">
-							 <h5 class="card-title">Home: </h5>
-							 <div id="yesIndex" class="card-text"></div>
-							 <div id="noIndex" class="card-text"></div>
-						 </div>
-					 </div>
-					 <div class="card" style="width: 18rem;">
-						 <div class="card-body">
-							 <h5 class="card-title">Drug Chart</h5>
-							 <div id="yesDrug" class="card-text"></div>
-							 <div id="noDrug" class="card-text"></div>
-						 </div>
-					 </div>
-					 <div class="card" style="width: 18rem;">
-						 <div class="card-body">
-							 <h5 class="card-title">FAQ </h5>
-							 <div id="yesFAQ" class="card-text"></div>
-							 <div id="noFAQ" class="card-text"></div>
-						 </div>
-					 </div>
-					</div>
-
-					<br>
-
-					<div class="row justify-content-around">
-					 <div class="card" style="width: 18rem;">
-						 <div class="card-body">
-							 <h5 class="card-title">Announcements: </h5>
-							 <div id="yesAnnouncements" class="card-text"></div>
-							 <div id="noAnnouncements" class="card-text"></div>
-						 </div>
-					 </div>
-					 <div class="card" style="width: 18rem;">
-						 <div class="card-body">
-							 <h5 class="card-title">About:</h5>
-							 <div id="yesAbout" class="card-text"></div>
-							 <div id="noAbout" class="card-text"></div>
-						 </div>
-					 </div>
-					</div>
-				</div>
-			</main>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>User feedback</span>
+          <a class="d-flex align-items-center text-muted" href="#">
+            <span data-feather="plus-circle"></span>
+          </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link active" href="{{url_for('dashboard.helpful_pages')}}">
+              <span data-feather="file-text"></span>
+              Help pages statistics
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('quiz.quiz_statistics')}}">
+              <span data-feather="file-text"></span>
+              Quiz statistics
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Social engagement
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
 
-			<script>
-	    document.getElementById('yesIndex').innerHTML = localStorage.yesClickIndex + " people found this page usefull";
-			document.getElementById('noIndex').innerHTML = localStorage.noClickcount + " people found this page not usefull";
-
-			document.getElementById('yesDrug').innerHTML = localStorage.yesClickDrug + " people found this page usefull";
-			document.getElementById('noDrug').innerHTML = localStorage.noClickDrug + " people found this page not usefull";
-
-			document.getElementById('yesFAQ').innerHTML = localStorage.yesClickFAQ + " people found this page usefull";
-			document.getElementById('noFAQ').innerHTML = localStorage.noClickFAQ + " people found this page not usefull";
-
-			document.getElementById('yesAnnouncements').innerHTML = localStorage.yesClickAnnouncements + " people found this page usefull";
-			document.getElementById('noAnnouncements').innerHTML = localStorage.noClickAnnouncements + " people found this page not usefull";
-
-			document.getElementById('yesAbout').innerHTML = localStorage.yesClickAbout + " people found this page usefull";
-			document.getElementById('noAbout').innerHTML = localStorage.noClickAbout + " people found this page not usefull";
-			</script>
-
-
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="container">
+        <h1 class="text-dark" style="text-decoration-line:underline;" align="center"> Pages</h1>
+        <hr>
+        {% for stat in stats %}
+          {% if loop.first %}
+            <div class="row justify-content-around">
+          {% endif %}
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ stat.page }}</h5>
+                <div class="card-text">
+                   {{ stat.yes }} people found this page useful.
+                </div>
+                <div class="card-text">
+                   {{ stat.no }} people found this page useful.
+                </div>
+              </div>
+            </div>
+          {% if loop.last %}
+            </div>
+            <br>
+          {% elif loop.index is divisibleby 3 %}
+            </div>
+            <br>
+            <div class="row justify-content-around">
+          {% endif %}
+        {% endfor %}
+      </div>
+    </main>
+  </div>
+</div>
 {% endblock %}
