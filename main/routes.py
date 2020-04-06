@@ -1,6 +1,9 @@
-from flask import render_template, Blueprint, redirect, url_for
+from flask import render_template, Blueprint, redirect, url_for, request
 from models import Content, Announcement, FAQQuestions, About, Glossary, Helpful
 from content.utils import *
+
+from app import mail
+from flask_mail import Message
 
 main = Blueprint('main', __name__)
 
@@ -37,6 +40,18 @@ def announcements():
     return render_template('announcements/index.html', data=announcements)
 
 
+@main.route("/something-wrong", methods=['GET', 'POST'])
+def somethingWrong():
+    if request.method == 'POST':
+        problem = request.form.get('problem')
+        msg = Message(problem, recipients=["to@example.com"])
+        #mail.send(msg) once we deploy we can configure the server
+        return render_template('thankYou.html')
+
+    return render_template('somethingWrong.html')
+
+
+
 ############# FOR TESTING SEARCHBAR #########
 @main.route("/searchBarSample")
 def searchBarSample():
@@ -53,4 +68,3 @@ def helpful_feedback():
     db.session.commit()
 
     return "Thank You for your feedback!"
-
