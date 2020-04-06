@@ -197,6 +197,28 @@ function addNewSection(){
     });
      });
 
+     $("#delete").click(function(){
+       var titleInput = document.getElementById("titleInput").value;
+       var headerInput = document.getElementById("headerInput").value;
+       if (confirm("Are you sure you want to delete this record?")){
+         $.ajax({
+           url : "{{url_for('content.delete_record')}}",
+           type : 'get',
+           data : {title : titleInput, header : headerInput},
+           success: function(response) {
+            window.alert("Record deleted!")
+           },
+           error: function(xhr) {
+             //Do Something to handle error
+              window.alert("Failed")
+           }
+         });
+       }
+       else {
+         window.alert("Action aborted")
+       }
+         });
+
 </script>>
 
 {% endblock %}

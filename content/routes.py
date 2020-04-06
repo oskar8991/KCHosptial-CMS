@@ -10,12 +10,10 @@ content = Blueprint('content', __name__)
 @content.route('/save_record', methods=["GET"])
 @login_required
 def save_record():
-    print("Start")
     inputText = request.args.get('jsdata')
     inputTitle = request.args.get('title')
     inputHeader = request.args.get('header')
 
-    print(inputText)
     if (db.session.query(Content.title).filter_by(title=inputTitle, header=inputHeader).count()) == 1:
         db.session.query(Content.title).filter_by(title=inputTitle, header=inputHeader).update({Content.content:inputText})
         db.session.commit()
@@ -24,9 +22,20 @@ def save_record():
         newRecord = Content(header=inputHeader, title=inputTitle, content=inputText)
         db.session.add(newRecord)
         db.session.commit()
-        print("New")
-    print("Finish")
+
     return redirect(url_for('main.index'))
+
+@content.route('/delete_record', methods=["GET"])
+@login_required
+def delete_record():
+    inputTitle = request.args.get('title')
+    inputHeader = request.args.get('header')
+
+    record_to_delete = db.session.query(Content.title).filter_by(title=inputTitle, header=inputHeader).delete()
+    db.session.commit()
+
+    return redirect(url_for('main.index'))
+
 
 @content.route('/edit', methods=['GET', 'POST'])
 @login_required
