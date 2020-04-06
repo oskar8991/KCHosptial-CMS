@@ -11,6 +11,7 @@ def home():
 
 @main.route('/index')
 def index():
+    announcements = Announcement.query.all()
     contentDictionary = {
         'headings' : get_headings(),
         'records' : get_records(),
@@ -18,7 +19,7 @@ def index():
         'questions': assossiated_questions()
     }
 
-    return render_template('index.html', content=contentDictionary)
+    return render_template('index.html', content=contentDictionary, announcements=announcements)
 
 @main.route('/faq')
 def faq():
@@ -41,7 +42,6 @@ def announcements():
 def searchBarSample():
     return render_template('searchBarSample.html')
 #############################################
-
 @main.route('/_helpful_feedback')
 def helpful_feedback():
     page = request.args.get('page', "Unknown", type=String)
@@ -53,3 +53,4 @@ def helpful_feedback():
     db.session.commit()
 
     return "Thank You for your feedback!"
+
