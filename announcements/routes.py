@@ -13,7 +13,8 @@ def create_announcement():
         announcement = Announcement(
             title = request.form['title'], 
             description = request.form['description'], 
-            date = datetime.now()
+            date = datetime.now(),
+            links = request.form['links']
         )
         db.session.add(announcement)
         db.session.commit()
@@ -29,6 +30,7 @@ def edit_announcement(id):
         if announcement:
             announcement.title = request.form['newTitle']
             announcement.description = request.form['newDescription']
+            announcement.links = request.form['newLinks']
             db.session.commit()
         
         return redirect(url_for('main.announcements'))

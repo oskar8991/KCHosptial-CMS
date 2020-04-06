@@ -53,6 +53,7 @@ class Announcement(db.Model):
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(10000), nullable=False)
     date = db.Column(db.DateTime(), nullable=False)
+    links = db.Column(db.String(300), nullable=True, default="N/A")
     #image = db.Column(db.BLOB)
 
 class Questions(db.Model):
