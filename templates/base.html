@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
    	<script src="https://kit.fontawesome.com/a8a067ebb4.js" crossorigin="anonymous"></script>
 
@@ -105,7 +105,7 @@
   <script type="text/javascript">
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     var page = {{request.path|tojson|safe}}.slice(1);
-    
+
     var feedback = function(button, useful) {
       $(button).bind('click', function() {
         $.getJSON($SCRIPT_ROOT + '/_helpful_feedback', {

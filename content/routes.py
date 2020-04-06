@@ -13,14 +13,15 @@ def save_record():
     print("Start")
     inputText = request.args.get('jsdata')
     inputTitle = request.args.get('title')
+    inputHeader = request.args.get('header')
 
     print(inputText)
-    if (db.session.query(Content.title).filter_by(title=inputTitle).count()) == 1:
-        db.session.query(Content.title).filter_by(title=inputTitle).update({Content.content:inputText})
+    if (db.session.query(Content.title).filter_by(title=inputTitle, header=inputHeader).count()) == 1:
+        db.session.query(Content.title).filter_by(title=inputTitle, header=inputHeader).update({Content.content:inputText})
         db.session.commit()
         print("update")
     else:
-        newRecord = Content(header="Liver Disease", title=inputTitle, content=inputText)
+        newRecord = Content(header=inputHeader, title=inputTitle, content=inputText)
         db.session.add(newRecord)
         db.session.commit()
         print("New")
@@ -46,7 +47,7 @@ def edit_record_content():
     text = request.args.get('jsdata')
     for record in get_records():
         if record.title == text:
-            record_content = record.content
+            record_content = record
 
 
     return render_template('editor.html', content=record_content)

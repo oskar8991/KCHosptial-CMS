@@ -19,15 +19,16 @@
 <br>
 
 
+
 <br>
 <!--Dropdown primary-->
 <div class="dropdown dropright" id="existingTitles">
 <!--Trigger-->
-<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1-2"
-  data-toggle="dropdown">Select from available titles:</button>
+<button type="button" class="btn btn-info dropdown-toggle"  id="dropdownMenu1-2"
+  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select from available titles:</button>
 
 <!--Menu-->
-<div class="dropdown-menu dropdown-primary" id="titleMenu">
+<div class="dropdown-menu" id="titleMenu">
   {% for record in content.records %}
     <a class="dropdown-item">{{record.title}}</a>
   {% endfor %}
@@ -39,7 +40,13 @@
   <div class="input-group-prepend">
     <span class="input-group-text" id="basic-addon1">Heading: </span>
   </div>
-  <input type="text" class="form-control" value="New Heading" aria-label="heading" aria-describedby="basic-addon1" id="headingInput">
+  <label>
+  <input  class="form-control" list="headings" name="headingsList" id="headerInput"/></label>
+  <datalist id="headings">
+    {% for header in content.headings %}
+    <option value="{{header}}">
+    {% endfor %}
+  </datalist>
 </div>
 
 <div class="input-group mb-3">
@@ -155,12 +162,13 @@ function addNewSection(){
 <script type="text/javascript">
   $("#addNew").click(function(){
     var titleInput = document.getElementById("titleInput").value;
+    var headerInput = document.getElementById("headerInput").value;
     var quillHTML = newQuill.root.innerHTML.trim();
     window.alert(quillHTML);
     $.ajax({
       url : "{{url_for('content.save_record')}}",
       type : 'get',
-      data : {jsdata: quillHTML, title : titleInput},
+      data : {jsdata: quillHTML, title : titleInput, header : headerInput},
       success: function(response) {
        window.alert("Sent to python")
       },
@@ -172,12 +180,13 @@ function addNewSection(){
      });
   $("#save").click(function(){
     var titleInput = document.getElementById("titleInput").value;
+    var headerInput = document.getElementById("headerInput").value;
     var quillHTML = quill.root.innerHTML.trim();
     window.alert(quillHTML);
     $.ajax({
       url : "{{url_for('content.save_record')}}",
       type : 'get',
-      data : {jsdata: quillHTML, title : titleInput},
+      data : {jsdata: quillHTML, title : titleInput, header : headerInput},
       success: function(response) {
        window.alert("Sent to python")
       },
