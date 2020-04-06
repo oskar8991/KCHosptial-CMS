@@ -84,36 +84,15 @@
   {% block body %} {% endblock %}
   {% block content %}{% endblock %}
 
-	<script type="text/javascript">
-		$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-
-
-  $(function() {
-     $('a#yesButton').bind('click', function() {
-       $.getJSON($SCRIPT_ROOT + '/_helpful_feedback', {
-         page: 'window.location.href',
-         yesAnswer: 1,
-				 noAnswer: 0
-       }, function(data) {
-         $("#result").text(data.result);
-       });
-     });
-   });
-
-	</script>
-  <div class="text-col">
+  <div class="text-col d-flex justify-content-center">
     <div class="question" id="question">Was this page helpful?</div>
-    <div class="buttonsContainer">
-      <button id="yesButton" class="button neutral feedback-button" data-component="helpful-yes">Yes</button>
-      <button id="noButton" class="button neutral feedback-button" data-component="helpful-no">No</button>
+    <div class="buttonsContainer" id="answer">
+      <button id="helpful-yes" class="button neutral feedback-button">Yes</button>
+      <button id="helpful-no" class="button neutral feedback-button">No</button>
     </div>
+    <div id="feedback-result"></div>
   </div>
-	<div id="result" align="center"></div>
-
-
-
   <br>
-
   <footer>
     <div class="lower-footer">
       <p>King's College London</p>
@@ -122,5 +101,26 @@
       </div>
     </div>
   </footer>
+
+  <script type="text/javascript">
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    var page = {{request.path|tojson|safe}}.slice(1);
+    
+    var feedback = function(button, useful) {
+      $(button).bind('click', function() {
+        $.getJSON($SCRIPT_ROOT + '/_helpful_feedback', {
+          page: page,
+          answer: useful
+        }, function(data) {
+          $("#feedback-result").text(data.result);
+          $("#question").hide();
+          $("#answer").hide();
+        });
+      });
+
+    };
+    feedback('#helpful-yes', 1);
+    feedback('#helpful-no', 0);
+  </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, redirect, url_for, request
+from flask import render_template, Blueprint, redirect, url_for, request, jsonify
 from models import Content, Announcement, FAQQuestions, About, Glossary, Helpful
 from content.utils import *
 
@@ -57,14 +57,27 @@ def somethingWrong():
 def searchBarSample():
     return render_template('searchBarSample.html')
 #############################################
+
 @main.route('/_helpful_feedback')
 def helpful_feedback():
-    page = request.args.get('page', "Unknown", type=String)
-    yesAnswer = request.args.get('yesAnswer', 0, type=int)
-    noAnswer = request.args.get('noAnswer', 0, type=int)
+    page = request.args.get('page', '', type=str)
+    answer = request.args.get('answer', -1, type=int)
 
-    helpful = Helpful(page=page, yesAnswer=yesAnswer,noAnswer=noAnswer)
-    db.session.add(helpful)
+    if page == '' or answer == -1:
+        return jsonify(result="An error occured.")
+
+    helpful = Helpful.query.filter_by(page = page).first()
+    create = (helpful is None)
+    if create:
+        helpful = Helpful(page=page, yes=0, no=0)
+
+    if answer:
+        helpful.yes = helpful.yes + 1
+    else:
+        helpful.no = helpful.no + 1
+
+    if create:
+        db.session.add(helpful)
     db.session.commit()
 
-    return "Thank You for your feedback!"
+    return jsonify(result="Thank You for your feedback!")
