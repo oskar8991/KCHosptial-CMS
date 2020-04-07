@@ -12,7 +12,7 @@ def week_data(start_date):
 
     week_data = {
         'month': start_date.strftime("%m"),
-        'today': {'date': start_date.strftime("%d/%m"), 'count': last_visits}
+        '0': {'date': start_date.strftime("%d/%m"), 'count': last_visits}
     }
 
     # 1(day ago) - yesterday, 2 - 2 days ago, 3 - 3 days ago .. etc. up to 6 days ago - represents a week
