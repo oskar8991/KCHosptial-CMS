@@ -21,7 +21,7 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.question(class="form-control", value=values['question']) }}
+        {{ form.question(class="form-control", value=values['question'], id = "new_question") }}
       {% endif %}
     </div>
     <div class="form-group">
