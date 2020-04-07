@@ -4,14 +4,15 @@
 
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dashboard.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
-    <!-- bootstrap link -->
+  
+  <!-- bootstrap link -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-   	<script src="https://kit.fontawesome.com/a8a067ebb4.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+ 	<script src="https://kit.fontawesome.com/a8a067ebb4.js" crossorigin="anonymous"></script>
 
 
 	<title>{% block title %}{% endblock %}</title>
@@ -81,18 +82,8 @@
     </div>
   </nav>
 
-  {% block body %} {% endblock %}
-  {% block content %}{% endblock %}
+  {% block body %}{% endblock %}
 
-  <div class="text-col d-flex justify-content-center">
-    <div class="question" id="question">Was this page helpful?</div>
-    <div class="buttonsContainer" id="answer">
-      <button id="helpful-yes" class="button neutral feedback-button">Yes</button>
-      <button id="helpful-no" class="button neutral feedback-button">No</button>
-    </div>
-    <div id="feedback-result"></div>
-  </div>
-  <br>
   <footer>
     <div class="lower-footer">
       <p>King's College London</p>
@@ -101,26 +92,5 @@
       </div>
     </div>
   </footer>
-
-  <script type="text/javascript">
-    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-    var page = {{request.path|tojson|safe}}.slice(1);
-
-    var feedback = function(button, useful) {
-      $(button).bind('click', function() {
-        $.getJSON($SCRIPT_ROOT + '/_helpful_feedback', {
-          page: page,
-          answer: useful
-        }, function(data) {
-          $("#feedback-result").text(data.result);
-          $("#question").hide();
-          $("#answer").hide();
-        });
-      });
-
-    };
-    feedback('#helpful-yes', 1);
-    feedback('#helpful-no', 0);
-  </script>
 </body>
 </html>

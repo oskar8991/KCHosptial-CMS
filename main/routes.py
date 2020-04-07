@@ -46,7 +46,7 @@ def somethingWrong():
         problem = request.form.get('problem')
         msg = Message(problem, recipients=["to@example.com"])
         #mail.send(msg) once we deploy we can configure the server
-        return render_template('thankYou.html')
+        return render_template('feedback.html')
 
     return render_template('somethingWrong.html')
 

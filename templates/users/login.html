@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "bases/user_page.html" %}
 {% block title %} Staff Login {% endblock %}
 
 {% block head %}
@@ -6,62 +6,60 @@
 {% endblock %}
 
 {% block content%}
-<div class="container">
-
+<div class="container my-3">
   {% for message in get_flashed_messages()%}
-  <div class="alert alert-warning" id="error{{ loop.index }}" >
-    <button onclick="document.getElementById('error{{ loop.index }}').style.display = 'none';" type="button" class="close" data-dismiss="alert">&times;</button>
-    {{message}}
+    <div class="alert alert-warning" id="error{{ loop.index }}" >
+      <button onclick="document.getElementById('error{{ loop.index }}').style.display = 'none';" type="button" class="close" data-dismiss="alert">&times;</button>
+      {{message}}
+    </div>
+  {% endfor %}
+
+  <div class="row justify-content-center">
+    <h1>Staff Login</h1>
   </div>
 
-  {% endfor %}
-  <div class="row justify-content-center">
-    <h2>Staff Login</h2>
-  </div>
   <form class="form-signin" action="" method="POST">
     {{ form.hidden_tag() }}
     <div class="form-label-group">
-          {% if form.email.errors %}
-            {{ form.email(class="form-control is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.email.errors %}
-                <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-              {{ form.email(class="form-control", placeholder="Email") }}
-          {% endif %}
-          {{ form.email.label() }}
+      {% if form.email.errors %}
+        {{ form.email(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.email.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
         </div>
+      {% else %}
+        {{ form.email(class="form-control", placeholder="Email") }}
+      {% endif %}
+      {{ form.email.label() }}
+    </div>
 
-        <div class="form-label-group">
-          {% if form.password.errors %}
-            {{ form.password(class="form-control is-invalid") }}
-            <div class="invalid-feedback">
-              {% for error in form.password.errors %}
-                  <span>{{ error }}</span>
-              {% endfor %}
-            </div>
-          {% else %}
-            {{ form.password(class="form-control", placeholder="Password") }}
-          {% endif %}
-          {{ form.password.label() }}
+    <div class="form-label-group">
+      {% if form.password.errors %}
+        {{ form.password(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.password.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
         </div>
+      {% else %}
+        {{ form.password(class="form-control", placeholder="Password") }}
+      {% endif %}
+      {{ form.password.label() }}
+    </div>
 
-        <div class="form-check">
-          {{ form.remember(class="form-check-input") }}
-          {{ form.remember.label(class="form-check-label") }}
-        </div>
+    <div class="form-check">
+      {{ form.remember(class="form-check-input") }}
+      {{ form.remember.label(class="form-check-label") }}
+    </div>
 
     <div class="form-group">
       {{ form.submit(class="btn btn-primary") }}
     </div>
-
   </form>
 
   <div class="border-top pt-3">
     <small class="text-muted">Contact a member of the staff if you need an account.</small>
   </div>
-
 </div>
 {% endblock %}
