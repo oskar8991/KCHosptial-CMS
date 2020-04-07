@@ -1,57 +1,13 @@
-{% extends 'bases/base.html' %}
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
 
 {% block title %} FAQ - Edit {% endblock %}
 
+{% block header %} Edit a question {% endblock %}
 
-{% block head %}
-<title>FAQ - Edit</title>
-{% endblock %}
-
-
-{% block body %}
-
-<div class="container">
-  <div class="col-md-12">
-	   <div class="text-center">
-			    <br><h1> Edit FAQ </h1>
-     </div>
-
-     <br>
-
-     <div class="row justify-content-center">
-       <form action="" method="POST" enctype="multipart/form-data">
-
-         <label for="faqID">FAQ ID</label>
-         <div class="md-form">
-           <textarea id="faqID" name="faqID" class="md-textarea form-control" rows="1" cols="35" readonly>{{faq.id}}</textarea>
-         </div>
-         <br>
-         <label for="newQuestion">Question</label>
-         <div class="md-form">
-           <textarea id="newQuestion"  name="newQuestion" class="md-textarea form-control" rows="3" cols="60" required>{{faq.question}}</textarea>
-         </div>
-         <br><label for="newAnswer">Answer</label>
-         <div class="md-form">
-           <textarea id="newAnswer" name="newAnswer" class="md-textarea form-control" rows="5" cols="35"  required>{{faq.answer}}</textarea>
-         </div>
-
-         <br>
-
-         <div class="row justify-content-center mt-5">
-           <a href="{{url_for('main.faq')}}" class="btn btn-primary" role="button">Back</a>
-           <input type="submit" class="btn btn-primary ml-3" type="button" id = "update" value="Update">
-         </div>
-
-         <br>
-
-       </form>
-     </div>
-
-
-  </div>
-</div>
-
-
-
-
+{% block form %}
+{{ textarea(title='FAQ ID', id='faqID', rows='1', cols='35', attributes=['readonly'], value=faq.id) }}
+{{ textarea(title='Question', id='newQuestion', rows='3', cols='60', attributes=['required'], value=faq.question) }}
+{{ textarea(title='Answer', id='newAnswer', rows='5', cols='35', attributes=['required'], value=faq.answer) }}
+{{ submit(back_url=url_for('main.faq'), submit_text='Update', submit_id='update') }}
 {% endblock %}

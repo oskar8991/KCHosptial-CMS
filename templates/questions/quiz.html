@@ -1,39 +1,37 @@
-{% extends "bases/base.html" %}
-{% block title %} Make a quiz{% endblock %}
+{% extends "base_templates/base.html" %}
+{% block title %} Make a quiz {% endblock %}
 
 
 {% block body%}
-
-  <div class="row justify-content-center">
-    <h2>Make a new quiz</h2>
-  </div>
+<div class="row justify-content-center">
+  <h2>Make a new quiz</h2>
+</div>
 
 <div class = "container">
   <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Question</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for question in questions %}
+    <thead>
+      <tr>
+        <th scope="col">Question</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for question in questions %}
         <tr>
-            <td>{{ question.question_text }}</td>
-            <td><a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" id= "editQuestion" role="button">Edit</a>
-              <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}"  id= "deleteQuestion" role="button">Delete</a>
-            </td>
-          </tr>
-    {% endfor %}
-  </tbody>
-</table>
+          <td>{{ question.question_text }}</td>
+          <td>
+            <a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" id= "editQuestion" role="button">Edit</a>
+            <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}"  id= "deleteQuestion" role="button">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
-  <div class = "container">
-    <div class="row justify-content-center">
-
-      <a class="btn btn-primary" href="{{url_for('quiz.add_question')}}" id="addQuestion" role="button">Add a question</a>
-    </div>
+<div class = "container">
+  <div class="row justify-content-center">
+    <a class="btn btn-primary" href="{{url_for('quiz.add_question')}}" id="addQuestion" role="button">Add a question</a>
   </div>
-
+</div>
 {% endblock %}

@@ -47,7 +47,7 @@ def edit_content():
     }
 
     return render_template(
-        'edit.html',
+        'dashboard/edit.html',
         content=contentDictionary
     )
 
@@ -59,4 +59,4 @@ def edit_record_content():
             record_content = record
 
 
-    return render_template('editor.html', content=record_content)
+    return render_template('dashboard/editor.html', content=record_content)
