@@ -9,7 +9,7 @@
   display-direction: row;
   flex-wrap: wrap;
   margin: 0 auto;
-  background-color: #39ac73;
+  background-color: #595959;
   max-width: 550px;
   min-height: 50px;
   border: 2px solid black;
@@ -77,7 +77,7 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked ~ .darkModeBtn {
-  background: white;
+  background: #1f4261;
 }
 
 .darkModeBtn:before {
@@ -100,8 +100,8 @@ input[type="checkbox"]:checked ~ .darkModeBtn:before {
   content: '';
   position: absolute;
   top: 2px;
-  left: 2px;
-  background: #0d1a26;
+  left: 20px;
+  background: #060d13;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -114,14 +114,14 @@ input[type="checkbox"]:checked ~ .darkModeBtn:after {
 }
 
 footer {
- width: 100%;
+  width: 100%;
   height: auto;
   margin: auto;
-  background:#39ac73;
-  font-family: 'Roboto Slab', serif;
+  background:#595959;
+  font-family: 'Source Sans Pro', serif;
   padding: 20px 0px;
   text-align: center;
-  color: #fff;
+  color: black;
   font-weight: bold;
   letter-spacing: 2px;
   border-style: solid;
@@ -133,16 +133,17 @@ footer {
 .something-wrong p{
   font-size: 13px;
   text-align: center;
-  color: #fff;
+  color: black;
 }
 
 .something-wrong a{
 text-decoration: none;
-color: #fff
+color: black;
+text-decoration: underline;
 }
 
 .something-wrong a:hover{
-  color:  #e67e22;
+  color:  #39ac73;
 }
 
 
@@ -263,8 +264,13 @@ color: #fff
   outline: none;
 }
 
+#generate{
+  border-color: black;
+  background: #39ac73;
+}
+
 .card-header{
-  background-color: rgb(239, 253, 255)!important;
+  background-color: rgb(239, 253, 255);
 }
 .show {
   padding: 3%;
@@ -276,8 +282,21 @@ color: #fff
   margin: auto;
 }
 
+#faqBtn {
+  font-size: 18px;
+  font-weight: 700;
+}
+
 section {
   padding: 2rem;
+}
+
+#log{
+  color: black;
+}
+
+#log:hover {
+  font-weight: 700;
 }
 
 
@@ -374,39 +393,37 @@ ul {
 
 #chartLink {
   color: #39ac73;
+  text-decoration: underline;
+}
+
+#image1.fade-in, #image2.fade-in, #image3.fade-in, #image4.fade-in, #image5.fade-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #image1 {
   width: 90%;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s ease-in-out;
 }
 
 #image2 {
-  z-index: -1;
   position: relative;
-  top: 110px;
-  right: 160px;
+  top: 160px;
+  right: 85px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s ease-in-out;
 }
 
 #image3, #image4, #image5 {
   display: block;
   margin-right: auto;
   margin-left: auto;
-}
-
-#image6 {
-  width: 80%;
-}
-
-#image7 {
-  width: 90%;
-}
-
-#image8 {
-  width: 60%;
-}
-
-#image9 {
-  width: 60%;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s ease-in-out;
 }
 
 #image10 {
@@ -421,12 +438,9 @@ ul {
   width: 100%;
 }
 
-
-
 #click, #click2{
   display: none;  /*hide checkbox*/
 }
-
 .popUpButton{
   position: relative;
   left: 380px;
@@ -442,6 +456,16 @@ ul {
   font-weight: 700;
   border-radius: 7px;
   cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s ease-in-out;
+  visibility: hidden;
+}
+
+.popUpButton.fade-in {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .popUpButtonCircle{
@@ -531,14 +555,14 @@ ul {
   padding: 10px 15px;
 }
 
-.popUpHeader .close-btn {
+/*.popUpHeader .close-btn {
   cursor: pointer;
   border: none;
   outline: none;
   background: none;
   font-size: 1.25rem;
   font-weight: bold;
-}
+}*/
 
 .overlay {
   position: fixed;
@@ -550,4 +574,5 @@ ul {
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
   pointer-events: none; /*user can click the button*/
+
 }

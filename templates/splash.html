@@ -4,10 +4,19 @@
   <title>Home Page</title>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/splash.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/switch.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dark-light.css')}}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
   <h1>King's Pediatric Liver Center</h1>
+  <div class="darkModeContainer"></div>
+  <label>
+    <input type="checkbox" name="darkMode" id="darkMode">
+    <span class="darkModeBtn"></span>
+  </label>
+
   <div class="container">
     <div class="card" id="content">
       <div class="icon">
@@ -23,7 +32,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" id="content">
       <div class="icon">
         <div class="iconText">Drug Chart</div>
         <img src="{{url_for('static', filename='resources/icon/drugChart.png')}}">
@@ -36,8 +45,8 @@
         </div>
       </div>
     </div>
-
-    <div class="card">
+  
+    <div class="card" id="content">
       <div class="icon">
         <div class="iconText">FAQ</div>
         <img src="{{url_for('static', filename='resources/icon/FAQ.png')}}">
@@ -45,13 +54,13 @@
       <div class="content">
         <div>
           <h3>FAQ</h3>
-          <p> Got questions ? Check out the Frequently Asked Questions page to find the answers !</p>
+          <p> Got questions ? Check out the Frequently Asked Questions page to find answers.</p>
           <a href="{{url_for('main.faq')}}">Read More</a>
         </div>
       </div>
     </div>
-
-    <div class="card">
+  
+    <div class="card" id="content">
       <div class="icon">
         <div class="iconText">About</div>
         <img src="{{url_for('static', filename='resources/icon/about.png')}}">
@@ -65,6 +74,12 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="{{url_for('static', filename='/js/splash.js')}}"></script>
+  
+<!--  <script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script> -->
+  <script type="text/javascript">
+    document.getElementById('darkMode').addEventListener('change', function(event){
+      (event.target.checked) ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme');
+    });
+  </script>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <form method="post">
     <table class="table table-hover">
       <thead>
-        <tr>
+        <tr id="tableh">
           <th scope="col"></th>
           <th scope="col">Medication</th>
           <th scope="col">Indications</th>
@@ -17,7 +17,7 @@
       <tbody>
         {% for medication in medications %}
 
-        <tr>
+        <tr id="tableContent">
           <td>
             <input type="checkbox" name="{{ medication.name }}"
             {% if session['meds'] %}
@@ -34,7 +34,7 @@
       </tbody>
     </table>
     <div class="mx-auto text-center">
-      <button type="submit" class="btn btn-primary">Generate Chart</button>
+      <button type="submit" class="btn btn-primary" id="generate">Generate Chart</button>
     </div>
   </form>
 </div>

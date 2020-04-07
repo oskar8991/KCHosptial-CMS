@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dashboard.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
   
   <!-- bootstrap link -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dashboard.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dark-light.css')}}">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
@@ -20,9 +21,9 @@
 </head>
 
 <body>
-  <nav class="navbar sticky-top navbar-expand navbar-light" id="nav" style="background-color: #39ac73; border-bottom: 2px solid black;">
-    <a class="navbar-brand" href="{{url_for('main.home')}}">
-      <i class="fas fa-home"></i>
+  <nav class="navbar sticky-top navbar-expand navbar-light" id="nav">
+    <a class="navbar-brand" href="{{url_for('main.home')}}" id="home">
+      <i class="fas fa-home"  id="house"></i>
     </a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
@@ -70,7 +71,7 @@
               <a class="dropdown-item" href="{{url_for('dashboard.dashboard_panel')}}">Dashboard</a>
               <a class="dropdown-item" href="{{url_for('users.logout')}}">Logout</a>
             {%else%}
-              <a class="dropdown-item" href="{{url_for('users.login')}}">Staff Login</a>
+              <a id="staff" class="dropdown-item" href="{{url_for('users.login')}}">Staff Login</a>
             {%endif%}
           </div>
         </li>
@@ -92,5 +93,11 @@
       </div>
     </div>
   </footer>
+
+  <script type="text/javascript">
+    document.getElementById('darkMode').addEventListener('change', function(event){
+      (event.target.checked) ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme');
+    });
+  </script>
 </body>
 </html>
