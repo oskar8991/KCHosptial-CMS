@@ -1,6 +1,4 @@
 :root {
-	--home-font-color: black;
-	--staff-color: black;
 	--font-color: black;
 	--bg-color: white;
 	--h2-font-color:black;
@@ -22,8 +20,6 @@
 }
 
 [data-theme="dark"] {
-	--home-font-color: white;
-	--staff-color: white;
 	--font-color: #ebebeb;
 	--bg-color: #0d1a26;
 	--h2-font-color: #060d13;
@@ -169,20 +165,4 @@ body .icon {
 
 body h1 {
 	color: var(--splash-heading-color);
-}
-
-#nav {
-	background-color: var(--splash-container-color);
-	border-bottom: 2px solid black;"
-}
-
-.navbar-light .navbar-nav .active>.nav-link {
-	color: var(--font-color);
-}
-.navbar-light .navbar-brand> #house {
-	color: var(--home-font-color);
-}
-
-#navbarDropdownMenuLink-333{
-	color: var(--staff-color);
 }

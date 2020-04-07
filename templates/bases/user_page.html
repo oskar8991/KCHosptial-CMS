@@ -2,6 +2,8 @@
 {% block body %}
   {% block content %}{% endblock %}
 
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dark-light.css')}}">
+
   <div class="text-col d-flex justify-content-center">
     <div class="question" id="question">Was this page helpful?</div>
     <div class="buttonsContainer" id="answer">
