@@ -76,10 +76,7 @@
   </div>
   
 <!--  <script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script> -->
-  <script type="text/javascript">
-    document.getElementById('darkMode').addEventListener('change', function(event){
-      (event.target.checked) ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme');
-    });
-  </script>
+
+  <script src="{{url_for('static', filename='js/dark_mode.js')}}"></script>
 </body>
 </html>
