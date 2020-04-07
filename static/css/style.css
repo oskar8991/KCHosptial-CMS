@@ -58,10 +58,10 @@
 }
 
 
-input[type="checkbox"] {
+.darkModeLabel input[type="checkbox"] {
   -webkit-appearance: none;
   visibility: hidden;
-  display: none;
+  display: block;
 }
 
 .darkModeBtn {
@@ -76,7 +76,7 @@ input[type="checkbox"] {
   transition: ease-in-out 0.5s
 }
 
-input[type="checkbox"]:checked ~ .darkModeBtn {
+.darkModeLabel input[type="checkbox"]:checked ~ .darkModeBtn {
   background: #1f4261;
 }
 
@@ -92,7 +92,7 @@ input[type="checkbox"]:checked ~ .darkModeBtn {
   transition: 0.5s;
 }
 
-input[type="checkbox"]:checked ~ .darkModeBtn:before {
+.darkModeLabel input[type="checkbox"]:checked ~ .darkModeBtn:before {
   transform: translateX(-50px);
 }
 
@@ -109,7 +109,7 @@ input[type="checkbox"]:checked ~ .darkModeBtn:before {
   transform: translateX(50px);
 }
 
-input[type="checkbox"]:checked ~ .darkModeBtn:after {
+.darkModeLabel input[type="checkbox"]:checked ~ .darkModeBtn:after {
   transform: translateX(0px);
 }
 
