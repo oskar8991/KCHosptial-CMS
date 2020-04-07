@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "bases/base.html" %}
 {% block title %} Make a quiz{% endblock %}
 
 
-{% block content%}
+{% block body%}
 
   <div class="row justify-content-center">
     <h2>Make a new quiz</h2>
@@ -20,8 +20,8 @@
     {% for question in questions %}
         <tr>
             <td>{{ question.question_text }}</td>
-            <td><a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" role="button">Edit</a>
-              <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}" role="button">Delete</a>
+            <td><a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" id= "editQuestion" role="button">Edit</a>
+              <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}"  id= "deleteQuestion" role="button">Delete</a>
             </td>
           </tr>
     {% endfor %}
@@ -32,7 +32,7 @@
   <div class = "container">
     <div class="row justify-content-center">
 
-      <a class="btn btn-primary" href="{{url_for('quiz.add_question')}}" role="button">Add a question</a>
+      <a class="btn btn-primary" href="{{url_for('quiz.add_question')}}" id="addQuestion" role="button">Add a question</a>
     </div>
   </div>
 

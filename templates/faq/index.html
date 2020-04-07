@@ -1,76 +1,42 @@
-{% extends "base.html" %}
+{% extends "bases/user_page.html" %}
 {% block title %} FAQ {% endblock %}
-
-
-{% block head %}
-<title>FAQ</title>
-{% endblock %}
 
 {% block content%}
 <div class="container">
-	<div class="col-md-12">
-		<div class="text-center">
-				<br><h1> FAQ: Frequently Asked Questions </h1>
-			</div>
-			<div class="row justify-content-center">
-		<hr></hr>
-		</div>
-        <br>
-	{% if data %}
-		<div class="row justify-content-center">
-			<div class="w-100">
-				<div class="accordion" id="accordion">
-					{% for temp in data %}
-					<div class="card">
-						<div class="card-header" id="faqH">
-							  <h2 id="titre">
-						        <button class="btn btn-link" id="faqBtn" type="button" data-toggle="collapse" data-target="#collapseID{{ temp.id }}" aria-expanded="false" aria-controls="collapseID{{ temp.id }}">
-						          {{temp.question}}
-						        </button>
-						      </h2>
-						</div>
-							<div id="faqText">
-							  <div class="collapse" id="collapseID{{ temp.id }}"> 
-								  <p>
-								{{temp.answer}}
-							</p>
-							{% if current_user.is_authenticated %}
-               					<a href="{{url_for('faq.delete_faq', id=temp.id)}}" style="text-align:right; float:right;">Delete</a>
-              					 <a href="{{url_for('faq.edit_faq', id=temp.id)}}" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
-             					{% endif %}
-					     	</div>
-							</div>
-							  
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
-	{% endif %}
-</div>
-</div>
+  <h1 class="mt-3"> FAQ: Frequently Asked Questions </h1>
+  <div class="row">
+    <div class="col">
+      {% for temp in data %}
+        <div class="card my-3">
+          <div class="card-header" id="faqH">
+            <h1 id="titre">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseID{{ temp.id }}" aria-expanded="false" aria-controls="collapseID{{ temp.id }}" id="faqBtn" >
+                {{temp.question}}
+              </button>
+            </h1>
+          </div>
 
+          <div class="collapse card-body" id="collapseID{{ temp.id }}" id="faqText">
+            <p>{{temp.answer}}</p>
+            {% if current_user.is_authenticated %}
+              <div class="float-right">
+                <a href="{{url_for('faq.edit_faq', id=temp.id)}}" class="px-2">Edit</a>
+                <a href="{{url_for('faq.delete_faq', id=temp.id)}}" class="px-2">Delete</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 
-{% if current_user.is_authenticated %}
-<div class="mx-auto text-center">
-  <a href="{{url_for('faq.create_faq')}}" class="btn btn-primary" role="button">Add FAQ</a>
-</div>
-<br><br><br>
-{% else %}
-<div class="mx-auto text-center">
+  <div class="text-center my-2">
+    {% if current_user.is_authenticated %}
+      <a href="{{url_for('faq.create_faq')}}" class="btn btn-primary" role="button">Add Question</a>
+    {% else %}
+      <a href="{{url_for('users.login')}}" id="plz">Please log in as a staff member to add/update content</a>
+    {% endif %}
+  </div>
   <br>
-  <a href="{{url_for('users.login')}}" id="plz">Please log in as a staff member to add/update content</a>
 </div>
-<br><br><br>
-{% endif %}
-
-
-<br>
-<!-- <script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script> -->
-
-  <script type="text/javascript">
-      document.getElementById('darkMode2').addEventListener('change', function(event){
-        (event.target.checked) ? document.body.setAttribute('data-theme', 'dark') : document.body.removeAttribute('data-theme');
-      });
-    </script>
 {% endblock %}

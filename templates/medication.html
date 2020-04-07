@@ -1,11 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'bases/user_page.html' %}
 
-{% block head %}
-<title>Drug Chart</title>
-{% endblock %}
+{% block title %} Drug Chart {% endblock %}
 
-{% block body %}
+{% block content %}
 <div class="container">
+  <h1>Drug Chart</h1>
   <form method="post">
     <table class="table table-hover">
       <thead>

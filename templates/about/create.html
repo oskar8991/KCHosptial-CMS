@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'bases/base.html' %}
 
 {% block title %} About - Add Card{% endblock %}
 
@@ -38,7 +38,7 @@
 
          <div class="row justify-content-center mt-5">
            <a href="{{url_for('main.about')}}" class="btn btn-primary" role="button">Back</a>
-           <input type="submit" class="btn btn-primary ml-3" type="button" value="Submit">
+           <input type="submit" class="btn btn-primary ml-3" type="button" id = "submit" value="Submit">
          </div>
 
          <br>

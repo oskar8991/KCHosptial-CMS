@@ -7,9 +7,12 @@ from sqlalchemy import create_engine, MetaData
 from flask_track_usage import TrackUsage
 from flask_track_usage.storage.sql import SQLStorage
 
+from flask_mail import Mail
+
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -21,10 +24,21 @@ def create_app():
     # Tracks cookies - used for unique visitor count
     app.config['TRACK_USAGE_COOKIE'] = True
 
+    '''
+    # Flask-Mail settings
+    MAIL_USERNAME =           os.getenv('MAIL_USERNAME',        'youremail@example.com')
+    MAIL_PASSWORD =           os.getenv('MAIL_PASSWORD',        'yourpassword')
+    MAIL_DEFAULT_SENDER =     os.getenv('MAIL_DEFAULT_SENDER',  '"MyApp" <noreply@example.com>')
+    MAIL_SERVER =             os.getenv('MAIL_SERVER',          'smtp.gmail.com')
+    MAIL_PORT =           int(os.getenv('MAIL_PORT',            '465'))
+    MAIL_USE_SSL =        int(os.getenv('MAIL_USE_SSL',         True))
+    '''
+
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'users.login'
+    mail.init_app(app)
 
 
     from models import User, init_db
@@ -49,8 +63,8 @@ def create_app():
     from dashboard.routes import dashboard
     from quiz.routes import quiz
 
-    blueprints = [drug_chart, users, main, faq, about, announcements, content, dashboard, 
-        quiz
+    blueprints = [drug_chart, users, main, faq, about, announcements, content,
+        dashboard, quiz
     ]
 
     for blueprint in blueprints:
