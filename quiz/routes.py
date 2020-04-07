@@ -102,4 +102,4 @@ def answered_question():
 def quiz_statistics():
     data = Questions.query.all()
 
-    return render_template('quiz_statistics.html', questions=data)
+    return render_template('dashboard/quiz_statistics.html', questions=data)

@@ -24,11 +24,11 @@ def dashboard_panel():
         'totalVisits': total_visits()
     }
 
-    return render_template('dashboard.html', analyticsUsage=analytics_data)
+    return render_template('dashboard/panel.html', analyticsUsage=analytics_data)
 
 @dashboard.route("/dashboard/helpful-pages")
 @login_required
 def helpful_pages():
     data = Helpful.query.all()
 
-    return render_template('helpful_pages.html', stats=data)
+    return render_template('dashboard/helpful_pages.html', stats=data)

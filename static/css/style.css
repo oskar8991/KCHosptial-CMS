@@ -305,18 +305,6 @@ section {
   background: transparent;
 }
 
-#title {
-  z-index: 2;
-  position: relative;
-  text-align: center;
-  padding: 50px 20px;
-  font-size: 150px;
-  font-weight: 300px;
-  color: #404040;
-  -webkit-text-stroke: 2px black;
-  border: 2px solid black;
-}
-
 .line {
     width: 100%;
     height: 1px;
