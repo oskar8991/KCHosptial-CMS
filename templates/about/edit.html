@@ -1,57 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
 
 {% block title %} About - edit card {% endblock %}
 
+{% block header %} Edit About Card {% endblock %}
 
-{% block head %}
-<title>About - Edit card</title>
-{% endblock %}
-
-
-{% block body %}
-
-<div class="container">
-  <div class="col-md-12">
-	   <div class="text-center">
-			    <br><h1> Edit About Card </h1>
-     </div>
-
-     <br>
-
-     <div class="row justify-content-center">
-       <form action="" method="POST" enctype="multipart/form-data">
-
-         <label for="card">Card ID</label>
-         <div class="md-form">
-           <textarea id="card" name="card" class="md-textarea form-control" rows="1" cols="35" readonly>{{about.id}}</textarea>
-         </div>
-         <br>
-         <label for="newSubject">Subject</label>
-         <div class="md-form">
-           <textarea id="newSubject"  name="newSubject" class="md-textarea form-control" rows="3" cols="60" required>{{about.title}}</textarea>
-         </div>
-         <br><label for="newContent">Content</label>
-         <div class="md-form">
-           <textarea id="newContent" name="newContent" class="md-textarea form-control" rows="5" cols="35"  required>{{about.content}}</textarea>
-         </div>
-
-         <br>
-
-         <div class="row justify-content-center mt-5">
-           <a href="{{url_for('main.about')}}" class="btn btn-primary" role="button">Back</a>
-           <input type="submit" class="btn btn-primary ml-3" type="button" value="Update">
-         </div>
-
-         <br>
-
-       </form>
-     </div>
-
-
-  </div>
-</div>
-
-
-
-
+{% block form %}
+{{ textarea(title='Card ID', id='card', rows='1', cols='35', attributes=['readonly'], value=about.id) }}
+{{ textarea(title='Subject', id='newSubject', rows='3', cols='60', attributes=['required'], value=about.title) }}
+{{ textarea(title='Content', id='newContent', rows='5', cols='35', attributes=['required'], value=about.content) }}
+{{ submit(back_url=url_for('main.about'), submit_text='Update') }}
 {% endblock %}

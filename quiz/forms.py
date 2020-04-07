@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, ValidationError
-from wtforms.validators import DataRequired
-from models import Questions
+from wtforms import StringField, SubmitField, SelectField, ValidationError
+from wtforms.validators import DataRequired, Required
+from models import Questions, Content
 
 class QuestionForm(FlaskForm):
     question = StringField('Question', validators=[DataRequired()])
@@ -9,6 +9,7 @@ class QuestionForm(FlaskForm):
     second_answer = StringField('Second Answer', validators=[DataRequired()])
     third_answer = StringField('Third Answer', validators=[DataRequired()])
     correct_answer = StringField('Correct Answer', validators=[DataRequired()])
+    content = SelectField('Section', validators = [Required()], coerce=int)
     submit = SubmitField('Submit')
     new_question = True # Make this false if the form is used to edit a question.
 

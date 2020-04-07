@@ -1,55 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
 
 {% block title %} FAQ - Add {% endblock %}
 
+{% block header %} Add a Frequently Asked Question {% endblock %}
 
-{% block head %}
-<title>FAQ - Add</title>
-{% endblock %}
-
-
-
-
-{% block body %}
-
-
-<div class="container">
-  <div class="col-md-12">
-	   <div class="text-center">
-			    <br><h1> Add a Frequently Asked Question </h1>
-     </div>
-
-     <br>
-     <!-- Below is taken from announcements, we are recreating it for FAQ -->
-
-     <div class="row justify-content-center">
-       <form action="" method="POST" enctype="multipart/form-data">
-
-         <label for="question">Question</label>
-         <div class="md-form">
-           <textarea id="question" name="question" class="md-textarea form-control" rows="3" cols="60" required></textarea>
-         </div>
-         <br><label for="answer">Answer</label>
-         <div class="md-form">
-           <textarea id="answer" name="answer" class="md-textarea form-control" rows="5" cols="35" required></textarea>
-         </div>
-
-         <br>
-
-         <div class="row justify-content-center mt-5">
-           <a href="{{url_for('main.faq')}}" class="btn btn-primary" role="button">Back</a>
-           <input type="submit" class="btn btn-primary ml-3" type="button" value="Submit">
-         </div>
-
-         <br>
-
-       </form>
-     </div>
-
-
-  </div>
-</div>
-
-
-
+{% block form %}
+{{ textarea(title='Question', id='question', rows='3', cols='60', attributes=['required']) }}
+{{ textarea(title='Answer', id='answer', rows='5', cols='35', attributes=['required']) }}
+{{ submit(back_url=url_for('main.faq')) }}
 {% endblock %}

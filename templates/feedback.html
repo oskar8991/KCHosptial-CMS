@@ -1,0 +1,18 @@
+{% extends "base_templates/user_page.html" %}
+{% block title %} Tell us what's wrong! {% endblock %}
+
+{% block content%}
+
+<div class="container">
+  <h1 class="text-dark" align="center"> Tell us what's wrong!</h1>
+  <hr>
+<form method="POST">
+  <div class="form-group">
+    <label for="problem">Describe the problem!</label>
+    <textarea class="form-control" name="problem" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+</div>
+
+{% endblock %}

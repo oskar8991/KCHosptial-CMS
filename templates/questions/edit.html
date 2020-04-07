@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "base_templates/base.html" %}
 {% block title %} Make a question {% endblock %}
 
 
-{% block content%}
+{% block body%}
 
 <div class="row justify-content-center">
   <h2>Edit a question</h2>
@@ -21,7 +21,7 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.question(class="form-control", value=values['question']) }}
+        {{ form.question(class="form-control", value=values['question'], id = "new_question") }}
       {% endif %}
     </div>
     <div class="form-group">
@@ -70,6 +70,20 @@
         </div>
       {% else %}
         {{ form.correct_answer(class="form-control", value=values['correct_answer']) }}
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="content">Select the section linked to this question.</label>
+      {% if form.content.errors %}
+        {{ form.content(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.content.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.content(class="form-control") }}
       {% endif %}
     </div>
 

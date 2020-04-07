@@ -1,0 +1,228 @@
+{% extends "base_templates/base.html" %}
+{% block title %} Edit Page {% endblock %}
+
+
+{% block body%}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+<script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<br>
+<div class='container'>
+  <div class="row justify-content-center">
+    <h2>Edit Main Content Page</h2>
+  </div>
+
+<!--Button to add new section-->
+<br>
+<button type="button" onClick="addNewSection()" class="btn btn-info" id="newSectionAdd">Add New Section</button>
+<br>
+
+
+<!--/Dropdown primary-->
+<br>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">Heading: </span>
+  </div>
+
+  <input  class="form-control" list="headings" name="headingsList" id="headerInput">
+  <datalist id="headings">
+    {% for header in content.headings %}
+    <option value="{{header}}">
+    {% endfor %}
+  </datalist>
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">Title: </span>
+  </div>
+  <input  class="form-control" list="titles" name="titleList" id="titleInput">
+  <datalist id="titles">
+    {% for record in content.records %}
+    <option value="{{record.title}}">
+    {% endfor %}
+  </datalist>
+  <!-- <input type="text" class="form-control" value="New Title" aria-label="title" aria-describedby="basic-addon1" id="titleInput"> -->
+</div>
+
+
+<br>
+<div id="editor">
+
+</div>
+<div id="newSectionEditor">
+  <div id="editorDiv">
+
+  </div>
+</div>
+
+
+<br>
+<div class="row justify-content-center">
+  <input type="submit" class="btn btn-success" value="Save Changes" id="save" name="save">
+  <input type="submit" class="btn btn-danger" value="Remove Selected Article" id="delete">
+  <input type="submit" class="btn btn-success" value="Submit New Section" id="addNew">
+</div>
+</div>
+<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+
+<!-- Script to select heading and title to display as button text, respectively-->
+<script>
+$("#titleInput").change(function(e){
+  e.preventDefault(); // cancel the link behaviour
+  var selText = document.getElementById("titleInput").value;
+  
+  $.ajax({
+     url: "{{url_for('content.edit_record_content')}}",
+     type: "get",
+     data: {jsdata: selText},
+     success: function(response) {
+       $("#editor").html(response);
+
+     },
+     error: function(xhr) {
+       //Do Something to handle error
+        $("#dropdownMenu1-3").text("Fail!");
+     }
+   });
+});
+
+var newQuill = new Quill('#editorDiv', {
+  theme: 'snow',
+  modules: {
+    toolbar: [
+          [{ 'font': [] }, { 'size': [] }],
+          [ 'bold', 'italic', 'underline', 'strike' ],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'script': 'super' }, { 'script': 'sub' }],
+          [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block' ],
+          [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }],
+          [ 'direction', { 'align': [] }],
+          [ 'link', 'image', 'video', 'formula' ],
+          [ 'clean' ]
+    ]
+  }
+
+});
+
+var addNew = document.getElementById("addNew");
+var editor = document.getElementById("newSectionEditor");
+editor.style.display = "none";
+addNew.style.display = "none";
+
+//Function that switches between edit/add views.
+function addNewSection(){
+
+  var editor = document.getElementById("newSectionEditor");
+  var existingEditor = document.getElementById("editor");
+  var saveButton = document.getElementById("save");
+  var deleteButton = document.getElementById("delete");
+  var addNew = document.getElementById("addNew");
+
+  if (addNew.style.display === "block") {
+   $("#newSectionAdd").text("Add New Section");
+   editor.style.display = "none"
+   existingEditor.style.display = "block";
+   saveButton.style.display = "block";
+   deleteButton.style.display = "block";
+   addNew.style.display = "none";
+
+  } else {
+   editor.style.display = "block";
+   existingEditor.style.display = "none";
+   $("#newSectionAdd").text("Go Back");
+   saveButton.style.display = "none";
+   deleteButton.style.display = "none";
+   addNew.style.display = "block";
+
+  }
+
+}
+
+</script>
+
+<script type="text/javascript">
+  $("#addNew").click(function(){
+    var titleInput = document.getElementById("titleInput").value;
+    var headerInput = document.getElementById("headerInput").value;
+    var quillHTML = newQuill.root.innerHTML.trim();
+    if (confirm("Are you sure you want to create this article?")){
+      $.ajax({
+        url : "{{url_for('content.save_record')}}",
+        type : 'get',
+        data : {jsdata: quillHTML, title : titleInput, header : headerInput},
+        success: function(response) {
+         window.alert("New article successfully created!")
+         location.reload()
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+           window.alert("Failed")
+        }
+      });
+    }
+    else {
+      window.alert("Action aborted")
+    }
+     });
+  $("#save").click(function(){
+    var titleInput = document.getElementById("titleInput").value;
+    var headerInput = document.getElementById("headerInput").value;
+    var quillHTML = quill.root.innerHTML.trim();
+    if (confirm("Are you sure you want to save these changes?")){
+      $.ajax({
+        url : "{{url_for('content.save_record')}}",
+        type : 'get',
+        data : {jsdata: quillHTML, title : titleInput, header : headerInput},
+        success: function(response) {
+         window.alert("Record successfully saved!")
+         location.reload()
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+           window.alert("Failed")
+        }
+      });
+    }
+    else {
+      window.alert("Action aborted")
+    }
+     });
+
+     $("#delete").click(function(){
+       var titleInput = document.getElementById("titleInput").value;
+       var headerInput = document.getElementById("headerInput").value;
+       if (headerInput != ""){
+         if (confirm("Are you sure you want to delete this article?")){
+           $.ajax({
+             url : "{{url_for('content.delete_record')}}",
+             type : 'get',
+             data : {title : titleInput, header : headerInput},
+             success: function(response) {
+              window.alert("Record deleted!")
+              location.reload()
+             },
+             error: function(xhr) {
+               //Do Something to handle error
+                window.alert("Failed: Check that title and header are of an existing article.")
+             }
+           });
+         }
+         else {
+           window.alert("Action aborted")
+         }
+       }
+       else {
+         window.alert("Failed: Input header")
+       }
+         });
+
+</script>>
+
+{% endblock %}

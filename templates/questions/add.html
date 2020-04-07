@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "base_templates/base.html" %}
 {% block title %} Make a question {% endblock %}
 
 
-{% block content%}
+{% block body%}
 
 <div class="row justify-content-center">
   <h2>Add a question and an answer</h2>
@@ -21,7 +21,7 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.question(class="form-control") }}
+        {{ form.question(class="form-control", id= "test_add_question_question") }}
       {% endif %}
     </div>
 
@@ -35,7 +35,7 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.first_answer(class="form-control") }}
+        {{ form.first_answer(class="form-control",  id="test_add_question_answer1") }}
       {% endif %}
 
       {% if form.second_answer.errors %}
@@ -46,7 +46,7 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.second_answer(class="form-control") }}
+        {{ form.second_answer(class="form-control",  id="test_add_question_answer2") }}
       {% endif %}
 
       {% if form.third_answer.errors %}
@@ -57,7 +57,7 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.third_answer(class="form-control") }}
+        {{ form.third_answer(class="form-control",  id="test_add_question_answer3") }}
       {% endif %}
     </div>
 
@@ -71,7 +71,21 @@
           {% endfor %}
         </div>
       {% else %}
-        {{ form.correct_answer(class="form-control") }}
+        {{ form.correct_answer(class="form-control",  id="test_add_question_answerCorrect") }}
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="content">Select the section linked to this question.</label>
+      {% if form.content.errors %}
+        {{ form.content(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.content.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.content(class="form-control") }}
       {% endif %}
     </div>
 
