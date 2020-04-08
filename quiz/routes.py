@@ -77,8 +77,12 @@ def edit_question(question_id):
 @login_required
 def questions():
     questions = Questions.query.all()
+    titles = {
+        question.content_id: Content.query.get(question.content_id).title
+        for question in questions
+    }
 
-    return render_template('questions/quiz.html', questions = questions)
+    return render_template('questions/quiz.html', questions = questions, titles=titles)
 
 @quiz.route('/_answered_question')
 def answered_question():

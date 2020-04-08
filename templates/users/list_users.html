@@ -1,14 +1,12 @@
-{% extends "base_templates/base.html" %}
+{% extends "base_templates/dashboard_page.html" %}
 {% block title %} Users List {% endblock %}
 
-{% block body%}
+{% set current_page = 'users' %}
 
-<div class='container'>
-  <div class="row justify-content-center">
-    <h2>Users List</h2>
-  </div>
+{% block content%}
+<h1 class="my-3">Users List</h1>
 
-  <table class="table">
+<table class="table">
   <thead>
     <tr>
       <th scope="col">id</th>
@@ -26,6 +24,4 @@
     {% endfor %}
   </tbody>
 </table>
-</div>
-
 {% endblock %}

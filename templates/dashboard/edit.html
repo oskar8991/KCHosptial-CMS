@@ -1,78 +1,66 @@
-{% extends "base_templates/base.html" %}
+{% extends "base_templates/dashboard_page.html" %}
 {% block title %} Edit Page {% endblock %}
 
+{% set current_page = url_for('content.edit_content') %}
 
-{% block body%}
+{% block header %}
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+<!-- Include editor stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
-<br>
-<div class='container'>
-  <div class="row justify-content-center">
-    <h2>Edit Main Content Page</h2>
-  </div>
-
-<!--Button to add new section-->
-<br>
-<button type="button" onClick="addNewSection()" class="btn btn-info" id="newSectionAdd">Add New Section</button>
-<br>
-
-
-<!--/Dropdown primary-->
-<br>
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="heading">Heading: </span>
-  </div>
-
-  <input  class="form-control" list="headings" name="headingsList" id="headerInput">
-  <datalist id="headings">
-    {% for header in content.headings %}
-    <option value="{{header}}">
-    {% endfor %}
-  </datalist>
-</div>
-
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text" id="title">Title: </span>
-  </div>
-  <input  class="form-control" list="titles" name="titleList" id="titleInput">
-  <datalist id="titles">
-    {% for record in content.records %}
-    <option value="{{record.title}}">
-    {% endfor %}
-  </datalist>
-  <!-- <input type="text" class="form-control" value="New Title" aria-label="title" aria-describedby="basic-addon1" id="titleInput"> -->
-</div>
-
-
-<br>
-<div id="editor">
-
-</div>
-<div id="newSectionEditor">
-  <div id="editorDiv">
-
-  </div>
-</div>
-
-
-<br>
-<div class="row justify-content-center">
-  <input type="submit" class="btn btn-success" value="Save Changes" id="save" name="save">
-  <input type="submit" class="btn btn-danger" value="Remove Selected Article" id="delete">
-  <input type="submit" class="btn btn-success" value="Submit New Section" id="addNew">
-</div>
-</div>
-<!-- Include stylesheet -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<!-- Include the Quill library -->
+<!-- Include the Quill library (editor) -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+{% endblock %}
+{% block content%}
+  <h1 class="my-3">Edit Main Content Page</h1>
 
+  <!--Button to add new section-->
+  <button type="button" onClick="addNewSection()" class="btn btn-info mb-3" id="newSectionAdd">Add New Section</button>
 
-<!-- Script to select heading and title to display as button text, respectively-->
+  <!--/Dropdown primary-->
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="heading">Heading: </span>
+    </div>
+
+    <input  class="form-control" list="headings" name="headingsList" id="headerInput">
+    <datalist id="headings">
+      {% for header in content.headings %}
+        <option value="{{header}}">
+      {% endfor %}
+    </datalist>
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="title">Title: </span>
+    </div>
+    <input  class="form-control" list="titles" name="titleList" id="titleInput">
+    <datalist id="titles">
+      {% for record in content.records %}
+      <option value="{{record.title}}">
+      {% endfor %}
+    </datalist>
+    <!-- <input type="text" class="form-control" value="New Title" aria-label="title" aria-describedby="basic-addon1" id="titleInput"> -->
+
+  </div>
+
+  <div class="my-3">
+    <div id="editor"></div>
+
+    <div id="newSectionEditor">
+      <div id="editorDiv"></div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center my-3">
+    <input type="submit" class="btn btn-success mx-2" value="Save Changes" id="save" name="save">
+    <input type="submit" class="btn btn-danger mx-2" value="Remove Selected Article" id="delete">
+    <input type="submit" class="btn btn-success mx-2" value="Submit New Section" id="addNew">
+  </div>
+
+<!-- Script to select heading and title to display as button text, respectively -->
 <script>
 $("#titleInput").change(function(e){
   e.preventDefault(); // cancel the link behaviour
@@ -223,6 +211,6 @@ function addNewSection(){
        }
          });
 
-</script>>
+</script>
 
 {% endblock %}

@@ -1,55 +1,36 @@
 {% extends "base_templates/dashboard_page.html" %}
 {% block title %} Dashboard {% endblock %}
 
+{% set current_page = url_for('dashboard.dashboard_panel') %}
+
+{% macro visit_card(title, text) %}
+  <div class="card" style="width: 18rem;">
+    <div class="card-body text-center">
+      <h5 class="card-title">{{ title }}</h5>
+      <p class="card-text">{{ text }}</p>
+    </div>
+  </div>
+{% endmacro %}
 
 {% block content%}
+<h1 class="text-dark mb-3" align="center"> Dashboard</h1>
+<div class="row justify-content-around my-3">
+  {{ visit_card('Total visits: ', analyticsUsage.totalVisits) }}
+  {{ visit_card('Most Visited Page: ', analyticsUsage.mostVisitedPage) }}
+  {{ visit_card('Unique visitors: ', analyticsUsage.visitorCount) }}
+</div>
 
-<div class="container">
-  <h1 class="text-dark" style="text-decoration-line:underline;" align="center"> Dashboard</h1>
-  <hr>
-  <div class="row justify-content-around">
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">Total visits: </h5>
-        <p class="card-text">{{analyticsUsage.totalVisits}}</p>
-      </div>
-    </div>
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">Most Visited Page</h5>
-        <p class="card-text">{{analyticsUsage.mostVisitedPage}}</p>
-      </div>
-    </div>
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">Unique visitors: </h5>
-        <p class="card-text">{{analyticsUsage.visitorCount}}</p>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="row justify-content-around">
-    <div class="row">
-      <a class="btn btn-primary" href="{{url_for('users.add_user')}}" role="button" id="addUser">Add user</a>
-      <a class="btn btn-primary" href="{{url_for('users.list_users')}}" id="seeUser" role="button">See users</a>
-    </div>
-    <div class="row">
-      <a id="editPage" class="btn btn-primary" href="{{url_for('content.edit_content')}}"role="button">Edit main page content</a>
-    </div>
-  </div>
-  <br>
-
-  <div class="row justify-content-around">
+<div class="row my-3">
+  <div class="col-lg-6 mb-3">
     <div class="card">
-      <canvas class="my-4 w-100" id="weekly_usage" width="450" height="380"></canvas>
-    </div>
-    <div class="card">
-      <canvas class="my-4 w-100" id="systems" width="450" height="380"></canvas>
+      <canvas id="weekly_usage" width="450" height="380"></canvas>
     </div>
   </div>
-
-
+  <div class="col-lg-6 mb-3">
+    <div class="card">
+      <canvas id="systems" width="450" height="380"></canvas>
+    </div>
+  </div>
 </div>
 
 <!-- Graphs -->
@@ -60,23 +41,15 @@
     type: 'line',
     data: {
       labels: [
-        '{{analyticsUsage.weekData['6'].date}}',
-        '{{analyticsUsage.weekData['5'].date}}',
-        '{{analyticsUsage.weekData['4'].date}}',
-        '{{analyticsUsage.weekData['3'].date}}',
-        '{{analyticsUsage.weekData['2'].date}}',
-        '{{analyticsUsage.weekData['1'].date}}',
-        '{{analyticsUsage.weekData['today'].date}}'
+        {% for i in range(5, -1, -1) %}
+          '{{analyticsUsage.weekData[ i|string ].date}}',
+        {% endfor %}
       ],
       datasets: [{
         data: [
-          {{analyticsUsage.weekData['6'].count}},
-          {{analyticsUsage.weekData['5'].count}},
-          {{analyticsUsage.weekData['4'].count}},
-          {{analyticsUsage.weekData['3'].count}},
-          {{analyticsUsage.weekData['2'].count}},
-          {{analyticsUsage.weekData['1'].count}},
-          {{analyticsUsage.weekData['today'].count}}
+          {% for i in range(5, -1, -1) %}
+            {{analyticsUsage.weekData[ i|string ].count}},
+          {% endfor %}
         ],
         lineTension: 0,
         backgroundColor: 'transparent',
@@ -119,5 +92,4 @@
     }
   });
 </script>
-
 {% endblock %}
