@@ -1,30 +1,23 @@
 {% extends "base_templates/dashboard_page.html" %}
 {% block title %} Dashboard {% endblock %}
 
+{% macro visit_card(title, text) %}
+  <div class="card" style="width: 18rem;">
+    <div class="card-body text-center">
+      <h5 class="card-title">{{ title }}</h5>
+      <p class="card-text">{{ text }}</p>
+    </div>
+  </div>
+{% endmacro %}
 
 {% block content%}
 <div class="container">
   <h1 class="text-dark" align="center"> Dashboard</h1>
   <hr>
   <div class="row justify-content-around">
-    <div class="card" style="width: 18rem;">
-      <div class="card-body text-center">
-        <h5 class="card-title">Total visits: </h5>
-        <p class="card-text">{{analyticsUsage.totalVisits}}</p>
-      </div>
-    </div>
-    <div class="card" style="width: 18rem;">
-      <div class="card-body text-center">
-        <h5 class="card-title">Most Visited Page</h5>
-        <p class="card-text">{{analyticsUsage.mostVisitedPage}}</p>
-      </div>
-    </div>
-    <div class="card" style="width: 18rem;">
-      <div class="card-body text-center">
-        <h5 class="card-title">Unique visitors: </h5>
-        <p class="card-text">{{analyticsUsage.visitorCount}}</p>
-      </div>
-    </div>
+    {{ visit_card('Total visits: ', analyticsUsage.totalVisits) }}
+    {{ visit_card('Most Visited Page: ', analyticsUsage.mostVisitedPage) }}
+    {{ visit_card('Unique visitors: ', analyticsUsage.visitorCount) }}
   </div>
 
   <div class="row justify-content-center my-4">
