@@ -11,7 +11,7 @@ from selenium import webdriver
 import chromedriver_binary
 
 from app import create_app, db, bcrypt
-from models import User, Questions, Answers, Announcement, FlaskUsage, FAQQuestions, About
+from models import User, Questions, Answers, Announcement, FlaskUsage, FAQQuestions, About, Content
 
 
 """
@@ -39,6 +39,8 @@ test_add_links = "Test links"
 test_question = "Test question?"
 test_answer = "Test answer"
 
+test_title = "Test title"
+test_header = "Test header"
 test_subject = "Test Subject"
 test_content = "Testing content text"
 
@@ -335,7 +337,7 @@ class TestUser(CreateObjects, TestBase):
         # Assert that there is still only 1 department in the database
         self.assertEqual(User.query.count(), 1)
 
-'''
+
 
 #This section is not done because the adding quiz question is not fully implemented
 
@@ -349,6 +351,36 @@ class TestQuiz(CreateObjects, TestBase):
 
         # Login as admin user
         self.login_admin()
+
+        #Click on edit page in the dahsboard
+        self.driver.find_element_by_id("editPage").click()
+        time.sleep(1)
+
+        #Click on add a new section
+        self.driver.find_element_by_id("newSectionAdd").click()
+        time.sleep(1)
+
+        #Input new section
+        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        time.sleep(1)
+        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        time.sleep(1)
+
+        #Save changes
+        self.driver.find_element_by_id("addNew").click()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        # clicks 'OK' button
+        ale.accept()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        ale.accept()
+
+        #Go back to dashboard
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("dashboard").click()
+        time.sleep(1)
 
         #Click on add quiz in the dahsboard
         self.driver.find_element_by_id("addQuiz").click()
@@ -383,6 +415,36 @@ class TestQuiz(CreateObjects, TestBase):
         """
         # Login as admin user
         self.login_admin()
+
+        #Click on edit page in the dahsboard
+        self.driver.find_element_by_id("editPage").click()
+        time.sleep(1)
+
+        #Click on add a new section
+        self.driver.find_element_by_id("newSectionAdd").click()
+        time.sleep(1)
+
+        #Input new section
+        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        time.sleep(1)
+        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        time.sleep(1)
+
+        #Save changes
+        self.driver.find_element_by_id("addNew").click()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        # clicks 'OK' button
+        ale.accept()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        ale.accept()
+
+        #Go back to dashboard
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("dashboard").click()
+        time.sleep(1)
 
         #Click on add quiz
         self.driver.find_element_by_id("addQuiz").click()
@@ -436,6 +498,36 @@ class TestQuiz(CreateObjects, TestBase):
         # Login as admin user
         self.login_admin()
 
+        #Click on edit page in the dahsboard
+        self.driver.find_element_by_id("editPage").click()
+        time.sleep(1)
+
+        #Click on add a new section
+        self.driver.find_element_by_id("newSectionAdd").click()
+        time.sleep(1)
+
+        #Input new section
+        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        time.sleep(1)
+        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        time.sleep(1)
+
+        #Save changes
+        self.driver.find_element_by_id("addNew").click()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        # clicks 'OK' button
+        ale.accept()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        ale.accept()
+
+        #Go back to dashboard
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("dashboard").click()
+        time.sleep(1)
+
         #Click on add quizin dahsboard
         self.driver.find_element_by_id("addQuiz").click()
         time.sleep(1)
@@ -468,7 +560,7 @@ class TestQuiz(CreateObjects, TestBase):
         #Check that it is deleted from the database
         self.assertEqual(Questions.query.count(), 0)
 
-'''
+
 
 class TestAnnouncement(CreateObjects, TestBase):
 
