@@ -1,20 +1,21 @@
 {% extends "base_templates/user_page.html" %}
 {% block title %} Project WW {% endblock %}
-{% block content%}
 
+{% block head %}
+{{ super() }}
 <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}"> -->
 <!-- For the quiz. -->
 <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
-<script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
 <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/marquee.css')}}">
 <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/example.css')}}"> -->
+<script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript" src="{{url_for('static', filename='/js/jquery.quiz.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='js/marquee.js')}}"></script>
-<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}"> -->
+{% endblock %}
 
-
+{% block content%}
 <div class="wrapper" id="wrapper">
   <nav id="sidebar" class="hidden">
     <ul>
@@ -63,7 +64,7 @@
           If you come across a medical term you don’t know you can look up an explanation here.
           <br><br>
 
-          <ol class="breadcrumb">
+          <ol class="breadcrumb justify-content-center">
             {% for initial, _ in content.glossary.items() %}
               <li class="breadcrumb-item">
                 <a href="#glossary{{ initial }}">{{ initial }}</a>
@@ -161,13 +162,13 @@
 
 <div class="content">
   <div class="simple-marquee-container">
-    <div class="marquee-sibling">
+<!--     <div class="marquee-sibling">
       Recent News
-    </div>
+    </div> -->
     <div class="marquee">
       <ul class="marquee-content-items">
         {% for announcement in announcements %}
-          <li onclick="location.href='http://127.0.0.1:5000/announcements';">
+          <li onclick="location.href='{{url_for('main.announcements')}}';">
             {{ announcement.title }}
           </li>
         {% endfor %}

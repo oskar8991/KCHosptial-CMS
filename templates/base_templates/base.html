@@ -20,7 +20,7 @@
 </head>
 
 <body>
-  <nav class="navbar sticky-top navbar-expand navbar-light" id="nav">
+  <nav class="navbar sticky-top navbar-expand navbar-light no-print" id="nav">
     <a class="navbar-brand" href="{{url_for('main.home')}}" id="home">
       <i class="fas fa-home"  id="house"></i>
     </a>
@@ -84,7 +84,7 @@
 
   {% block body %}{% endblock %}
 
-  <footer>
+  <footer class="d-print-none">
     <div class="lower-footer">
       <p>King's College London</p>
       <div class="something-wrong">

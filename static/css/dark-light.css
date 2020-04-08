@@ -166,3 +166,11 @@ body .icon {
 body h1 {
 	color: var(--splash-heading-color);
 }
+
+.question {
+	color: var(--font-color);
+}
+
+.text-col {
+	background-color: var(--nav-color);
+}

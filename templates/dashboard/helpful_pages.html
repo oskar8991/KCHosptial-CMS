@@ -4,13 +4,10 @@
 {% set current_page = url_for('dashboard.helpful_pages') %}
 
 {% block content%}
-<div class="container">
-  <h1 class="text-dark" align="center">User satisfaction</h1>
-  <hr>
+<h1 class="text-dark my-3" align="center">User satisfaction</h1>
+<div class="row justify-content-center my-3">
   {% for stat in stats %}
-    {% if loop.first %}
-      <div class="row justify-content-around">
-    {% endif %}
+    <div class="col-lg-4 my-3">
       <div class="card" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">{{ stat.page }}</h5>
@@ -22,14 +19,7 @@
           </div>
         </div>
       </div>
-    {% if loop.last %}
-      </div>
-      <br>
-    {% elif loop.index is divisibleby 3 %}
-      </div>
-      <br>
-      <div class="row justify-content-around">
-    {% endif %}
+    </div>
   {% endfor %}
 </div>
 {% endblock %}
