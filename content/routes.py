@@ -11,6 +11,7 @@ content = Blueprint('content', __name__)
 @login_required
 def save_record():
     inputText = request.args.get('jsdata')
+    inputText = add_class(inputText, "img", "img-fluid")
     inputTitle = request.args.get('title')
     inputHeader = request.args.get('header')
 
