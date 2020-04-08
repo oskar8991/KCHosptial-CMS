@@ -105,8 +105,10 @@ class TestModels(TestBase):
         """
         Test that the question and then answer is successfully added to the database
         """
-        question = Questions(question_text = "Test_Question?")
-        answer = Answers(answer_text = "Answer_Test", correct = 0, question = question)
+        content = Content(header = "Test_Header", content = "Test_Content")
+        question = Questions(question_text = "Test_Question?", content_id = content)
+        answer = Answers(answer_text = "Answer_Test", correct = 0, question_id = question)
+        db.session.add(content)
         db.session.add(question)
         db.session.add(answer)
         db.session.commit()

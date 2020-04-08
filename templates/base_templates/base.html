@@ -33,13 +33,13 @@
           <a class="nav-link" href="{{url_for('drug_chart.medication')}}">Drug Chart</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="{{url_for('main.faq')}}">FAQ</a>
+          <a id="faq" class="nav-link" href="{{url_for('main.faq')}}">FAQ</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="{{url_for('main.announcements')}}">Announcements</a>
+          <a id="announcement"class="nav-link" href="{{url_for('main.announcements')}}">Announcements</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="{{url_for('main.about')}}">About</a>
+          <a id="about" class="nav-link" href="{{url_for('main.about')}}">About</a>
         </li>
 
         <script type="text/javascript" src="{{url_for('static', filename='js/hilitor.js')}}"></script>
@@ -62,7 +62,7 @@
 
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria expanded="false">
+          <a id="navbarLogin"class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria expanded="false">
             <i class="fas fa-user"></i>
          </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
@@ -70,7 +70,7 @@
               <a class="dropdown-item" href="{{url_for('dashboard.dashboard_panel')}}">Dashboard</a>
               <a class="dropdown-item" href="{{url_for('users.logout')}}">Logout</a>
             {%else%}
-              <a id="staff" class="dropdown-item" href="{{url_for('users.login')}}">Staff Login</a>
+              <a id="loginButton" class="dropdown-item" href="{{url_for('users.login')}}">Staff Login</a>
             {%endif%}
           </div>
         </li>
