@@ -3,16 +3,15 @@
 
 
 {% block body%}
-<div class="row justify-content-center">
-  <h2>Make a new quiz</h2>
-</div>
+<h1 class="my-3">Edit quiz Questions</h1>
 
 <div class = "container">
-  <table class="table">
+  <table class="table my-3">
     <thead>
       <tr>
         <th scope="col">Question</th>
         <th scope="col">Actions</th>
+        <th scope="col">Section</th>
       </tr>
     </thead>
     <tbody>
@@ -23,14 +22,13 @@
             <a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" id= "editQuestion" role="button">Edit</a>
             <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}"  id= "deleteQuestion" role="button">Delete</a>
           </td>
+          <td>{{ titles[question.content_id] }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-</div>
 
-<div class = "container">
-  <div class="row justify-content-center">
+  <div class="row justify-content-center my-3">
     <a class="btn btn-primary" href="{{url_for('quiz.add_question')}}" id="addQuestion" role="button">Add a question</a>
   </div>
 </div>

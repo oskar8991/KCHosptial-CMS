@@ -4,9 +4,7 @@
 
 {% block body%}
 
-<div class="row justify-content-center">
-  <h2>Add a question and an answer</h2>
-</div>
+<h1 class="my-3">Add a question and an answer</h1>
 
 <div class="container">
   <form action="" method="POST">
@@ -28,36 +26,36 @@
     <div class="form-group">
       <label>Write multiple answers</label>
       {% if form.first_answer.errors %}
-        {{ form.first_answer(class="form-control is-invalid") }}
+        {{ form.first_answer(class="form-control my-1 is-invalid") }}
         <div class="invalid-feedback">
           {% for error in form.first_answer.errors %}
             <span>{{ error }}</span>
           {% endfor %}
         </div>
       {% else %}
-        {{ form.first_answer(class="form-control",  id="test_add_question_answer1") }}
+        {{ form.first_answer(class="form-control my-1",  id="test_add_question_answer1") }}
       {% endif %}
 
       {% if form.second_answer.errors %}
-        {{ form.second_answer(class="form-control is-invalid") }}
+        {{ form.second_answer(class="form-control my-1 is-invalid") }}
         <div class="invalid-feedback">
           {% for error in form.second_answer.errors %}
             <span>{{ error }}</span>
           {% endfor %}
         </div>
       {% else %}
-        {{ form.second_answer(class="form-control",  id="test_add_question_answer2") }}
+        {{ form.second_answer(class="form-control my-1",  id="test_add_question_answer2") }}
       {% endif %}
 
       {% if form.third_answer.errors %}
-        {{ form.third_answer(class="form-control is-invalid") }}
+        {{ form.third_answer(class="form-control my-1 is-invalid") }}
         <div class="invalid-feedback">
           {% for error in form.third_answer.errors %}
             <span>{{ error }}</span>
           {% endfor %}
         </div>
       {% else %}
-        {{ form.third_answer(class="form-control",  id="test_add_question_answer3") }}
+        {{ form.third_answer(class="form-control my-1",  id="test_add_question_answer3") }}
       {% endif %}
     </div>
 

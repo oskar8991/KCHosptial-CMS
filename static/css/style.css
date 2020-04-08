@@ -127,6 +127,8 @@ footer {
   border-style: solid;
   border-radius: 5px;
   border-color: black;
+  position: relative;
+  z-index: 1;
 }
 
 
