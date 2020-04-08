@@ -274,15 +274,6 @@ text-decoration: underline;
 .card-header{
   background-color: rgb(239, 253, 255);
 }
-.show {
-  padding: 3%;
-  margin: auto;
-}
-
-.collapsing{
-  padding: 3%;
-  margin: auto;
-}
 
 #faqBtn {
   font-size: 18px;

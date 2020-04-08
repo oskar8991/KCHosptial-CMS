@@ -1,35 +1,34 @@
-{% extends "base_templates/base.html" %}
-{% block title %} Make a quiz {% endblock %}
+{% extends "base_templates/dashboard_page.html" %}
+{% block title %} Edit quiz Questions {% endblock %}
 
+{% set current_page = url_for('quiz.questions') %}
 
-{% block body%}
+{% block content%}
 <h1 class="my-3">Edit quiz Questions</h1>
 
-<div class = "container">
-  <table class="table my-3">
-    <thead>
+<table class="table my-3">
+  <thead>
+    <tr>
+      <th scope="col">Question</th>
+      <th scope="col">Actions</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for question in questions %}
       <tr>
-        <th scope="col">Question</th>
-        <th scope="col">Actions</th>
-        <th scope="col">Section</th>
+        <td>{{ question.question_text }}</td>
+        <td>
+          <a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" id= "editQuestion" role="button">Edit</a>
+          <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}"  id= "deleteQuestion" role="button">Delete</a>
+        </td>
+        <td>{{ titles[question.content_id] }}</td>
       </tr>
-    </thead>
-    <tbody>
-      {% for question in questions %}
-        <tr>
-          <td>{{ question.question_text }}</td>
-          <td>
-            <a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" id= "editQuestion" role="button">Edit</a>
-            <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}"  id= "deleteQuestion" role="button">Delete</a>
-          </td>
-          <td>{{ titles[question.content_id] }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% endfor %}
+  </tbody>
+</table>
 
-  <div class="row justify-content-center my-3">
-    <a class="btn btn-primary" href="{{url_for('quiz.add_question')}}" id="addQuestion" role="button">Add a question</a>
-  </div>
+<div class="row justify-content-center my-3">
+  <a class="btn btn-primary" href="{{url_for('quiz.add_question')}}" id="addQuestion" role="button">Add a question</a>
 </div>
 {% endblock %}
