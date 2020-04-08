@@ -21,7 +21,7 @@
   <!--/Dropdown primary-->
   <div class="input-group mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text" id="basic-addon1">Heading: </span>
+      <span class="input-group-text" id="heading">Heading: </span>
     </div>
 
     <input  class="form-control" list="headings" name="headingsList" id="headerInput">
@@ -34,7 +34,7 @@
 
   <div class="input-group mb-3">
     <div class="input-group-prepend">
-      <span class="input-group-text" id="basic-addon1">Title: </span>
+      <span class="input-group-text" id="title">Title: </span>
     </div>
     <input  class="form-control" list="titles" name="titleList" id="titleInput">
     <datalist id="titles">
@@ -43,6 +43,7 @@
       {% endfor %}
     </datalist>
     <!-- <input type="text" class="form-control" value="New Title" aria-label="title" aria-describedby="basic-addon1" id="titleInput"> -->
+
   </div>
 
   <div class="my-3">
@@ -64,7 +65,7 @@
 $("#titleInput").change(function(e){
   e.preventDefault(); // cancel the link behaviour
   var selText = document.getElementById("titleInput").value;
-  
+
   $.ajax({
      url: "{{url_for('content.edit_record_content')}}",
      type: "get",

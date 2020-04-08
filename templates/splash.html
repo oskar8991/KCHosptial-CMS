@@ -19,7 +19,7 @@
 
   <div class="container">
     <div class="card" id="content">
-      <div class="icon">
+      <div class="icon" id="splashHomeId">
         <div class="iconText">Home</div>
         <img src="{{url_for('static', filename='resources/icon/home.png')}}">
       </div>
@@ -27,7 +27,7 @@
         <div>
           <h3>Home</h3>
           <p> All the information you need about liver disease and biliary atresia.</p>
-          <a href="{{url_for('main.index')}}">Read More</a>
+          <a href="{{url_for('main.index')}}" id="readMore">Read More</a>
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-  
+
     <div class="card" id="content">
       <div class="icon">
         <div class="iconText">FAQ</div>
@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-  
+
     <div class="card" id="content">
       <div class="icon">
         <div class="iconText">About</div>
@@ -74,7 +74,7 @@
       </div>
     </div>
   </div>
-  
+
 <!--  <script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script> -->
 
   <script src="{{url_for('static', filename='js/dark_mode.js')}}"></script>
