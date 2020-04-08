@@ -9,8 +9,7 @@
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<!-- Include the Quill library (editor) -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 {% endblock %}
 {% block content%}
   <h1 class="my-3">Edit Main Content Page</h1>
@@ -61,6 +60,11 @@
   </div>
 
 <!-- Script to select heading and title to display as button text, respectively -->
+
+<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
 $("#titleInput").change(function(e){
   e.preventDefault(); // cancel the link behaviour
@@ -80,6 +84,7 @@ $("#titleInput").change(function(e){
      }
    });
 });
+
 
 var newQuill = new Quill('#editorDiv', {
   theme: 'snow',
