@@ -264,6 +264,10 @@ class TestUser(CreateObjects, TestBase):
         # Login as admin user
         self.login_admin()
 
+        # Click Users to see the actions availiable
+        self.driver.find_element_by_id("users").click()
+        time.sleep(1)
+
         # Click departments menu link
         self.driver.find_element_by_id("addUser").click()
         time.sleep(1)
@@ -293,6 +297,10 @@ class TestUser(CreateObjects, TestBase):
         # Login as admin user
         self.login_admin()
 
+        # Click Users to see the actions availiable
+        self.driver.find_element_by_id("users").click()
+        time.sleep(1)
+
         #Click on user list in the dahsboard
         self.driver.find_element_by_id("seeUser").click()
         time.sleep(1)
@@ -315,6 +323,10 @@ class TestUser(CreateObjects, TestBase):
 
         # Login as admin user
         self.login_admin()
+
+        # Click Users to see the actions availiable
+        self.driver.find_element_by_id("users").click()
+        time.sleep(1)
 
         #Click on user list in the dahsboard
         self.driver.find_element_by_id("addUser").click()
@@ -382,6 +394,10 @@ class TestQuiz(CreateObjects, TestBase):
         self.driver.find_element_by_id("dashboard").click()
         time.sleep(1)
 
+        # Click Quiz to see the actions availiable
+        self.driver.find_element_by_id("quiz").click()
+        time.sleep(1)
+
         #Click on add quiz in the dahsboard
         self.driver.find_element_by_id("addQuiz").click()
         time.sleep(1)
@@ -444,6 +460,10 @@ class TestQuiz(CreateObjects, TestBase):
         self.driver.find_element_by_id("navbarLogin").click()
         time.sleep(1)
         self.driver.find_element_by_id("dashboard").click()
+        time.sleep(1)
+
+        # Click Quiz to see the actions availiable
+        self.driver.find_element_by_id("quiz").click()
         time.sleep(1)
 
         #Click on add quiz
@@ -526,6 +546,10 @@ class TestQuiz(CreateObjects, TestBase):
         self.driver.find_element_by_id("navbarLogin").click()
         time.sleep(1)
         self.driver.find_element_by_id("dashboard").click()
+        time.sleep(1)
+
+        # Click Quiz to see the actions availiable
+        self.driver.find_element_by_id("quiz").click()
         time.sleep(1)
 
         #Click on add quizin dahsboard
@@ -898,7 +922,6 @@ class TestAbout(CreateObjects, TestBase):
 
         #Check if the card is not in database
         self.assertEqual(About.query.count(), 0)
-
 
 if __name__ == '__main__':
     unittest.main()

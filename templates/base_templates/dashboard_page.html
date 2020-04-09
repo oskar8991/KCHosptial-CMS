@@ -7,23 +7,23 @@
       <a class="nav-link" href="{{url_for('dashboard.dashboard_panel')}}">Dashboard</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{url_for('content.edit_content')}}">Edit Content</a>
+      <a id="editPage" class="nav-link" href="{{url_for('content.edit_content')}}">Edit Content</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="{{url_for('dashboard.helpful_pages')}}">Help pages statistics</a>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="quiz" role="button" aria-haspopup="true" aria-expanded="false">Quiz</a>
+      <a id="quiz" class="nav-link dropdown-toggle" data-toggle="dropdown" href="quiz" role="button" aria-haspopup="true" aria-expanded="false">Quiz</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{url_for('quiz.questions')}}">Add quiz</a>
+        <a id="addQuiz"class="dropdown-item" href="{{url_for('quiz.questions')}}">Add quiz</a>
         <a class="dropdown-item" href="{{url_for('quiz.quiz_statistics')}}">Quiz statistics</a>
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="users" role="button" aria-haspopup="true" aria-expanded="false">Users</a>
+      <a id="users" class="nav-link dropdown-toggle" data-toggle="dropdown" href="users" role="button" aria-haspopup="true" aria-expanded="false">Users</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{url_for('users.list_users')}}">List users</a>
-        <a class="dropdown-item" href="{{url_for('users.add_user')}}">Add user</a>
+        <a id="seeUser" class="dropdown-item" href="{{url_for('users.list_users')}}">List users</a>
+        <a id="addUser" class="dropdown-item" href="{{url_for('users.add_user')}}">Add user</a>
       </div>
     </li>
   </ul>
@@ -34,7 +34,7 @@
 <!-- Add active class to selected tab. -->
 <script type="text/javascript">
   var tabs = document.getElementById("tab-bar").querySelectorAll(".nav-item");
-  
+
   var i;
   for (i = 0; i < tabs.length; i++) {
     var link = tabs[i].querySelectorAll(".nav-link")[0];
