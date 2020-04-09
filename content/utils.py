@@ -45,6 +45,8 @@ def assossiated_questions():
 def add_class(html, where, what):
     soup = BeautifulSoup(html)
     for tag in soup.find_all(where):
-        tag['class'] = what
+        class_list = tag.get('class', [])
+        if what not in class_list:
+            tag['class'] = class_list + [what]
 
     return soup.prettify()

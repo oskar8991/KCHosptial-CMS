@@ -19,8 +19,8 @@
       <tr>
         <td>{{ question.question_text }}</td>
         <td>
-          <a class="btn btn-primary" href="{{url_for('quiz.edit_question', question_id = question.id)}}" id= "editQuestion" role="button">Edit</a>
-          <a class="btn btn-primary" href="{{url_for('quiz.delete_question', question_id = question.id)}}"  id= "deleteQuestion" role="button">Delete</a>
+          <a class="btn btn-primary m-1" href="{{url_for('quiz.edit_question', question_id = question.id)}}" id= "editQuestion" role="button">Edit</a>
+          <a class="btn btn-primary m-1" href="{{url_for('quiz.delete_question', question_id = question.id)}}"  id= "deleteQuestion" role="button">Delete</a>
         </td>
         <td>{{ titles[question.content_id] }}</td>
       </tr>

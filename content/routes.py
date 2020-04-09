@@ -55,6 +55,7 @@ def edit_content():
 @content.route('/edit_record_content', methods=["GET"])
 def edit_record_content():
     text = request.args.get('jsdata')
+    record_content = ''
     for record in get_records():
         if record.title == text:
             record_content = record

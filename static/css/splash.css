@@ -228,6 +228,18 @@ input[type="checkbox"] {
   	background-color: #39ac73;
 }
 
+@media (max-width: 768px) {
+    .darkModeContainer {
+        top: 10px;
+        right: 10px;
+    }
+
+    .darkModeBtn {
+        top: 24px;
+        right: 40px;
+    }
+}
+
 input[type="checkbox"]:checked ~ .darkModeBtn {
   background: #1f4261;
 }
