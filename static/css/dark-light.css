@@ -113,7 +113,11 @@ body #faqBtn {
 }
 
 body .card {
-	background: var(--nav-color);
+	background: var(--about-card-body);
+}
+
+body .card button {
+	color: var(--font-color);
 }
 
 body #faqText {
@@ -137,7 +141,7 @@ body #card-body {
 }
 
 body h5 {
-	background: var(--about-card-header);
+	background: var(--about-card-body);
 }
 
 body #plz {

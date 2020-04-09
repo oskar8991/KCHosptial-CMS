@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from bs4 import BeautifulSoup
 from app import db
 from models import Content, FlaskUsage, Glossary, Questions
 from quiz.utils import get_questions
@@ -40,3 +41,12 @@ def assossiated_questions():
     }
 
     return quiz
+
+def add_class(html, where, what):
+    soup = BeautifulSoup(html)
+    for tag in soup.find_all(where):
+        class_list = tag.get('class', [])
+        if what not in class_list:
+            tag['class'] = class_list + [what]
+
+    return soup.prettify()

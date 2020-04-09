@@ -2,6 +2,7 @@
 <html>
 <head>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- bootstrap link -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
@@ -20,11 +21,15 @@
 </head>
 
 <body>
-  <nav class="navbar sticky-top navbar-expand navbar-light no-print" id="nav">
+  <nav class="navbar sticky-top navbar-expand-lg navbar-light no-print" id="nav">
     <a class="navbar-brand" href="{{url_for('main.home')}}" id="home">
       <i class="fas fa-home"  id="house"></i>
     </a>
-    <div class="collapse navbar-collapse">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="{{url_for('main.index')}}">Home</a>
@@ -55,9 +60,9 @@
           }, false);
         </script>
       </ul>
-      <form class="form-inline">
+      <form class="form-inline my-2 my-lg-0">
         <i class="fas fa-search" aria-hidden="true"></i>
-        <input id="searchInput" type="text" placeholder="Search" class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+        <input id="searchInput" type="text" placeholder="Search" class="form-control form-control-sm ml-3" type="text" placeholder="Search" aria-label="Search">
       </form>
 
       <ul class="navbar-nav">
@@ -75,7 +80,7 @@
           </div>
         </li>
       </ul>
-      <label class="darkModeLabel">
+      <label class="darkModeLabel my-2 my-lg-0">
         <input type="checkbox" id="darkMode">
         <span class="darkModeBtn"></span>
       </label>
