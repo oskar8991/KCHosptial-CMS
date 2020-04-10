@@ -96,7 +96,6 @@ class TestBase(LiveServerTestCase):
         self.assertEqual(response.code, 200)
 
 
-
 class TestLogin(TestBase):
 
     def test_login(self):
@@ -112,6 +111,7 @@ class TestLogin(TestBase):
         assert url_for('main.index') in self.driver.current_url
 
         # Click on login icon
+        time.sleep(2)
         self.driver.find_element_by_id("navbarLogin").click()
         time.sleep(1)
 
@@ -167,16 +167,18 @@ class TestLogin(TestBase):
 
         #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
-        time.sleep(1)
+        time.sleep(3)
         self.driver.find_element_by_id("readMore").click()
+        time.sleep(3)
         assert url_for('main.index') in self.driver.current_url
-
+        time.sleep(3)
         # Click on login icon
         self.driver.find_element_by_id("navbarLogin").click()
         time.sleep(1)
 
         # Click on login button
         self.driver.find_element_by_id("loginButton").click()
+        time.sleep(2)
         assert url_for('users.login') in self.driver.current_url
         time.sleep(1)
 
@@ -220,7 +222,6 @@ class TestLogin(TestBase):
         error_message = self.driver.find_element_by_class_name("alert").text
         assert "Invalid credentials." in error_message
 
-
 class CreateObjects(object):
 
     """
@@ -231,18 +232,17 @@ class CreateObjects(object):
     def login_admin(self):
         #Log in as an admin
         self.driver.find_element_by_id("splashHomeId").click()
-        time.sleep(1)
+        time.sleep(5)
         self.driver.find_element_by_id("readMore").click()
-        time.sleep(2)
+        time.sleep(3)
         self.driver.find_element_by_id("navbarLogin").click()
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element_by_id("loginButton").click()
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element_by_id("email").send_keys(test_email)
         self.driver.find_element_by_id("password").send_keys(test_password)
         self.driver.find_element_by_id("submit").click()
         time.sleep(3)
-
 
 
 class TestUser(CreateObjects, TestBase):
@@ -284,13 +284,12 @@ class TestUser(CreateObjects, TestBase):
         """
         Tests that admin can delete a user and that databaes is updated
         """
-
         # Login as admin user
         self.login_admin()
-
+        time.sleep(3)
         # Click Users to see the actions availiable
         self.driver.find_element_by_id("users").click()
-        time.sleep(1)
+        time.sleep(3)
 
         #Click on user list in the dahsboard
         self.driver.find_element_by_id("seeUser").click()
@@ -345,6 +344,175 @@ class TestUser(CreateObjects, TestBase):
 #This section is not done because the adding quiz question is not fully implemented
 
 class TestQuiz(CreateObjects, TestBase):
+
+    def test_correct_question_answer(self):
+        """
+        Test that an admin user can add a question to a quiz
+        Checks if it's added to databse
+        """
+        # Login as admin user
+        self.login_admin()
+
+        #Click on edit page in the dahsboard
+        self.driver.find_element_by_id("editPage").click()
+        time.sleep(1)
+
+        #Click on add a new section
+        self.driver.find_element_by_id("newSectionAdd").click()
+        time.sleep(1)
+
+        #Input new section
+        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        time.sleep(1)
+        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        time.sleep(1)
+
+        #Save changes
+        self.driver.find_element_by_id("addNew").click()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        # clicks 'OK' button
+        ale.accept()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        ale.accept()
+
+        #Go back to dashboard
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("dashboard").click()
+        time.sleep(1)
+
+        # Click Quiz to see the actions availiable
+        self.driver.find_element_by_id("quiz").click()
+        time.sleep(1)
+
+        #Click on add quiz in the dahsboard
+        self.driver.find_element_by_id("addQuiz").click()
+        time.sleep(1)
+
+        #Click on add question
+        self.driver.find_element_by_id("addQuestion").click()
+        time.sleep(3)
+
+        # Fill in the question form
+        self.driver.find_element_by_id("test_add_question_question").send_keys(test_add_question_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer1").send_keys(test_add_question_answer1)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer2").send_keys(test_add_question_answer2)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer3").send_keys(test_add_question_answer3)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answerCorrect").send_keys(test_add_question_answerCorrect)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        # Assert that there is still only 1 question in the database
+        self.assertEqual(Questions.query.count(), 1)
+        self.driver.find_element_by_id("home_top").click()
+        time.sleep(2)
+        self.driver.find_element_by_id("open_quiz").click()
+        time.sleep(4)
+        self.driver.find_element_by_id("quiz-start-btn1").click()
+        time.sleep(5)
+        self.driver.execute_script("window.scrollTo(0, 570)")
+        time.sleep(2)
+        self.driver.find_element_by_id("op3").click()
+        time.sleep(2)
+        self.driver.find_element_by_id("quiz-finish-btn1").click()
+        time.sleep(2)
+
+        updatescore = Questions.query.filter_by(question_text='What is the liver located in? ').first()
+
+        #Check that it redirects to the all announcement page
+        self.assertEqual(updatescore.stat_right, 1);
+
+    def test_wrong_question_answer(self):
+        """
+        Test that an admin user can add a question to a quiz
+        Checks if it's added to databse
+        """
+        # Login as admin user
+        self.login_admin()
+
+        #Click on edit page in the dahsboard
+        self.driver.find_element_by_id("editPage").click()
+        time.sleep(1)
+
+        #Click on add a new section
+        self.driver.find_element_by_id("newSectionAdd").click()
+        time.sleep(1)
+
+        #Input new section
+        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        time.sleep(1)
+        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        time.sleep(1)
+
+        #Save changes
+        self.driver.find_element_by_id("addNew").click()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        # clicks 'OK' button
+        ale.accept()
+        time.sleep(1)
+        ale = self.driver.switch_to_alert()
+        ale.accept()
+
+        #Go back to dashboard
+        self.driver.find_element_by_id("navbarLogin").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("dashboard").click()
+        time.sleep(1)
+
+        # Click Quiz to see the actions availiable
+        self.driver.find_element_by_id("quiz").click()
+        time.sleep(1)
+
+        #Click on add quiz in the dahsboard
+        self.driver.find_element_by_id("addQuiz").click()
+        time.sleep(1)
+
+        #Click on add question
+        self.driver.find_element_by_id("addQuestion").click()
+        time.sleep(3)
+
+        # Fill in the question form
+        self.driver.find_element_by_id("test_add_question_question").send_keys(test_add_question_question)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer1").send_keys(test_add_question_answer1)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer2").send_keys(test_add_question_answer2)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answer3").send_keys(test_add_question_answer3)
+        time.sleep(1)
+        self.driver.find_element_by_id("test_add_question_answerCorrect").send_keys(test_add_question_answerCorrect)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        # Assert that there is still only 1 question in the database
+        self.assertEqual(Questions.query.count(), 1)
+        self.driver.find_element_by_id("home_top").click()
+        time.sleep(2)
+        self.driver.find_element_by_id("open_quiz").click()
+        time.sleep(4)
+        self.driver.find_element_by_id("quiz-start-btn1").click()
+        time.sleep(5)
+        self.driver.execute_script("window.scrollTo(0, 570)")
+        time.sleep(2)
+        self.driver.find_element_by_id("op1").click()
+        time.sleep(2)
+        self.driver.find_element_by_id("quiz-finish-btn1").click()
+        time.sleep(2)
+
+        updatescore = Questions.query.filter_by(question_text='What is the liver located in? ').first()
+
+        #Check that it redirects to the all announcement page
+        self.assertEqual(updatescore.stat_wrong, 1);
+
 
     def test_add_question(self):
         """
@@ -578,14 +746,13 @@ class TestQuiz(CreateObjects, TestBase):
 
 
 class TestAnnouncement(CreateObjects, TestBase):
-
     def test_add_announcement(self):
         """
         Checks that announcement is added to the page and checks that it is in database
         """
         # Login as admin user
         self.login_admin()
-
+        time.sleep(2)
         #Click on announcements in the navbar
         self.driver.find_element_by_id("announcement").click()
         time.sleep(1)
@@ -609,6 +776,7 @@ class TestAnnouncement(CreateObjects, TestBase):
 
 
     def test_edit_announcement(self):
+
         """
         Checks that announcement is added to the page and then you can
         edit it and it updates in the database
@@ -697,6 +865,41 @@ class TestAnnouncement(CreateObjects, TestBase):
         #Check if the announcement was deleted from the database
         self.assertEqual(Announcement.query.count(), 0)
 
+    def test_click_announcement_scroll(self):
+        """
+        Checks that announcement is added to the page and checks that it is in database
+        """
+        # Login as admin user
+        self.login_admin()
+        time.sleep(2)
+        #Click on announcements in the navbar
+        self.driver.find_element_by_id("announcement").click()
+        time.sleep(1)
+
+        #Click on add announcement
+        self.driver.find_element_by_id("addAnnouncement").click()
+        time.sleep(1)
+
+        #Input the announcement
+        self.driver.find_element_by_id("title").send_keys(test_add_title)
+        time.sleep(1)
+        self.driver.find_element_by_id("description").send_keys(test_add_description)
+        time.sleep(1)
+        self.driver.find_element_by_id("links").send_keys(test_add_links)
+        time.sleep(1)
+        self.driver.find_element_by_id("submit").click()
+        time.sleep(2)
+
+        #Check if the announcement is in database
+        self.assertEqual(Announcement.query.count(), 1)
+        time.sleep(2)
+        self.driver.find_element_by_id("home_top").click()
+        time.sleep(2)
+        assert url_for('main.index') in self.driver.current_url
+        time.sleep(5)
+        self.driver.find_element_by_id("rollinglink").click()
+        time.sleep(5)
+        assert url_for('main.announcements') in self.driver.current_url
 
 
 class TestFAQ(CreateObjects, TestBase):

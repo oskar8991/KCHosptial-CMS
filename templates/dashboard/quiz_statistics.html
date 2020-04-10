@@ -17,7 +17,7 @@
     {% for question in questions %}
       <tr>
         <td>{{ question.question_text }}</td>
-        <td>{{ question.stat_right }}</td>
+        <td id = "correc1">{{ question.stat_right }}</td>
         <td>{{ question.stat_wrong }}</td>
       </tr>
     {% endfor %}
