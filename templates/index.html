@@ -110,7 +110,7 @@
               <div class="col">
                 <div class="card">
                   <div class="card-header">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#quiz-card-{{record.page_id}}">
+                    <button id = "open_quiz" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#quiz-card-{{record.page_id}}">
                       Try the quiz for section {{record.page_id}}.
                     </button>
                   </div>
@@ -171,7 +171,7 @@
     <div class="marquee">
       <ul class="marquee-content-items">
         {% for announcement in announcements %}
-          <li onclick="location.href='{{url_for('main.announcements')}}';">
+          <li onclick="location.href='{{url_for('main.announcements')}}';" id="rollinglink" >
             {{ announcement.title }}
           </li>
         {% endfor %}
