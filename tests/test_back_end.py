@@ -21,7 +21,7 @@ class TestBase(TestCase):
         #config_name = 'testing'
         app = create_app()
         app.config.update(
-            SQLALCHEMY_DATABASE_URI='sqlite:///test_data.db'
+            SQLALCHEMY_DATABASE_URI='sqlite:///data.db'
         )
 
         SECRET_KEY = os.urandom(32)
