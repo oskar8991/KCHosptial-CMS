@@ -1,5 +1,5 @@
 import unittest #nose2 package to be able to run all tests simultaneously
-
+import os
 from flask import abort, url_for
 from flask_testing import TestCase
 
@@ -19,8 +19,8 @@ class TestBase(TestCase):
     def create_app(self):
         # pass in test configurations
         #config_name = 'testing'
+        os.environ['FLASK_SETTINGS'] = 'config.TestingConfig'
         app = create_app()
-        app.config.from_object('config.TestingConfig')
 
         return app
 
@@ -116,6 +116,7 @@ class TestModels(TestBase):
         """
         db.session.delete(Answers.query.filter_by(answer_text = "Answer_Test", correct = 0).first())
         db.session.delete(Questions.query.filter_by(question_text="Test_Question?").first())
+        db.session.delete(Content.query.filter_by(header = "Test_Header", content = "Test_Content").first())
         db.session.commit()
         self.assertEqual(Questions.query.filter_by(question_text="Test_Question?").count(), 0)
         self.assertEqual(Answers.query.filter_by(answer_text = "Answer_Test").count(), 0)
