@@ -50,17 +50,8 @@ class TestBase(LiveServerTestCase):
     def create_app(self):
         #config_name = 'testing'
         app = create_app()
-        app.config.update(
-            # Specify the test database
-            SQLALCHEMY_DATABASE_URI='sqlite:///test_data.db',
-            #Set the port that the live server will listen on below:
-            #LIVESERVER_PORT=5000
-        )
-
-        SECRET_KEY = os.urandom(32)
-        app.config['SECRET_KEY'] = SECRET_KEY
-
-
+        app.config.from_object('config.TestingConfig')
+        
         return app
 
 
