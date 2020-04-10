@@ -1,13 +1,5 @@
-from dataclasses import dataclass
-from typing import List
 from flask_login import UserMixin
 from app import login_manager, db
-
-@dataclass
-class Medication:
-    name: str
-    time: List[int]
-    indications: int = 'N/A'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -97,6 +89,13 @@ class Helpful(db.Model):
     page = db.Column(db.String(400), nullable=False)
     yes = db.Column(db.Integer(), default=0)
     no = db.Column(db.Integer(), default=0)
+
+class Medication(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(400), nullable=False)
+    given_hours = db.Column(db.Integer(), nullable=False)
+    indications = db.Column(db.String(400), default='N/A')
+
 
 def init_db():
     db.create_all()

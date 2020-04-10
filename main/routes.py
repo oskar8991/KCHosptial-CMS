@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, redirect, url_for, request, jsonif
 from models import Content, Announcement, FAQQuestions, About, Glossary, Helpful
 from content.utils import *
 
-from app import mail
+#from app import mail
 from flask_mail import Message
 
 main = Blueprint('main', __name__)

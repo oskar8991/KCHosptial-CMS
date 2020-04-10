@@ -283,37 +283,6 @@ section {
     margin: 40px 0;
 }
 
-h1 {
-  /*font-size: 70px;*/
-  /*font-weight: 400;*/
-  text-decoration: underline;
-  text-align: center;
-}
-
-h2 {
-  display: inline-block;
-  background-color: #39ac73;
-  padding: 3px 20px;
-  color: black;
-  border: 2px solid black;
-  /*font-size: 40px;*/
-  /*font-weight: 300;*/
-  padding-left: 1rem;
-  border-radius: 30px;
-}
-
-.indexh2 {
-  display: inline-block;
-  background-color: #39ac73;
-  padding: 3px 20px;
-  color: black;
-  border: 2px solid black;
-  font-size: 40px;
-  font-weight: 300;
-  padding-left: 1rem;
-  border-radius: 30px;
-}
-
 p {
   font-size: 20px;
 }

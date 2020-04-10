@@ -1,53 +1,6 @@
-:root {
-	--font-color: black;
-	--bg-color: white;
-	--h2-font-color:black;
-	--h2-bg-color: #39ac73;
-	--link-color: #39ac73;
-	--nav-color: #39ac73;
-	--sidebar-color:#d9f2e6;
-	--hover-color: #39ac73;
-	--card-color: #b3e6cc;
-	--faq-color: #d9f2e6;
-	--about-card-header: #b3e6cc;
-	--about-card-body: white;
-	--splash-container-color:#39ac73;
-	--splash-border-color: #206040;
-	--splash-content-color: white;
-	--splash-heading-color: #206040;
-	--icon-color: #39ac73;
-	--popup-color: white;
-}
-
-[data-theme="dark"] {
-	--font-color: #ebebeb;
-	--bg-color: #0d1a26;
-	--h2-font-color: #060d13;
-	--h2-bg-color: #ebebeb;
-	--link-color: white;
-	--nav-color: #060d13;
-	--sidebar-color: #1a344c;
-	--hover-color: white;
-	--card-color: #061313;
-	--faq-color: #1f4261;
-	--about-card-header: #060d13;
-	--about-card-body: #1f4261;
-	--splash-container-color: #060d13;
-	--splash-border-color: #060d13;
-	--splash-content-color: #060d13;
-	--splash-heading-color: #ebebeb;
-	--icon-color: #1f4261;
-	--popup-color: #1a344c;
-}
-
 body {
 	color: var(--font-color);
 	background-color: var(--bg-color);
-}
-
-body h2 {
-	color: var(--h2-font-color);
-	background-color: var(--h2-bg-color);
 }
 
 body .popUpButtonCircle {
@@ -98,6 +51,12 @@ body #tableContent:hover {
 body #generate {
     background-color: var(--h2-bg-color);
     color: var(--h2-font-color);
+}
+
+body .btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+	background-color: var(--h2-bg-color);
+    color: var(--h2-font-color);
+    border-color: black;
 }
 
 body #chart {
@@ -165,10 +124,6 @@ body #chartLink {
 
 body .icon {
 	background-color: var(--icon-color);
-}
-
-body h1 {
-	color: var(--splash-heading-color);
 }
 
 .question {
