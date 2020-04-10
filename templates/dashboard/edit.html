@@ -18,25 +18,29 @@
   <button type="button" onClick="addNewSection()" class="btn btn-info mb-3" id="newSectionAdd">Add New Section</button>
 
   <!--/Dropdown primary-->
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="heading">Heading: </span>
+  <br>
+  <div id="HeaderBarDiv">
+    <Label>Choose a header from the list or type a new one and press Enter:</Label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="heading">Heading: </span>
+      </div>
+      <input class="form-control" autocomplete="off" list="headings" id="headerInput">
+      <datalist id="headings">
+        {% for header in content.headings %}
+          <option value="{{header}}">
+        {% endfor %}
+      </datalist>
     </div>
-
-    <input  class="form-control" list="headings" name="headingsList" id="headerInput">
-    <datalist id="headings">
-      {% for header in content.headings %}
-        <option value="{{header}}">
-      {% endfor %}
-    </datalist>
   </div>
 
   <div id="TitleBarDiv">
+    <Label>Choose a title from the list below:</Label>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text" id="title">Title: </span>
       </div>
-      <input  class="form-control" list="titles" name="titleList" id="titleInput">
+      <input  class="form-control" autocomplete="off" list="titles" id="titleInput">
       <datalist id="titles">
         {% for record in content.records %}
         <option value="{{record.title}}">
@@ -49,14 +53,27 @@
     <div id="editor"></div>
 
     <div id="newSectionEditor">
+      <Label>Choose a header from the list or type a new one and press Enter:</Label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="heading">Heading: </span>
+        </div>
+        <input class="form-control" autocomplete="off" list="headings" id="headerInput">
+        <datalist id="headings">
+          {% for header in content.headings %}
+            <option value="{{header}}">
+          {% endfor %}
+        </datalist>
+      </div>
+      <Label>Input New Title:</Label>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="title">Title: </span>
         </div>
-        <input  class="form-control" name="newTitleInput" id="newTitleInput">
+        <input  class="form-control"autocomplete="off" id="newTitleInput">
 
       </div>
-      <Label for="editor">The contents below will appear on the main page as you see them on here (title not shown):</Label>
+      <Label>The contents below will appear on the main page as you see them on here (title above not shown):</Label>
       <div id="editorDiv"></div>
     </div>
   </div>
@@ -74,6 +91,9 @@
 <!-- Include the Quill library -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
+  var titleBar = document.getElementById("TitleBarDiv");
+  titleBar.style.display = "none";
+
   $("#headerInput").change(function(e){
     e.preventDefault(); // cancel the link behaviour
     var selectedHeader = document.getElementById("headerInput").value;
@@ -92,7 +112,7 @@
       }
 
     document.getElementById('titles').innerHTML = options;
-
+    titleBar.style.display = "block";
   });
 
 $("#titleInput").change(function(e){
@@ -109,7 +129,7 @@ $("#titleInput").change(function(e){
      },
      error: function(xhr) {
        //Do Something to handle error
-        $("#dropdownMenu1-3").text("Fail!");
+        $("#dropdownMenu1-3").text("Action Failed");
      }
    });
 });
@@ -141,6 +161,8 @@ addNew.style.display = "none";
 //Function that switches between edit/add views.
 function addNewSection(){
 
+  var headerBarText = document.getElementById("headerInput").value;
+  var headerBar = document.getElementById("HeaderBarDiv");
   var titleBar = document.getElementById("TitleBarDiv");
   var editor = document.getElementById("newSectionEditor");
   var existingEditor = document.getElementById("editor");
@@ -150,13 +172,15 @@ function addNewSection(){
 
   if (addNew.style.display === "block") {
    $("#newSectionAdd").text("Add New Section");
-   editor.style.display = "none"
+   editor.style.display = "none";
    existingEditor.style.display = "block";
    saveButton.style.display = "block";
    deleteButton.style.display = "block";
    addNew.style.display = "none";
-   titleBar.style.display = "block";
-
+   headerBar.style.display = "block";
+   if (headerBarText != ""){
+     titleBar.style.display = "block";
+   }
   } else {
    editor.style.display = "block";
    existingEditor.style.display = "none";
@@ -165,14 +189,12 @@ function addNewSection(){
    deleteButton.style.display = "none";
    addNew.style.display = "block";
    titleBar.style.display = "none";
+   headerBar.style.display = "none";
 
   }
 
 }
 
-</script>
-
-<script type="text/javascript">
   $("#addNew").click(function(){
     var titleInput = document.getElementById("newTitleInput").value;
     var headerInput = document.getElementById("headerInput").value;
@@ -189,7 +211,7 @@ function addNewSection(){
           },
           error: function(xhr) {
             //Do Something to handle error
-             window.alert("Failed")
+             window.alert("Action Failed")
           }
         });
       }
@@ -216,7 +238,7 @@ function addNewSection(){
           },
           error: function(xhr) {
             //Do Something to handle error
-             window.alert("Failed")
+             window.alert("Action Failed")
           }
         });
       }
