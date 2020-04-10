@@ -75,7 +75,7 @@
           quizHtml += '<p class="question' + quizIndex + '">' + question.q + '</p>';
           quizHtml += '<ul class="answers' + quizIndex + '">';
           $.each(question.options, function(index, answer) {
-            quizHtml += '<li><a href="#" id="op" data-index="' + index + '">' + answer + '</a></li>';
+            quizHtml += '<li><a href="#" id="op'+ index +'" data-index="' + index + '">' + answer + '</a></li>';
           });
           quizHtml += '</ul>';
           quizHtml += '</div>';
