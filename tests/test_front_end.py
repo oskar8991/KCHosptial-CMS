@@ -712,7 +712,7 @@ class TestAnnouncement(CreateObjects, TestBase):
 
 
     def test_edit_announcement(self):
-  
+
         """
         Checks that announcement is added to the page and then you can
         edit it and it updates in the database
@@ -800,7 +800,7 @@ class TestAnnouncement(CreateObjects, TestBase):
 
         #Check if the announcement was deleted from the database
         self.assertEqual(Announcement.query.count(), 0)
-	
+
     def test_click_announcement_scroll(self):
         """
         Checks that announcement is added to the page and checks that it is in database
