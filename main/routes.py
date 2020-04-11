@@ -48,7 +48,7 @@ def somethingWrong():
         #mail.send(msg) once we deploy we can configure the server
         return render_template('feedback.html')
 
-    return render_template('somethingWrong.html')
+    return render_template('feedback.html')
 
 
 
