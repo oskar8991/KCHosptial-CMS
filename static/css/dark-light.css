@@ -1,0 +1,135 @@
+body {
+	color: var(--font-color);
+	background-color: var(--bg-color);
+}
+
+body .popUpButtonCircle {
+    background-color: var(--h2-bg-color);
+}
+
+body .popUpButton {
+    background-color: var(--h2-bg-color);
+    color: var(--h2-font-color);
+}
+
+body .popUp {
+	background: var(--popup-color);
+}
+
+body .popUpHeader {
+	background-color: var(--splash-content-color);
+}
+
+body .menubar .bar {
+	background-color: var(--font-color);
+}
+
+body .toTop {
+	filter: invert(50%);
+}
+
+body #sidebar {
+    background-color: var(--sidebar-color);
+}
+
+body #sidebar ul li a {
+    color: var(--font-color);
+}
+
+body #sidebar ul li a:hover {
+    color: var(--nav-color);
+}
+
+body .table {
+	color: var(--font-color);
+}
+
+body #tableContent:hover {
+	color: var(--hover-color);
+}
+
+body #generate {
+    background-color: var(--h2-bg-color);
+    color: var(--h2-font-color);
+}
+
+body .btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+	background-color: var(--h2-bg-color);
+    color: var(--h2-font-color);
+    border-color: black;
+}
+
+body #chart {
+	color: var(--font-color);	
+}
+
+body .card-header {
+	background: var(--card-color);
+}
+
+body #faqBtn {
+	color: var(--font-color);
+}
+
+body .card {
+	background: var(--about-card-body);
+}
+
+body .card button {
+	color: var(--font-color);
+}
+
+body #faqText {
+	background: var(--faq-color);
+}
+
+body .announcement {
+	color: var(--font-color);
+}
+
+body #log {
+	color: var(--font-color);
+}
+
+body #card-header {
+	background: var(--about-card-header);
+}
+
+body #card-body {
+	background-color: var(--about-card-body)
+}
+
+body h5 {
+	background: var(--about-card-body);
+}
+
+body #plz {
+	color: var(--font-color);
+}
+
+body .darkModeContainer {
+	background-color: var(--splash-container-color);
+	border-color: var(--splash-border-color);
+	color: var(--splash-color);
+}
+
+body #content {
+	background-color: var(--splash-content-color);
+	border-color: var(--splash-border-color);
+}
+
+body #chartLink {
+	color: var(--link-color);
+}
+
+body .icon {
+	background-color: var(--icon-color);
+}
+
+.question {
+	color: var(--font-color);
+}
+
+.text-col {
+	background-color: var(--nav-color);
+}

@@ -1,74 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Home Page</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="../static/css/splash.css">
+  <title>Home Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.5">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/colors.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/splash.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dark-light.css')}}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
-	<h1>King's Pediatric Liver Center</h1>
-	<div class="container">
-		<div class="card" id="content">
-			<div class="icon" id="splashHomeId">
-				<div class="iconText">Home</div>
-				<img src="../static/resources/icon/home.png">
-			</div>
-			<div class="content">
-				<div>
-					<h3>Home</h3>
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut.</p>
-					<a href="{{url_for('main.index')}}" id="readMore">Read More</a>
-				</div>
-			</div>
-		</div>
+  <h1>King's Pediatric Liver Center</h1>
+  <div class="darkModeContainer"></div>
+  <label>
+    <input type="checkbox" name="darkMode" id="darkMode">
+    <span class="darkModeBtn"></span>
+  </label>
 
-		<div class="card">
-			<div class="icon">
-				<div class="iconText">Drug Chart</div>
-				<img src="../static/resources/icon/drugChart.png">
-			</div>
-			<div class="content">
-				<div>
-					<h3>Drug Chart</h3>
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut.</p>
-					<a href="{{url_for('drug_chart.medication')}}">Read More</a>
-				</div>
-			</div>
-		</div>
+  <div class="container">
+    <div class="card" id="content">
+      <div class="icon" id="splashHomeId">
+        <div class="iconText">Home</div>
+        <img src="{{url_for('static', filename='resources/icon/home.png')}}">
+      </div>
+      <div class="content">
+        <div>
+          <h3>Home</h3>
+          <p> All the information you need about liver disease and biliary atresia.</p>
+          <a href="{{url_for('main.index')}}" id="readMore">Read More</a>
+        </div>
+      </div>
+    </div>
 
-		<div class="card">
-			<div class="icon">
-				<div class="iconText">FAQ</div>
-				<img src="../static/resources/icon/FAQ.png">
-			</div>
-			<div class="content">
-				<div>
-					<h3>FAQ</h3>
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut.</p>
-					<a href="{{url_for('main.faq')}}">Read More</a>
-				</div>
-			</div>
-		</div>
+    <div class="card" id="content">
+      <div class="icon">
+        <div class="iconText">Drug Chart</div>
+        <img src="{{url_for('static', filename='resources/icon/drugChart.png')}}">
+      </div>
+      <div class="content">
+        <div>
+          <h3>Drug Chart</h3>
+          <p> Keep track of what medicines your child needs and when to take them with our handy online drug chart.</p>
+          <a href="{{url_for('drug_chart.medication')}}">Read More</a>
+        </div>
+      </div>
+    </div>
 
-		<div class="card">
-			<div class="icon">
-				<div class="iconText">About</div>
-				<img src="../static/resources/icon/about.png">
-			</div>
-			<div class="content">
-				<div>
-					<h3>About</h3>
-					<p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut.</p>
-					<a href="{{url_for('main.about')}}">Read More</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript" src="{{url_for('static', filename='/js/splash.js')}}">
+    <div class="card" id="content">
+      <div class="icon">
+        <div class="iconText">FAQ</div>
+        <img src="{{url_for('static', filename='resources/icon/FAQ.png')}}">
+      </div>
+      <div class="content">
+        <div>
+          <h3>FAQ</h3>
+          <p> Got questions ? Check out the Frequently Asked Questions page to find answers.</p>
+          <a href="{{url_for('main.faq')}}">Read More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="content">
+      <div class="icon">
+        <div class="iconText">About</div>
+        <img src="{{url_for('static', filename='resources/icon/about.png')}}">
+      </div>
+      <div class="content">
+        <div>
+          <h3>About</h3>
+          <p> Learn more about who we are and what we do.</p>
+          <a href="{{url_for('main.about')}}">Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--  <script type="text/javascript" src="{{url_for('static', filename='/js/darkMode.js')}}"></script> -->
+
+  <script src="{{url_for('static', filename='js/dark_mode.js')}}"></script>
 </body>
 </html>

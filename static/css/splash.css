@@ -3,13 +3,12 @@
 * {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;;
+	box-sizing: border-box;
 	font-family: 'Poppins', sans-serif;
 }
 
 h1 {
-	color: #19334d;
-	text-decoration: underline;
+	color: #206040;
 	font-size: 40px;
 	top: 5%;
 	text-align: center;
@@ -35,7 +34,7 @@ body {
 }
 
 .container .card {
-	border: solid #19334d 3px;
+	border: solid #206040 3px;
 	position: relative;
 	height: 250px;
 	background: #fff;
@@ -50,7 +49,6 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: #336699;
 	z-index: 1;
 	display: flex;
 	justify-content: center;
@@ -152,6 +150,7 @@ body {
 	margin-top: 10px;
 	padding: 5px 10px;
 	background: #333;
+	border: 2px solid black;
 	text-decoration: none;
 	color: #fff;
 } 
@@ -197,4 +196,83 @@ body {
 		position: relative;
 		width: 100%;
 	}
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  visibility: hidden;
+  display: none;
+}
+
+.darkModeBtn {
+  position: absolute;
+  top: 60px;
+  right: 80px;
+  display: block;
+  width: 40px;
+  height: 20px;
+  background: white;
+  cursor: pointer;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: ease-in-out 0.5s
+}
+
+.darkModeContainer {
+	position: absolute;
+	border: 3px solid #206040;
+	top: 46px;
+	right: 50px;
+	height: 50px;
+  	width: 100px;
+  	background-color: #39ac73;
+}
+
+@media (max-width: 768px) {
+    .darkModeContainer {
+        top: 10px;
+        right: 10px;
+    }
+
+    .darkModeBtn {
+        top: 24px;
+        right: 40px;
+    }
+}
+
+input[type="checkbox"]:checked ~ .darkModeBtn {
+  background: #1f4261;
+}
+
+.darkModeBtn:before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: #39ac73;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transition: 0.5s;
+}
+
+input[type="checkbox"]:checked ~ .darkModeBtn:before {
+  transform: translateX(-50px);
+}
+
+.darkModeBtn:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 20px;
+  background: #060d13;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transition: 0.5s;
+  transform: translateX(50px);
+}
+
+input[type="checkbox"]:checked ~ .darkModeBtn:after {
+  transform: translateX(0px);
 }

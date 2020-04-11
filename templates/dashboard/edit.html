@@ -1,0 +1,284 @@
+{% extends "base_templates/dashboard_page.html" %}
+{% block title %} Edit Page {% endblock %}
+
+{% set current_page = url_for('content.edit_content') %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+<!-- Include editor stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="{{url_for('static', filename='/js/parallax.min.js')}}"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+{% endblock %}
+{% block content%}
+  <h1 class="my-3">Edit Main Content Page</h1>
+
+  <!--Button to add new section-->
+  <button type="button" onClick="addNewSection()" class="btn btn-info mb-3" id="newSectionAdd">Add New Section</button>
+
+  <!--/Dropdown primary-->
+  <br>
+  <div id="HeaderBarDiv">
+    <Label>Choose a header from the list or type a new one and press Enter:</Label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="heading">Heading: </span>
+      </div>
+      <input class="form-control" autocomplete="off" list="headings" id="headerInput">
+      <datalist id="headings">
+        {% for header in content.headings %}
+          <option value="{{header}}">
+        {% endfor %}
+      </datalist>
+    </div>
+  </div>
+
+  <div id="TitleBarDiv">
+    <Label>Choose a title from the list below:</Label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="title">Title: </span>
+      </div>
+      <input  class="form-control" autocomplete="off" list="titles" id="titleInput">
+      <datalist id="titles">
+        {% for record in content.records %}
+        <option value="{{record.title}}">
+        {% endfor %}
+      </datalist>
+    </div>
+  </div>
+
+  <div class="my-3">
+    <div id="editor"></div>
+
+    <div id="newSectionEditor">
+      <Label>Choose a header from the list or type a new one and press Enter:</Label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="heading">Heading: </span>
+        </div>
+        <input class="form-control" autocomplete="off" list="headings" id="headerInput">
+        <datalist id="headings">
+          {% for header in content.headings %}
+            <option value="{{header}}">
+          {% endfor %}
+        </datalist>
+      </div>
+      <Label>Input New Title:</Label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="title">Title: </span>
+        </div>
+        <input  class="form-control"autocomplete="off" id="newTitleInput">
+
+      </div>
+      <Label>The contents below will appear on the main page as you see them on here (title above not shown):</Label>
+      <div id="editorDiv"></div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center my-3">
+    <input type="submit" class="btn btn-success mx-2" value="Save Changes" id="save" name="save">
+    <input type="submit" class="btn btn-danger mx-2" value="Remove Selected Article" id="delete">
+    <input type="submit" class="btn btn-success mx-2" value="Submit New Section" id="addNew">
+  </div>
+
+<!-- Script to select heading and title to display as button text, respectively -->
+
+<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+  var titleBar = document.getElementById("TitleBarDiv");
+  titleBar.style.display = "none";
+
+  $("#headerInput").change(function(e){
+    e.preventDefault(); // cancel the link behaviour
+    var selectedHeader = document.getElementById("headerInput").value;
+
+    var titleList = [];
+
+    {% for record in content.records %}
+      var recordContent = {title: "{{record.title}}", header: "{{record.header}}"};
+      titleList.push(recordContent);
+    {% endfor %}
+    var options = '';
+
+    for(var i = 0; i < titleList.length; i++)
+      if (titleList[i].header == selectedHeader){
+        options += '<option value="' + titleList[i].title+'" />';
+      }
+
+    document.getElementById('titles').innerHTML = options;
+    titleBar.style.display = "block";
+  });
+
+$("#titleInput").change(function(e){
+  e.preventDefault(); // cancel the link behaviour
+  var selText = document.getElementById("titleInput").value;
+
+  $.ajax({
+     url: "{{url_for('content.edit_record_content')}}",
+     type: "get",
+     data: {jsdata: selText},
+     success: function(response) {
+       $("#editor").html(response);
+
+     },
+     error: function(xhr) {
+       //Do Something to handle error
+        $("#dropdownMenu1-3").text("Action Failed");
+     }
+   });
+});
+
+
+var newQuill = new Quill('#editorDiv', {
+  theme: 'snow',
+  modules: {
+    toolbar: [
+          [{ 'font': [] }, { 'size': [] }],
+          [ 'bold', 'italic', 'underline', 'strike' ],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'script': 'super' }, { 'script': 'sub' }],
+          [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block' ],
+          [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }],
+          [ 'direction', { 'align': [] }],
+          [ 'link', 'image', 'video', 'formula' ],
+          [ 'clean' ]
+    ]
+  }
+
+});
+
+var addNew = document.getElementById("addNew");
+var editor = document.getElementById("newSectionEditor");
+editor.style.display = "none";
+addNew.style.display = "none";
+
+//Function that switches between edit/add views.
+function addNewSection(){
+
+  var headerBarText = document.getElementById("headerInput").value;
+  var headerBar = document.getElementById("HeaderBarDiv");
+  var titleBar = document.getElementById("TitleBarDiv");
+  var editor = document.getElementById("newSectionEditor");
+  var existingEditor = document.getElementById("editor");
+  var saveButton = document.getElementById("save");
+  var deleteButton = document.getElementById("delete");
+  var addNew = document.getElementById("addNew");
+
+  if (addNew.style.display === "block") {
+   $("#newSectionAdd").text("Add New Section");
+   editor.style.display = "none";
+   existingEditor.style.display = "block";
+   saveButton.style.display = "block";
+   deleteButton.style.display = "block";
+   addNew.style.display = "none";
+   headerBar.style.display = "block";
+   if (headerBarText != ""){
+     titleBar.style.display = "block";
+   }
+  } else {
+   editor.style.display = "block";
+   existingEditor.style.display = "none";
+   $("#newSectionAdd").text("Go Back");
+   saveButton.style.display = "none";
+   deleteButton.style.display = "none";
+   addNew.style.display = "block";
+   titleBar.style.display = "none";
+   headerBar.style.display = "none";
+
+  }
+
+}
+
+  $("#addNew").click(function(){
+    var titleInput = document.getElementById("newTitleInput").value;
+    var headerInput = document.getElementById("headerInput").value;
+    var quillHTML = newQuill.root.innerHTML.trim();
+    if (headerInput != ""){
+      if (confirm("Are you sure you want to create this article?")){
+        $.ajax({
+          url : "{{url_for('content.save_record')}}",
+          type : 'get',
+          data : {jsdata: quillHTML, title : titleInput, header : headerInput},
+          success: function(response) {
+           window.alert("New article successfully created!")
+           location.reload()
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+             window.alert("Action Failed")
+          }
+        });
+      }
+      else {
+        window.alert("Action aborted")
+      }
+    } else {
+      window.alert("Failed: Empty Header")
+    }
+     });
+  $("#save").click(function(){
+    var titleInput = document.getElementById("titleInput").value;
+    var headerInput = document.getElementById("headerInput").value;
+    var quillHTML = quill.root.innerHTML.trim();
+    if (headerInput != ""){
+      if (confirm("Are you sure you want to save these changes?")){
+        $.ajax({
+          url : "{{url_for('content.save_record')}}",
+          type : 'get',
+          data : {jsdata: quillHTML, title : titleInput, header : headerInput},
+          success: function(response) {
+           window.alert("Record successfully saved!")
+           location.reload()
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+             window.alert("Action Failed")
+          }
+        });
+      }
+      else {
+        window.alert("Action aborted")
+      }
+    } else {
+      window.alert("Failed: Empty Header")
+    }
+
+     });
+
+     $("#delete").click(function(){
+       var titleInput = document.getElementById("titleInput").value;
+       var headerInput = document.getElementById("headerInput").value;
+       if (headerInput != ""){
+         if (confirm("Are you sure you want to delete this article?")){
+           $.ajax({
+             url : "{{url_for('content.delete_record')}}",
+             type : 'get',
+             data : {title : titleInput, header : headerInput},
+             success: function(response) {
+              window.alert("Record deleted!")
+              location.reload()
+             },
+             error: function(xhr) {
+               //Do Something to handle error
+                window.alert("Failed: Check that title and header are of an existing article.")
+             }
+           });
+         }
+         else {
+           window.alert("Action aborted")
+         }
+       }
+       else {
+         window.alert("Failed: Empty Header")
+       }
+         });
+
+</script>
+
+{% endblock %}

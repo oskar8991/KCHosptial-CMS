@@ -1,13 +1,5 @@
-from dataclasses import dataclass
-from typing import List
 from flask_login import UserMixin
 from app import login_manager, db
-
-@dataclass
-class Medication:
-    name: str
-    time: List[int]
-    indications: int = 'N/A'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -24,7 +16,8 @@ class Content(db.Model):
     page_id = db.Column(db.Integer, primary_key=True)
     header = db.Column(db.Text, nullable=True)
     content = db.Column(db.Text, nullable=True)
-
+    title = db.Column(db.Text, nullable=True)
+    question = db.relationship("Questions", backref='content', cascade="delete")
 
 class FlaskUsage(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -52,12 +45,16 @@ class Announcement(db.Model):
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(10000), nullable=False)
     date = db.Column(db.DateTime(), nullable=False)
+    links = db.Column(db.String(300), nullable=True, default="N/A")
     #image = db.Column(db.BLOB)
 
 class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question_text = db.Column(db.String(30), nullable=False)
     answer = db.relationship("Answers", backref='question', cascade="delete")
+    content_id = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
+    stat_right = db.Column(db.Integer(), default=0)
+    stat_wrong = db.Column(db.Integer(), default=0)
 
 class Answers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -82,10 +79,23 @@ class Quiz(db.Model):
     name = db.Column(db.String(30), nullable=False)
     page_ref = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
 
-#NEed to create a table like answers that connects the questions to the a specific quiz
+class Glossary(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    term = db.Column(db.Text)
+    description = db.Column(db.Text)
+
+class Helpful(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    page = db.Column(db.String(400), nullable=False)
+    yes = db.Column(db.Integer(), default=0)
+    no = db.Column(db.Integer(), default=0)
+
+class Medication(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(400), nullable=False)
+    given_hours = db.Column(db.Integer(), nullable=False)
+    indications = db.Column(db.String(400), default='N/A')
+
 
 def init_db():
     db.create_all()
-
-if __name__ == '__main__':
-    init_db()

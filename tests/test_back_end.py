@@ -1,5 +1,5 @@
 import unittest #nose2 package to be able to run all tests simultaneously
-
+import os
 from flask import abort, url_for
 from flask_testing import TestCase
 
@@ -19,13 +19,8 @@ class TestBase(TestCase):
     def create_app(self):
         # pass in test configurations
         #config_name = 'testing'
+        os.environ['FLASK_SETTINGS'] = 'config.TestingConfig'
         app = create_app()
-        app.config.update(
-            SQLALCHEMY_DATABASE_URI='sqlite:///data.db'
-        )
-
-        SECRET_KEY = os.urandom(32)
-        app.config['SECRET_KEY'] = SECRET_KEY
 
         return app
 
@@ -105,8 +100,10 @@ class TestModels(TestBase):
         """
         Test that the question and then answer is successfully added to the database
         """
-        question = Questions(question_text = "Test_Question?")
+        content = Content(header = "Test_Header", content = "Test_Content")
+        question = Questions(question_text = "Test_Question?", content = content)
         answer = Answers(answer_text = "Answer_Test", correct = 0, question = question)
+        db.session.add(content)
         db.session.add(question)
         db.session.add(answer)
         db.session.commit()
@@ -119,6 +116,7 @@ class TestModels(TestBase):
         """
         db.session.delete(Answers.query.filter_by(answer_text = "Answer_Test", correct = 0).first())
         db.session.delete(Questions.query.filter_by(question_text="Test_Question?").first())
+        db.session.delete(Content.query.filter_by(header = "Test_Header", content = "Test_Content").first())
         db.session.commit()
         self.assertEqual(Questions.query.filter_by(question_text="Test_Question?").count(), 0)
         self.assertEqual(Answers.query.filter_by(answer_text = "Answer_Test").count(), 0)
@@ -205,6 +203,16 @@ class TestErrorPages(TestBase):
     """
     Write tests for erroneous pages...
     """
+    def test_400_bad_request(self):
+        """
+        Test whether server can send back a bad request error.
+        """
+        # create route to abort the request with the 400
+        @self.app.route('/400')
+        def bad_request_error():
+            abort(400)
+        response = self.client.get('/400')
+        self.assertEqual(response.status_code, 400)
 
     def test_404_not_found(self):
         """
@@ -213,7 +221,16 @@ class TestErrorPages(TestBase):
         response = self.client.get('/testPage404')
         self.assertEqual(response.status_code, 404)
 
-
+    def test_500_internal_server_error(self):
+        """
+        Test whether server correctly sends back a 500 error.
+        """
+        # create route to abort the request with the 500 Error
+        @self.app.route('/500')
+        def internal_server_error():
+            abort(500)
+        response = self.client.get('/500')
+        self.assertEqual(response.status_code, 500)
 
 if __name__ == '__main__':
     unittest.main()

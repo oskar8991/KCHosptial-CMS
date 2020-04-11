@@ -1,61 +1,37 @@
-{% extends "base.html" %}
-
-
-{% block head %}
-<title>About Page</title>
-{% endblock %}
+{% extends "base_templates/user_page.html" %}
+{% block title %} About Page {% endblock %}
 
 {% block content%}
-<div class="container-fluid">
-    <div class="col-md-12">
-		<div class="text-center">
-				<br><h1> About the King's Pediatric Liver Center</h1>
-			</div>
-			<div class="row justify-content-center">
-		<hr></hr>
-		</div>
-        <br>
-    {% if data %}
-	<div class="row justify-content-center">
-		<div class="col-md-12">
-            {% for temp in data %}
-			<div class="card bg-default">
-				<h5 class="card-header">
-					<strong>{{temp.title}}</strong>
-				</h5>
-				<div class="card-body">
-					<p>
-						{{temp.content}}
-                    </p>
-                    {% if current_user.is_authenticated %}
-               			<a href="{{url_for('about.delete_card', id=temp.id)}}" id = "delete" style="text-align:right; float:right;">Delete</a>
-              			<a href="{{url_for('about.edit_card', id=temp.id)}}" id = "edit" style="text-align:right; float:right; position: relative; left: -35px;">Edit</a>
-             		{% endif %}
-			</div>
-
-
+<div class="container">
+  <h1 class="mt-3"> About the King's Pediatric Liver Center</h1>
+  <div class="row ">
+    <div class="col">
+      {% for temp in data %}
+        <div class="card bg-default my-5" id="card-header">
+          <h5 class="card-header">
+            <strong>{{temp.title}}</strong>
+          </h5>
+          <div class="card-body" id="card-body">
+            <p> {{temp.content}} </p>
+            {% if current_user.is_authenticated %}
+              <div class="float-right">
+                <a id="editButton" href="{{url_for('about.edit_card', id=temp.id)}}" class="px-2">Edit</a>
+                <a id="deleteButton" href="{{url_for('about.delete_card', id=temp.id)}}" class="px-2">Delete</a>
+              </div>
+            {% endif %}
+          </div>
         </div>
-        <br></br>
-        {% endfor %}
-
+      {% endfor %}
     </div>
+  </div>
+
+  <div class="text-center my-2">
+    {% if current_user.is_authenticated %}
+      <a id="addCard" href="{{url_for('about.create_card')}}" class="btn btn-primary" role="button">Add card</a>
+    {% else %}
+      <a href="{{url_for('users.login')}}" id="plz">Please log in as a staff member to add/update content</a>
     {% endif %}
-</div>
-
-
-{% if current_user.is_authenticated %}
-<div class="mx-auto text-center">
-  <a href="{{url_for('about.create_card')}}" class="btn btn-primary" id = "addCard" role="button">Add card</a>
-</div>
-<br><br><br>
-{% else %}
-<div class="mx-auto text-center">
+  </div>
   <br>
-  <a href="{{url_for('users.login')}}">Please log in as a staff member to add/update content</a>
 </div>
-<br><br><br>
-{% endif %}
-
-<br>
-
 {% endblock %}

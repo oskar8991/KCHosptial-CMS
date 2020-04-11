@@ -1,62 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
 
 {% block title %} FAQ - Delete {% endblock %}
 
+{% block header %} Delete a question {% endblock %}
 
-{% block head %}
-<title>FAQ - Delete</title>
-{% endblock %}
+{% block form %}
+<h4 class="mb-3 text-center">
+  Are you sure you want to delete the following Question?
+</h4>
 
+{{ textarea(title='FAQ ID', id='faqID', rows='1', cols='35', attributes=['readonly'], value=faq.id) }}
+{{ textarea(title='Question', id='question', rows='3', cols='35', attributes=['readonly'], value=faq.question) }}
+{{ textarea(title='Answer', id='answer', rows='5', cols='35', attributes=['readonly'], value=faq.answer) }}
 
-{% block body %}
-
-<div class="container">
-  <div class="col-md-12">
-	   <div class="text-center">
-			    <br><h1> Delete FAQ </h1>
-     </div>
-
-     <br>
-
-     <div class="row justify-content-center">
-       <form action="" method="POST" enctype="multipart/form-data">
-
-         <div class="text-center">
-    			    <h4> Are you sure you want to delete the following FAQ? </h4>
-              <br>
-         </div>
-
-
-         <label for="faqID">FAQ ID</label>
-         <div class="md-form">
-           <textarea id="faqID" name="faqID" class="md-textarea form-control" rows="1" cols="35" readonly>{{faq.id}}</textarea>
-         </div>
-         <br>
-         <label for="question">Question</label>
-         <div class="md-form">
-           <textarea id="question" name="question" class="md-textarea form-control" rows="3" cols="35" readonly>{{faq.question}}</textarea>
-         </div>
-         <br><label for="answer">Answer</label>
-         <div class="md-form">
-           <textarea id="answer" name="answer" class="md-textarea form-control" rows="5" cols="35" readonly>{{faq.answer}}</textarea>
-         </div>
-
-
-         <div class="row justify-content-center mt-5">
-           <a href="{{url_for('main.faq')}}" class="btn btn-primary" role="button">Back</a>
-           <input type="submit" class="btn btn-primary ml-3" type="button" id = "delete_Button" value="Delete">
-         </div>
-
-         <br><br>
-
-       </form>
-     </div>
-
-
-  </div>
-</div>
-
-
-
-
+{{ submit(back_url=url_for('main.faq'), submit_text='Delete', submit_id='delete_Button') }}
 {% endblock %}
