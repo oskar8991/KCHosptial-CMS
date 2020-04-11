@@ -203,6 +203,16 @@ class TestErrorPages(TestBase):
     """
     Write tests for erroneous pages...
     """
+    def test_400_bad_request(self):
+        """
+        Test whether server can send back a bad request error.
+        """
+        # create route to abort the request with the 400
+        @self.app.route('/400')
+        def bad_request_error():
+            abort(400)
+        response = self.client.get('/400')
+        self.assertEqual(response.status_code, 400)
 
     def test_404_not_found(self):
         """
@@ -211,7 +221,16 @@ class TestErrorPages(TestBase):
         response = self.client.get('/testPage404')
         self.assertEqual(response.status_code, 404)
 
-
+    def test_500_internal_server_error(self):
+        """
+        Test whether server correctly sends back a 500 error.
+        """
+        # create route to abort the request with the 500 Error
+        @self.app.route('/500')
+        def internal_server_error():
+            abort(500)
+        response = self.client.get('/500')
+        self.assertEqual(response.status_code, 500)
 
 if __name__ == '__main__':
     unittest.main()
