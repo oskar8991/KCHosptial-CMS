@@ -174,6 +174,17 @@ class TestViews(TestBase):
         response = self.client.get(url_for('drug_chart.medication'))
         self.assertEqual(response.status_code, 200)
 
+    def test_drug_chart_add_view(self):
+        """
+        Test that add medicine is inaccessible without login
+        and redirects to login page
+        """
+        target_url = url_for('drug_chart.add_medication')
+        redirect_url = url_for('users.login', next=target_url)
+        response = self.client.get(target_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
     def test_about_view(self):
         """
         Test that about page is accessible
@@ -198,6 +209,73 @@ class TestViews(TestBase):
         response = self.client.get(target_url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
+
+    def test_edit_view(self):
+        """
+        Test that edit page is inaccessible without login
+        and redirects to login page
+        """
+        target_url = url_for('content.edit_content')
+        redirect_url = url_for('users.login', next=target_url)
+        response = self.client.get(target_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_helpful_page_view(self):
+        """
+        Test that helpful pages is inaccessible without login
+        and redirects to login page
+        """
+        target_url = url_for('dashboard.helpful_pages')
+        redirect_url = url_for('users.login', next=target_url)
+        response = self.client.get(target_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_add_questions_view(self):
+        """
+        Test that add questions is inaccessible without login
+        and redirects to login page
+        """
+        target_url = url_for('quiz.questions')
+        redirect_url = url_for('users.login', next=target_url)
+        response = self.client.get(target_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_quiz_statistics_view(self):
+        """
+        Test that quiz statistics is inaccessible without login
+        and redirects to login page
+        """
+        target_url = url_for('quiz.quiz_statistics')
+        redirect_url = url_for('users.login', next=target_url)
+        response = self.client.get(target_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_users_list_view(self):
+        """
+        Test that users list is inaccessible without login
+        and redirects to login page
+        """
+        target_url = url_for('users.list_users')
+        redirect_url = url_for('users.login', next=target_url)
+        response = self.client.get(target_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_add_user_view(self):
+        """
+        Test that add user is inaccessible without login
+        and redirects to login page
+        """
+        target_url = url_for('users.add_user')
+        redirect_url = url_for('users.login', next=target_url)
+        response = self.client.get(target_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
 
 class TestErrorPages(TestBase):
     """
