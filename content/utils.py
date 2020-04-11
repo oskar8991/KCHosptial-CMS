@@ -50,3 +50,13 @@ def add_class(html, where, what):
             tag['class'] = class_list + [what]
 
     return soup.prettify()
+
+def add_img_id(html):
+    soup = BeautifulSoup(html)
+    for img in soup.find_all('img'):
+        filename = img['src'].split('/')[-1] # Get the last part of the src.
+        filename = filename.split('.')[0] # Removes the extension.
+        if not img.get('id'):
+            img['id'] = filename
+
+    return soup.prettify()
