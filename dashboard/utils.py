@@ -33,7 +33,7 @@ def platform_usage(platform):
     return FlaskUsage.query.filter_by(ua_platform = platform).count()
 
 def count_visitors():
-    return db.session.query(FlaskUsage.remote_addr).distinct().count()
+    return db.session.query(FlaskUsage.xforwardedfor).distinct().count()
 
 def most_visited():
     return (db.session

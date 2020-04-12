@@ -74,7 +74,7 @@
         <input  class="form-control"autocomplete="off" id="newTitleInput">
 
       </div>
-      <Label>The contents below will appear on the main page as you see them on here (title above not shown):</Label>
+      <Label>The contents below will appear on the main page beneath your chosen title:</Label>
       <div id="editorDiv"></div>
     </div>
   </div>
@@ -102,14 +102,15 @@
     var titleList = [];
 
     {% for record in content.records %}
-      var recordContent = {title: "{{record.title}}", header: "{{record.header}}"};
+      var recordContent = {title: "{{record.title}}", header: "{{record.header}}", id: "{{record.id}}"};
       titleList.push(recordContent);
     {% endfor %}
     var options = '';
 
     for(var i = 0; i < titleList.length; i++)
       if (titleList[i].header == selectedHeader){
-        options += '<option value="' + titleList[i].title+'" />';
+        //options += '<option ' + 'id=' + titleList[i].id + ' value="'+ titleList[i].title+'" />';
+        options += '<option value="'+ titleList[i].title+'" />';
       }
 
     document.getElementById('titles').innerHTML = options;
