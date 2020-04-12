@@ -1128,7 +1128,7 @@ class TestSplashPage(TestBase):
         #Click on Read More on spash page home
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(3)
-        self.driver.find_element_by_id("readMore").click()
+        self.driver.find_element_by_id("readMoreHome").click()
         time.sleep(3)
         assert url_for('main.index') in self.driver.current_url
 
@@ -1139,7 +1139,7 @@ class TestSplashPage(TestBase):
         #Click on Read More on spash page drugchart
         self.driver.find_element_by_id("splashDrugchartId").click()
         time.sleep(3)
-        self.driver.find_element_by_id("readMore").click()
+        self.driver.find_element_by_id("readMoreDrugchart").click()
         time.sleep(3)
         assert url_for('main.drugchart') in self.driver.current_url
 
@@ -1150,7 +1150,7 @@ class TestSplashPage(TestBase):
         #Click on Read More on spash page faq
         self.driver.find_element_by_id("splashFaqtId").click()
         time.sleep(3)
-        self.driver.find_element_by_id("readMore").click()
+        self.driver.find_element_by_id("readMoreFaq").click()
         time.sleep(3)
         assert url_for('main.faq') in self.driver.current_url
 
@@ -1161,9 +1161,24 @@ class TestSplashPage(TestBase):
         #Click on Read More on spash page about
         self.driver.find_element_by_id("splashAboutId").click()
         time.sleep(3)
-        self.driver.find_element_by_id("readMore").click()
+        self.driver.find_element_by_id("readMoreAbout").click()
         time.sleep(3)
         assert url_for('main.about') in self.driver.current_url
+
+
+class TestDrugChartGeneration(TestBase):
+
+    def test_generate_chart(self):
+        """
+        Test that the user is redirected to the generated drug chart
+        """
+        self.driver.find_element_by_id("splashDrugchartId").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreDrugchart").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("generate").click()
+        time.sleep(3)
+        assertTrue ("Patient Name" in driver.page_source)
 
 
 
