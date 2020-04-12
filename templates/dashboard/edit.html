@@ -28,7 +28,7 @@
       <input class="form-control" autocomplete="off" list="headings" id="input_header">
       <datalist id="headings">
         {% for header in content.headings %}
-          <option value="{{header}}">
+          <option value="{{header}}" />
         {% endfor %}
       </datalist>
     </div>
@@ -39,22 +39,21 @@
     <Label for="input_title">Choose a title from the list below:</Label>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="title">Title: </span>
+        <!-- <span class="input-group-text" id="title">Title: </span> -->
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Title</button>
+        <div class="dropdown-menu" style="height: auto; max-height: 200px; overflow-x: hidden;" id="record_list">
+          {% for record in content.records %}
+            <a class="dropdown-item" onClick="set_title({{record.page_id}}, '{{record.title}}')">{{record.title}}</a>
+          {% endfor %}
+        </div>
       </div>
-      <input class="form-control" autocomplete="off" list="titles" id="input_title">
-      <datalist id="titles">
-        {% for record in content.records %}
-        <option value="{{record.page_id}}">
-          {{record.title}}
-        </option>
-        {% endfor %}
-      </datalist>
+      <input type="text" class="form-control" autocomplete="off" id="input_title">
     </div>
   </div>
 
   <!-- When creating a new section. -->
   <div id="new_title_bar">
-    <label for="new_input_title">Write a new title</label>
+    <label for="new_input_title">Write a new title and press Enter:</label>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text" id="title">Title: </span>
@@ -63,7 +62,7 @@
     </div>
   </div>
 
-  <div class="editor">
+  <div id="editor">
     <Label>The contents below will appear on the main page as you see them on here (title above not shown):</Label>
     <div id="quill_editor"></div>
   </div>
@@ -100,13 +99,13 @@
     });
 
     // Hides the title, editor and buttons at the begining
-    const init_hidden = ['#go_back','#title_bar', '#new_title_bar', '#editor', '#create_section'];
+    const init_hidden = ['#go_back','#title_bar', '#new_title_bar', '#editor', '#create_section', '#delete_section', '#save_section'];
     init_hidden.forEach(e => {$(e).hide()});
 
     // Creates a new section and change the button.
     function add_section() {
       const to_hide = ['#add_section', '#save_section', '#delete_section', '#title_bar'];
-      const to_show = ['#go_back', '#new_title_bar', '#create_section', '#editor']
+      const to_show = ['#go_back', '#new_title_bar', '#create_section']
       to_hide.forEach(e => {$(e).hide()});
       to_show.forEach(e => {$(e).show()});
     }
@@ -117,9 +116,48 @@
       const to_show = ['#add_section', '#editor', '#save_section', '#delete_section']
       to_hide.forEach(e => {$(e).hide()});
       to_show.forEach(e => {$(e).show()});
-      if ($('#title_bar').val() != "") {
+      if ($('#input_title').val() != "") {
         $('#title_bar').show();
+        $('#editor').show();
       }
+    }
+
+    article_id = -1;
+    // Set the title text when element from dropdown is selected
+    function set_title(id, title) {
+      $('#input_title').val(title);
+      article_id = id;
+      var to_show = ['#save_section', '#delete_section'];
+      to_show.forEach(e => {$(e).show()});
+
+      // Get the record associated with the selected title.
+      $.getJSON("{{url_for('content.edit_record_content')}}", {
+        id: id
+      }, function(data) {
+        if (data === 'error') {
+          window.alert('The title does not exists');
+        } else {
+          $('#editor').show();
+          quill.root.innerHTML = data;
+        }
+      });
+    }
+
+    // Ajax request to save an article
+    function write_section(section) {
+      $.ajax({
+        method: 'POST',
+        url: "{{ url_for('content.save_record') }}",
+        data: JSON.stringify(section),
+        contentType: 'application/json;charset=UTF-8',
+        success: function(data) {
+          window.alert(data);
+          location.reload();
+        },
+        error: function(jqXHR) {
+          window.alert("An error occured - error " + jqXHR.status)
+        },
+      });
     }
 
     // Once a header is selected, only titles from this header are available.
@@ -134,43 +172,46 @@
       var options = ''
       for (var i = 0; i < title_list.length; i++) {
         if (title_list[i].header === $('#input_header').val()) {
-          options += '<option value="' + title_list[i].id + '">';
-          options += title_list[i].title;
-          options += '</option>';
+          options += '<a class="dropdown-item" onclick="set_title(';
+          options += title_list[i].id + ', \'' + title_list[i].title + '\')">';
+          options += title_list[i].title + '</a>';
         }
       }
 
-      $('#titles').html(options);
+      $('#record_list').html(options);
       if ($('#new_title_bar').is(":hidden")) {
         $('#title_bar').show();
       }
     });
 
-    // Get the record associated with the selected title.
-    $('#title_bar').change(function(e) {
+    $('#new_input_title').change(function(e) {
       e.preventDefault(); // Cancel the link default behaviour.
-
-      $.getJSON("{{url_for('content.edit_record_content')}}", {
-        id: $('input_title').val()
-      }, function(data) {
-        if (data === 'error') {
-          window.alert('The title does not exists');
-        } else {
-          $('#quill_editor').html(data);
-        }
-      });
+      $('#editor').show();
     });
 
     $('#save_section').click(function() {
-      var id = $('input_title').val();
-      var header = $('#new_input_title').val();
-      // TO FINISH
+      if (confirm('Are you sure you want to save these changes ?')) {
+        write_section({
+          id: article_id,
+          text: quill.root.innerHTML.trim(),
+          title: $('#input_title').val(),
+          header: $('#input_header').val()
+        });
+      } else {
+        window.alert('Action aborted');
+      }
     });
 
     $('#delete_section').click(function() {
-      var id = $('input_title').val();
-      var header = $('#new_input_title').val();
-      // TO FINISH
+      var id = article_id;
+      if (confirm('Are you sure you want to delete this article ?')) {
+        $.getJSON("{{url_for('content.delete_record')}}", {
+          id: id
+        }, function(data) {
+          window.alert(data);
+          location.reload();
+        });
+      }
     });
 
     $('#create_section').click(function() {
@@ -178,23 +219,13 @@
 
       if (header != '') {
         if (confirm('Are you sure you want to create this article ?')) {
-          $.ajax({
-            method: 'POST',
-            url: "{{ url_for('content.save_record') }}",
-            data: JSON.stringify({
-              text: quill.root.innerHTML.trim(),
-              title: $('#new_input_title').val(),
-              header: header
-            }),
-            contentType: 'application/json;charset=UTF-8',
-            success: function(data) {
-              window.alert("Action executed with success.");
-              location.reload();
-            },
-            error: function(jqXHR) {
-              window.alert("An error occured - error " + jqXHR.status)
-            },
-          });
+          console.log(quill.root.innerHTML);
+          console.log(quill.root.innerHTML.trim());
+          write_section({
+            text: quill.root.innerHTML.trim(),
+            title: $('#new_input_title').val(),
+            header: header
+          })
         } else {
           window.alert('Action aborted');
         }
