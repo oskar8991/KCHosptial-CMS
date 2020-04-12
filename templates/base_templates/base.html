@@ -48,23 +48,26 @@
           <a id="about" class="nav-link" href="{{url_for('main.about')}}">About</a>
         </li>
 
+
+
+
         <script type="text/javascript" src="{{url_for('static', filename='js/hilitor.js')}}"></script>
         <script>
-          window.addEventListener("DOMContentLoaded", function(e) {
-            var highlighter = new Hilitor("testText");
-            highlighter.setMatchType("left");
-            highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
-            highlighter.apply("input string,searchInput");
-            document.getElementById("searchInput").addEventListener("keyup", function(e) {
-              highlighter.apply(this.value);
-            }, false);
-          }, false);
+          var myHilitor; // global variable
+        	document.addEventListener("DOMContentLoaded", function() {
+        		myHilitor = new Hilitor();
+        		myHilitor.apply("javascript highlight library");
+        	}, false);
+
+
         </script>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
+
+
+      <form class="form-inline my-2 my-lg-0" method="GET" action="/javascript/search-highlight/" onsubmit="myHilitor.apply(hilite.value); return false;">
         <i class="fas fa-search" aria-hidden="true"></i>
-        <input id="searchInput" type="text" placeholder="Search" class="form-control form-control-sm ml-3" type="text" placeholder="Search" aria-label="Search">
-      </form>
+				<input type="text" class="form-control form-control-sm ml-3" size="32" name="hilite" placeholder="Search" ><br>
+			</form>
 
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
