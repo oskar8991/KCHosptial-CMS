@@ -13,10 +13,10 @@
 </div>
 {% endblock %}
 
-{% macro textarea(title, id, rows, cols, attributes=[], value='') %}
+{% macro textarea(title, id, rows, cols, attributes=[], value='', placeholder='') %}
   <div class="md-form my-3">
     <label for="{{id}}">{{title}}</label>
-    <textarea id="{{id}}" name="{{id}}" class="md-textarea form-control" rows="{{rows}}" cols="{{cols}}" {{attributes|join(' ')}}>{{value}}</textarea>
+    <textarea id="{{id}}" name="{{id}}" class="md-textarea form-control" rows="{{rows}}" cols="{{cols}}" placeholder="{{placeholder}}" {{attributes|join(' ')}}>{{value}}</textarea>
   </div>
 {% endmacro %}
 

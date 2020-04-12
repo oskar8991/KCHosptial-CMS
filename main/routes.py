@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, redirect, url_for, request, jsonif
 from models import Content, Announcement, FAQQuestions, About, Glossary, Helpful
 from content.utils import *
 
-from app import mail
+#from app import mail
 from flask_mail import Message
 
 main = Blueprint('main', __name__)
@@ -48,7 +48,7 @@ def somethingWrong():
         #mail.send(msg) once we deploy we can configure the server
         return render_template('feedback.html')
 
-    return render_template('somethingWrong.html')
+    return render_template('feedback.html')
 
 
 

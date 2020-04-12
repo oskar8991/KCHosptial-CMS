@@ -12,17 +12,18 @@ content = Blueprint('content', __name__)
 def save_record():
     inputText = request.args.get('jsdata')
     inputText = add_class(inputText, "img", "img-fluid")
+    inputText = add_img_id(inputText)
     inputTitle = request.args.get('title')
     inputHeader = request.args.get('header')
 
-    if (db.session.query(Content.title).filter_by(title=inputTitle, header=inputHeader).count()) == 1:
-        db.session.query(Content.title).filter_by(title=inputTitle, header=inputHeader).update({Content.content:inputText})
-        db.session.commit()
-        print("update")
+    article = Content.query.filter_by(title=inputTitle, header=inputHeader).first()
+    if article:
+        article.content = inputText
     else:
-        newRecord = Content(header=inputHeader, title=inputTitle, content=inputText)
-        db.session.add(newRecord)
-        db.session.commit()
+        article = Content(header=inputHeader, title=inputTitle, content=inputText)
+        db.session.add(article)
+
+    db.session.commit()
 
     return redirect(url_for('main.index'))
 
@@ -47,12 +48,10 @@ def edit_content():
         "records" : get_records()
     }
 
-    return render_template(
-        'dashboard/edit.html',
-        content=contentDictionary
-    )
+    return render_template('dashboard/edit.html', content=contentDictionary)
 
 @content.route('/edit_record_content', methods=["GET"])
+@login_required
 def edit_record_content():
     text = request.args.get('jsdata')
     record_content = ''

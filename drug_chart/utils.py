@@ -1,21 +1,31 @@
 from datetime import time
-from models import Medication
+import re
 
-medicationsList = [
-    Medication('Vitamin E (Alpha Tocopheryl Acetate)', [8]),
-    Medication('Abidec/Dalivit', [8]),
-    Medication('Vitamin K', [8]),
-    Medication('Ranitidine', [8, 14, 22]),
-    Medication('Cefalexin',[9, 22], 'Cefalexin is an antibiotic that should be given for & month after Kasai procedure.'),
-    Medication('Prednisolone', [9], 'Prednisolone should be given after/with milk. No Immunisation should be given until one month after Prednisolone is stopped.'),
-    Medication('Ursodeoxycholic Acid', [9, 21]),
-    Medication('Phenobarbitone', [22], 'Phenobarbitone dose will be increased by 15mg each week up to a maximum dose of 45mg once a day as long as child is not too drowsy.')
-]
+def match_hours(hours: str):
+    # This pattern tests for list of ints between 0 and 23 separated by a comma.
+    pattern = r'^(\d|1\d|2[0-3])(, ?(\d|1\d|2[0-3]))*$'
+    return re.match(pattern, hours)
+
+def convert_binary(hours: list):
+    """ Creates a binary representation of a list of hours. """
+    o = ['1' if str(i) in hours else '0' for i in range(24)][::-1]
+    return int(''.join(o), 2)
+
+def convert_time(number):
+    """ Creates a list of hours from its binary representation. """
+    binary = bin(number)[2:][::-1] # Strips the '0b' at the begining
+    return [str(i) for (i, v) in enumerate(binary) if int(v)]
+
 
 def generate_chart(medications):
-    hours = set([hour for med in medications for hour in med.time])
+    hours = {
+        int(hour)
+        for med in medications
+        for hour in convert_time(med.given_hours)
+    }
+
     for h in hours:
-        meds = [med for med in medications if h in med.time]
+        meds = [med for med in medications if str(h) in convert_time(med.given_hours)]
         yield ','.join([time(hour=h).strftime("%I%p"), meds[0].name]) + '\n'
         # if there is more than one drug for this hour.
         for i in range(1, len(meds)):
