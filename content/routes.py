@@ -7,14 +7,19 @@ import json
 
 content = Blueprint('content', __name__)
 
-@content.route('/save_record', methods=["GET"])
+@content.route('/save_record', methods=["POST"])
 @login_required
 def save_record():
-    inputText = request.args.get('jsdata')
+    data = request.get_json()
+    # inputText = request.args.get('jsdata')
+    inputText = data['text']
     inputText = add_class(inputText, "img", "img-fluid")
     inputText = add_img_id(inputText)
-    inputTitle = request.args.get('title')
-    inputHeader = request.args.get('header')
+    # inputTitle = request.args.get('title')
+    # inputHeader = request.args.get('header')
+    inputTitle = data['title']
+    inputHeader = data['header']
+
 
     article = Content.query.filter_by(title=inputTitle, header=inputHeader).first()
     if article:
@@ -52,11 +57,16 @@ def edit_content():
 
 @content.route('/edit_record_content', methods=["GET"])
 def edit_record_content():
-    text = request.args.get('jsdata')
-    record_content = ''
-    for record in get_records():
-        if record.title == text:
-            record_content = record
+    given_id = int(request.args.get('id'))
+    record = Content.query.get(given_id)
+    if record:
+        return record.content
+    else:
+        return "error"
+    # record_content = ''
+    # for record in get_records():
+    #     if record.title == text:
+    #         record_content = record
 
 
-    return render_template('dashboard/editor.html', content=record_content)
+    # return render_template('dashboard/editor.html', content=record_content)
