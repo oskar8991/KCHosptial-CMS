@@ -48,19 +48,41 @@
           <a id="about" class="nav-link" href="{{url_for('main.about')}}">About</a>
         </li>
 
+
+
+
         <script type="text/javascript" src="{{url_for('static', filename='js/hilitor.js')}}"></script>
         <script>
+        //simple detection for mobile access
+        function detectMob() {
+            return ( ( window.innerWidth <= 800 ) && ( window.innerHeight <= 1400 ) );
+          }
+        var detection = detectMob()
+        var highlighter = new Hilitor("testText");
+        highlighter.setMatchType("left");
+        highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
+        //if accessed on desktop
+        if(detection == false) {
           window.addEventListener("DOMContentLoaded", function(e) {
-            var highlighter = new Hilitor("testText");
-            highlighter.setMatchType("left");
-            highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
             highlighter.apply("input string,searchInput");
             document.getElementById("searchInput").addEventListener("keyup", function(e) {
               highlighter.apply(this.value);
             }, false);
           }, false);
+        //if accessed on mobile
+        } else {
+          document.getElementById("searchInput").addEventListener("keyup", function(event) {
+          if (event.keyCode === 13) {
+            highlighter.apply("input string, searchInput")
+            highlighter.apply(this.value);
+          }
+        });
+        }
         </script>
       </ul>
+
+
+
       <form class="form-inline my-2 my-lg-0">
         <i class="fas fa-search" aria-hidden="true"></i>
         <input id="searchInput" type="text" placeholder="Search" class="form-control form-control-sm ml-3" type="text" placeholder="Search" aria-label="Search">
