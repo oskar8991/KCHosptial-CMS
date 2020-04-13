@@ -11,7 +11,7 @@ To run the application locally, first install Docker and run the following comma
 `docker build -f Dockerfile.dev -t williwaller .`
 
 Once the image is built, you can run the container with the following command:
-`docekr run -p 6000:5000 williwaller`
+`docker run -p 4000:5000 williwaller`
 
 If you then open `127.0.0.1:6000` you should see the website up and running.
 
