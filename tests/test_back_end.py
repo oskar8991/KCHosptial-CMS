@@ -11,8 +11,6 @@ from sqlalchemy import create_engine, MetaData, func, and_
 
 from datetime import datetime
 
-import os
-
 
 class TestBase(TestCase):
 

@@ -1179,10 +1179,7 @@ class TestDrugChartGeneration(TestBase):
         self.driver.find_element_by_id("generate").click()
         time.sleep(3)
         assertTrue ("Patient Name" in driver.page_source)
-
-
-
-
+        
 
 if __name__ == '__main__':
     unittest.main()
