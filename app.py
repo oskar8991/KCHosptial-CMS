@@ -6,12 +6,11 @@ from flask_login import LoginManager
 #from sqlalchemy import create_engine, MetaData
 from flask_track_usage import TrackUsage
 from flask_track_usage.storage.sql import SQLStorage
-from flask_mail import Mail
+#from flask_mail import Mail
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-#mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -28,7 +27,6 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'users.login'
-    #mail.init_app(app)
 
     # We need the app's context to create the db related to it.
     from models import init_db, User

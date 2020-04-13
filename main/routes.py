@@ -3,7 +3,7 @@ from models import Content, Announcement, FAQQuestions, About, Glossary, Helpful
 from content.utils import *
 
 #from app import mail
-from flask_mail import Message
+#from flask_mail import Message
 
 main = Blueprint('main', __name__)
 
@@ -44,19 +44,12 @@ def announcements():
 def somethingWrong():
     if request.method == 'POST':
         problem = request.form.get('problem')
-        msg = Message(problem, recipients=["to@example.com"])
-        #mail.send(msg) once we deploy we can configure the server
+        #msg = Message(problem, recipients=["to@example.com"])
+        #mail.send(msg)
         return render_template('feedback.html')
 
     return render_template('feedback.html')
 
-
-
-############# FOR TESTING SEARCHBAR #########
-@main.route("/searchBarSample")
-def searchBarSample():
-    return render_template('searchBarSample.html')
-#############################################
 
 @main.route('/_helpful_feedback')
 def helpful_feedback():
