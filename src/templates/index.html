@@ -1,0 +1,199 @@
+{% extends "base_templates/user_page.html" %}
+{% block title %} Project WW {% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/marquee.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
+<script src="{{url_for('static', filename='js/parallax.min.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery.quiz.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/marquee.js')}}"></script>
+{% endblock %}
+
+{% block content%}
+<div class="wrapper" id="wrapper">
+  <nav id="sidebar" class="hidden">
+    <ul>
+      {% for header in content.headings %}
+        <li>
+          <a href="#{{header[0:3]}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            {{ header }}
+          </a>
+          {% for record in content.records %}
+            <ul class="collapse list-unstyled" id="{{header[0:3]}}">
+              {% if record.header == header%}
+                <li>
+                  <a href="#section-{{record.id}}">
+                    {{record.title}}
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          {% endfor %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div type="button" id="collapse" class='menubar hamburger'>
+    <div class='bar'></div>
+    <div class='bar'></div>
+    <div class='bar'></div>
+  </div>
+
+  <div>
+    <input type="checkbox" id="click2">
+    <label for="click2" class="popUpButtonCircle">
+      <img src="{{url_for('static', filename='resources/icon/glossary.png')}}" id="popUpImage">
+    </label>
+    <div class="popUp" id="circlePopUp">
+      <div class="popUpHeader">
+        <div class="popUpTitle">Glossary of Liver Terms</div>
+        <label for="click2" class="close-btn">&times;</label>
+      </div>
+
+      <div class="popUpContent">
+        <p>
+          There are many medical terms which are used by those caring for children and young people with liver disease. It can be really helpful to know these terms which may be used during appointments.
+          <br>
+          If you come across a medical term you don’t know you can look up an explanation here.
+          <br><br>
+
+          <ol class="breadcrumb justify-content-center">
+            {% for initial, _ in content.glossary.items() %}
+              <li class="breadcrumb-item">
+                <a href="#glossary{{ initial }}">{{ initial }}</a>
+              </li>
+            {% endfor %}
+          </ol>
+
+          <br><br>
+        </p>
+
+        {% for initial, words in content.glossary.items() %}
+          <p>
+            <a id="glossary{{initial}}"><b>{{initial}}</b><br></a>
+            {% for word in words %}
+              {{ word.term + '-' + word.description}}
+              <br>
+            {% endfor %}
+            <div class="line"></div>
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+  </div>
+
+  <div class="container">
+    <div class="mt-sm-5 d-sm-block d-md-none">
+      <br>
+    </div>
+    {% for header in content.headings %}
+      <div class="mt-3 text-center">
+        <h1>{{ header }}</h1>
+      </div>
+      {% for record in content.records %}
+        {% if record.header == header%}
+          <div class="row">
+            <section id="section-{{record.id}}">
+              <div class="line"></div>
+              <h2>{{ record.title }}</h2>
+              {{ record.content | safe }}
+            </section>
+          </div>
+
+          {% if content.questions[record.id] %}
+            <div class="row">
+              <div class="col">
+                <div class="card">
+                  <div class="card-header">
+                    <button id = "open_quiz" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#quiz-card-{{record.id}}">
+                      Try the quiz for section {{record.id}}.
+                    </button>
+                  </div>
+                  <div id="quiz-card-{{record.id}}" class="card-body collapse">
+                    <div id="quiz{{record.id}}">
+                      <div id="quiz-header">
+                        <h5 class="card-title">Quiz for section {{record.id}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                          Try this quiz to see if you understood this section.
+                          <a id="quiz-home-btn{{record.id}}" href="">Reset</a>
+                        </h6>
+                      </div>
+                      <div id="quiz-start-screen{{record.id}}">
+                        <p><a href="" id="quiz-start-btn{{record.id}}">Start</a></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <script type="text/javascript">
+              $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+              var answerCallback = function(currentQuestion, selected, question) {
+                correct = (selected === question.correctIndex) ? 1 : 0;
+                $.getJSON($SCRIPT_ROOT + '/_answered_question', {
+                  question_id: question.question_id,
+                  answer: correct
+                }, function(data) {
+                  // We don't get an answer for this url.
+                });
+              };
+
+              $('#quiz{{record.id}}').quiz({
+                answerCallback: answerCallback,
+                quizIndex: {{record.id}},
+                counterFormat: 'Question %current of %total',
+                questions: {{ content.questions[record.id]|tojson }}
+              });
+
+
+            </script>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+  <input onclick="top()" class="toTop" id="toTop" type="image" src="{{url_for('static', filename='resources/icon/arrow.png')}}">
+</div>
+
+<div class="content">
+  <div class="simple-marquee-container">
+<!--     <div class="marquee-sibling">
+      Recent News
+    </div> -->
+    <div class="marquee">
+      <ul class="marquee-content-items">
+        {% for announcement in announcements %}
+          <li onclick="location.href='{{url_for('main.announcements')}}';" id="rollinglink" >
+            {{ announcement.title }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function (){
+    $('.simple-marquee-container').SimpleMarquee();
+  });
+</script>
+
+
+<!-- ScrollMagic Javascript library -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script> -->
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/hamburger.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/toTop.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/scroll.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/sidebar.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/collapse.js')}}"></script>
+{% endblock %}

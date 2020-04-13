@@ -1,0 +1,20 @@
+FROM python:3.7-alpine AS builder
+
+ENV PYTHONUNBUFFERED 1
+WORKDIR /install
+
+RUN apk update && apk add --no-cache libffi-dev python3-dev build-base
+
+COPY ./src/requirements.txt /requirements.txt
+RUN pip install --prefix=/install -Ur /requirements.txt
+
+FROM python:3.7-alpine
+
+COPY --from=builder /install /usr/local
+COPY src /app
+
+ENV PYTHONUNBUFFERED 1
+ENV FLASK_SETTINGS 'config.ProductionConfig'
+WORKDIR /app
+
+CMD ["python", "app.py"]

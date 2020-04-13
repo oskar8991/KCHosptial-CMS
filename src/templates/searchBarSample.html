@@ -1,0 +1,43 @@
+{% extends 'base_templates/base.html' %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+
+<h1> Search Bar Sample </h1>
+
+<div id="testText">
+
+	<form>
+		<p>Search (Highlight sample): <input id="searchInput" size="24"></p>
+	</form>
+
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+	Vivamus felis erat, facilisis vitae est sed, interdum luctus dui. Donec
+	condimentum in neque ac consequat. Donec interdum quis massa molestie
+	consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+	Vivamus felis erat, facilisis vitae est sed, interdum luctus dui. Donec
+	condimentum in neque ac consequat. Donec interdum quis massa molestie
+	consequat.</p>
+
+</div>
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/hilitor.js') }}"></script>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function(e) {
+    var highlighter = new Hilitor("testText");
+    highlighter.setMatchType("left");
+    highlighter.setBreakRegExp(new RegExp('[^\\w\' -]+', "g"));
+  	highlighter.apply("input string,searchInput,page");
+    document.getElementById("searchInput").addEventListener("keyup", function(e) {
+      highlighter.apply(this.value);
+    }, false);
+  }, false);
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
+
+{% block title %} About - Add Card{% endblock %}
+
+{% block header %} Add an About card {% endblock %}
+
+{% block form %}
+{{ textarea(title='Subject', id='subject', rows='3', cols='60', attributes=['required']) }}
+{{ textarea(title='Content', id='content', rows='5', cols='35', attributes=['required']) }}
+{{ submit(back_url=url_for('main.about')) }}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
+
+{% block title %} Announcements - Add {% endblock %}
+
+{% block header %} Add an Announcement {% endblock %}
+
+{% block form %}
+{{ textarea(title='Title', id='title', rows='1', cols='10', attributes=['required']) }}
+{{ textarea(title='Description', id='description', rows='5', cols='35', attributes=['required']) }}
+{{ textarea(title='Add Link', id='links', rows='2', cols='35') }}
+{{ submit(back_url=url_for('main.announcements')) }}
+{% endblock %}
