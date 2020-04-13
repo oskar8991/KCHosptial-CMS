@@ -18,7 +18,7 @@ def get_records():
     '''
     # records = {row.pa: row for row in Content.query.all()}
     # return OrderedDict(sorted(records.items()))
-    return Content.query.all()
+    return sorted(Content.query.all(), key=lambda x: x.id)
 
 def get_glossary():
     '''
