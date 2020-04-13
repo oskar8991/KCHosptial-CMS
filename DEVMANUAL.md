@@ -8,7 +8,7 @@ The file is intended to explain to a developer how to set up and run this websit
 In order to ease deployment as much as we could, we decided to use [Docker](www.docker.com) to build our application. Docker is a tool designed to allow users to run applications by using "containers" that will transition seamlessly to all platforms that can install and run it.
 
 To run the application locally, first install Docker and run the following commands in the project's root directory:
-`docker build -f Dockerfile.dev -t williwaller `
+`docker build -f Dockerfile.dev -t williwaller .`
 
 Once the image is built, you can run the container with the following command:
 `docekr run -p 6000:5000 williwaller`

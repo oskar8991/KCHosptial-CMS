@@ -13,7 +13,7 @@ Run instructions :
 In order to run our application on a server - a Dockerfile has been provided.
 
 To run the application locally, first install Docker and run the following commands in the project's root directory:
-`docker build -f Dockerfile.dev -t williwaller `
+`docker build -f Dockerfile.dev -t williwaller .`
 
 Once the image is built, you can run the container with the following command:
 `docker run -p 6000:5000 williwaller`
