@@ -10,7 +10,7 @@ Run instructions :
 
 ## Deployment - Docker
 
-In order to run our application on a server - A Dockerfile has been provided.
+In order to run our application on a server - a Dockerfile has been provided.
 
 To run the application locally, first install Docker and run the following commands in the project's root directory:
 `docker build -f Dockerfile.dev -t williwaller `
