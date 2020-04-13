@@ -1,6 +1,6 @@
 SEG Major Project
 
-Project #: 4
+Project #4: Parental Education - Paediatric Liver Service, King's College Hospital
 
 Team name: WilliWaller
 
