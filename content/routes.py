@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, request, redirect, url_for
+from flask import render_template, Blueprint, request, redirect, url_for, jsonify
 from flask_login import login_required
 from app import db
 from models import Content
@@ -7,36 +7,44 @@ import json
 
 content = Blueprint('content', __name__)
 
-@content.route('/save_record', methods=["GET"])
+@content.route('/save_record', methods=["POST"])
 @login_required
 def save_record():
-    inputText = request.args.get('jsdata')
-    inputText = add_class(inputText, "img", "img-fluid")
-    inputText = add_img_id(inputText)
-    inputTitle = request.args.get('title')
-    inputHeader = request.args.get('header')
+    data = request.get_json()
+    header = data['header']
+    title = data['title']
+    content = data['text']
+    content = add_class(content, "img", "img-fluid")
+    content = add_img_id(content)
 
-    article = Content.query.filter_by(title=inputTitle, header=inputHeader).first()
-    if article:
-        article.content = inputText
+    if 'id' in data:
+        page_id = data['id']
+        article = Content.query.get(page_id)
+        if not article:
+            return jsonify("An error occured")
+
+        article.header = header
+        article.title = title
+        article.content = content
     else:
-        article = Content(header=inputHeader, title=inputTitle, content=inputText)
+        article = Content(header=header, title=title, content=content)
         db.session.add(article)
-
+    
     db.session.commit()
-
-    return redirect(url_for('main.index'))
+    return jsonify("Action executed with success")
 
 @content.route('/delete_record', methods=["GET"])
 @login_required
 def delete_record():
-    inputTitle = request.args.get('title')
-    inputHeader = request.args.get('header')
+    page_id = request.args.get('id')
 
-    record_to_delete = db.session.query(Content.title).filter_by(title=inputTitle, header=inputHeader).delete()
-    db.session.commit()
-
-    return redirect(url_for('main.index'))
+    record = Content.query.get(page_id)
+    if record:
+        db.session.delete(record)
+        db.session.commit()
+        return jsonify("Action executed with success.")
+    else:
+        return jsonify("The record doesn't exists.")
 
 
 @content.route('/edit', methods=['GET', 'POST'])
@@ -53,11 +61,17 @@ def edit_content():
 @content.route('/edit_record_content', methods=["GET"])
 @login_required
 def edit_record_content():
-    text = request.args.get('jsdata')
-    record_content = ''
-    for record in get_records():
-        if record.title == text:
-            record_content = record
+    given_id = int(request.args.get('id'))
+    record = Content.query.get(given_id)
+    if record:
+        return jsonify(record.content)
+        #return jsonify("<h1>test</h1>")
+    else:
+        return jsonify("error")
+    # record_content = ''
+    # for record in get_records():
+    #     if record.title == text:
+    #         record_content = record
 
 
-    return render_template('dashboard/editor.html', content=record_content)
+    # return render_template('dashboard/editor.html', content=record_content)

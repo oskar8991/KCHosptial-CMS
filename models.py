@@ -7,13 +7,14 @@ def load_user(user_id):
 
 #Creates a table for login form with id, email and password
 class User(UserMixin, db.Model):
+     __tablename__ = 'app_user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 
 #Creates a table for web page content with id and text
 class Content(db.Model):
-    page_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     header = db.Column(db.Text, nullable=True)
     content = db.Column(db.Text, nullable=True)
     title = db.Column(db.Text, nullable=True)
@@ -33,7 +34,7 @@ class FlaskUsage(db.Model):
     xforwardedfor = db.Column(db.String(24))
     authorization = db.Column(db.Boolean)
     ip_info = db.Column(db.String(1024))
-    path = db.Column(db.String(32))
+    path = db.Column(db.String(128))
     speed = db.Column(db.Float)
     datetime = db.Column(db.DateTime)
     username = db.Column(db.String(128))
@@ -41,7 +42,7 @@ class FlaskUsage(db.Model):
 
 #Creates a table to store announcements with id, title, date, description
 class Announcement(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.String(10000), nullable=False)
     date = db.Column(db.DateTime(), nullable=False)
@@ -64,13 +65,13 @@ class Answers(db.Model):
 
 #Creates a table to store FAQ Question and answer
 class FAQQuestions(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(400), nullable=False)
     answer = db.Column(db.String(10000), nullable=False)
 
 # Creates table for about page cards
 class About(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(400), nullable=False)
     content = db.Column(db.String(10000), nullable=False)
 
