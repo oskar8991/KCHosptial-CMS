@@ -38,8 +38,8 @@ def get_by_title(title):
 
 def assossiated_questions():
     quiz = {
-        record.page_id: get_questions(record.page_id)
-        for record in Content.query.all() if get_questions(record.page_id)
+        record.id: get_questions(record.id)
+        for record in Content.query.all() if get_questions(record.id)
     }
 
     return quiz

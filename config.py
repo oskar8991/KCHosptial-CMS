@@ -2,7 +2,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Gunicorn config
-bind = f"0.0.0.0:{os.environ['PORT']}"
+bind = f"0.0.0.0:{os.getenv('PORT', 5000)}"
 
 # Flask config
 class Config():

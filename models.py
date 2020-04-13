@@ -7,7 +7,7 @@ def load_user(user_id):
 
 #Creates a table for login form with id, email and password
 class User(UserMixin, db.Model):
-     __tablename__ = 'app_user'
+    __tablename__ = 'app_user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
@@ -53,7 +53,7 @@ class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question_text = db.Column(db.String(30), nullable=False)
     answer = db.relationship("Answers", backref='question', cascade="delete")
-    content_id = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
+    content_id = db.Column(db.Integer(), db.ForeignKey('content.id'), nullable=False)
     stat_right = db.Column(db.Integer(), default=0)
     stat_wrong = db.Column(db.Integer(), default=0)
 
@@ -74,11 +74,6 @@ class About(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(400), nullable=False)
     content = db.Column(db.String(10000), nullable=False)
-
-class Quiz(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
-    page_ref = db.Column(db.Integer(), db.ForeignKey('content.page_id'), nullable=False)
 
 class Glossary(db.Model):
     id = db.Column(db.Integer, primary_key=True)

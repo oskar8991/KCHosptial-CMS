@@ -43,7 +43,7 @@
         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Title</button>
         <div class="dropdown-menu" style="height: auto; max-height: 200px; overflow-x: hidden;" id="record_list">
           {% for record in content.records %}
-            <a class="dropdown-item" onClick="set_title({{record.page_id}}, '{{record.title}}')">{{record.title}}</a>
+            <a class="dropdown-item" onClick="set_title({{record.id}}, '{{record.title}}')">{{record.title}}</a>
           {% endfor %}
         </div>
       </div>
@@ -187,7 +187,7 @@
       e.preventDefault(); // Cancel the link default behaviour.
       var title_list = [
         {% for record in content.records %}
-          {id: "{{record.page_id}}", title: "{{record.title}}", header: "{{record.header}}"},
+          {id: "{{record.id}}", title: "{{record.title}}", header: "{{record.header}}"},
         {% endfor %}
       ];
 

@@ -7,6 +7,7 @@ from flask import url_for
 
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 #import chromedriver_binary
 
@@ -105,8 +106,8 @@ class TestLogin(TestBase):
         """
         #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
-        time.sleep(1)
-        self.driver.find_element_by_id("readMore").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreHome").click()
         time.sleep(2)
         assert url_for('main.index') in self.driver.current_url
 
@@ -135,8 +136,8 @@ class TestLogin(TestBase):
         """
         #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
-        time.sleep(1)
-        self.driver.find_element_by_id("readMore").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreHome").click()
         assert url_for('main.index') in self.driver.current_url
 
         # Click on login icon
@@ -168,7 +169,7 @@ class TestLogin(TestBase):
         #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(3)
-        self.driver.find_element_by_id("readMore").click()
+        self.driver.find_element_by_id("readMoreHome").click()
         time.sleep(3)
         assert url_for('main.index') in self.driver.current_url
         time.sleep(3)
@@ -199,8 +200,8 @@ class TestLogin(TestBase):
         """
        #Click on Read More on spash page
         self.driver.find_element_by_id("splashHomeId").click()
-        time.sleep(1)
-        self.driver.find_element_by_id("readMore").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreHome").click()
         assert url_for('main.index') in self.driver.current_url
 
         # Click on login icon
@@ -233,7 +234,7 @@ class CreateObjects(object):
         #Log in as an admin
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(5)
-        self.driver.find_element_by_id("readMore").click()
+        self.driver.find_element_by_id("readMoreHome").click()
         time.sleep(3)
         self.driver.find_element_by_id("navbarLogin").click()
         time.sleep(2)
@@ -358,17 +359,17 @@ class TestQuiz(CreateObjects, TestBase):
         time.sleep(1)
 
         #Click on add a new section
-        self.driver.find_element_by_id("newSectionAdd").click()
+        self.driver.find_element_by_id("add_section").click()
         time.sleep(1)
 
         #Input new section
-        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        self.driver.find_element_by_id("input_header").send_keys(test_header, Keys.ENTER)
         time.sleep(1)
-        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        self.driver.find_element_by_id("new_input_title").send_keys(test_title, Keys.ENTER)
         time.sleep(1)
 
         #Save changes
-        self.driver.find_element_by_id("addNew").click()
+        self.driver.find_element_by_id("create_section").click()
         time.sleep(1)
         ale = self.driver.switch_to_alert()
         # clicks 'OK' button
@@ -442,17 +443,17 @@ class TestQuiz(CreateObjects, TestBase):
         time.sleep(1)
 
         #Click on add a new section
-        self.driver.find_element_by_id("newSectionAdd").click()
+        self.driver.find_element_by_id("add_section").click()
         time.sleep(1)
 
         #Input new section
-        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        self.driver.find_element_by_id("input_header").send_keys(test_header, Keys.ENTER)
         time.sleep(1)
-        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        self.driver.find_element_by_id("new_input_title").send_keys(test_title, Keys.ENTER)
         time.sleep(1)
 
         #Save changes
-        self.driver.find_element_by_id("addNew").click()
+        self.driver.find_element_by_id("create_section").click()
         time.sleep(1)
         ale = self.driver.switch_to_alert()
         # clicks 'OK' button
@@ -528,17 +529,17 @@ class TestQuiz(CreateObjects, TestBase):
         time.sleep(1)
 
         #Click on add a new section
-        self.driver.find_element_by_id("newSectionAdd").click()
+        self.driver.find_element_by_id("add_section").click()
         time.sleep(1)
 
         #Input new section
-        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        self.driver.find_element_by_id("input_header").send_keys(test_header, Keys.ENTER)
         time.sleep(1)
-        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        self.driver.find_element_by_id("new_input_title").send_keys(test_title, Keys.ENTER)
         time.sleep(1)
 
         #Save changes
-        self.driver.find_element_by_id("addNew").click()
+        self.driver.find_element_by_id("create_section").click()
         time.sleep(1)
         ale = self.driver.switch_to_alert()
         # clicks 'OK' button
@@ -596,17 +597,17 @@ class TestQuiz(CreateObjects, TestBase):
         time.sleep(1)
 
         #Click on add a new section
-        self.driver.find_element_by_id("newSectionAdd").click()
+        self.driver.find_element_by_id("add_section").click()
         time.sleep(1)
 
         #Input new section
-        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        self.driver.find_element_by_id("input_header").send_keys(test_header, Keys.ENTER)
         time.sleep(1)
-        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        self.driver.find_element_by_id("new_input_title").send_keys(test_title, Keys.ENTER)
         time.sleep(1)
 
         #Save changes
-        self.driver.find_element_by_id("addNew").click()
+        self.driver.find_element_by_id("create_section").click()
         time.sleep(1)
         ale = self.driver.switch_to_alert()
         # clicks 'OK' button
@@ -682,17 +683,17 @@ class TestQuiz(CreateObjects, TestBase):
         time.sleep(1)
 
         #Click on add a new section
-        self.driver.find_element_by_id("newSectionAdd").click()
+        self.driver.find_element_by_id("add_section").click()
         time.sleep(1)
 
         #Input new section
-        self.driver.find_element_by_id("headerInput").send_keys(test_header)
+        self.driver.find_element_by_id("input_header").send_keys(test_header, Keys.ENTER)
         time.sleep(1)
-        self.driver.find_element_by_id("titleInput").send_keys(test_title)
+        self.driver.find_element_by_id("new_input_title").send_keys(test_title, Keys.ENTER)
         time.sleep(1)
 
         #Save changes
-        self.driver.find_element_by_id("addNew").click()
+        self.driver.find_element_by_id("create_section").click()
         time.sleep(1)
         ale = self.driver.switch_to_alert()
         # clicks 'OK' button
@@ -1144,8 +1145,8 @@ class TestSplashPage(TestBase):
         #Click on the read more button
         self.driver.find_element_by_id("readMoreDrugchart").click()
         time.sleep(3)
-        #Check that the redirect is correct
-        assert url_for('main.drugchart') in self.driver.current_url
+        assert url_for('drug_chart.medication') in self.driver.current_url
+
 
     def test_faq_read_more(self):
         """
@@ -1189,8 +1190,7 @@ class TestDrugChart(TestBase):
         #Click on the generate button
         self.driver.find_element_by_id("generate").click()
         time.sleep(3)
-        #Check that a common part of the chart is rendered on the page
-        assert "Patient Name" in driver.page_source
+        self.assertTrue("Patient Name" in self.driver.page_source)
 
 
 class TestVisuals(TestBase):
@@ -1203,15 +1203,15 @@ class TestVisuals(TestBase):
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(3)
         #Click on the read more button
-        driver.find_element_by_id("readMoreHome").click()
+        self.driver.find_element_by_id("readMoreHome").click()
         time.sleep(3)
         #Click on the dark mode checkbox
         self.driver.find_element_by_id("darkModeBtn").click()
         time.sleep(2)
         #Obtain the background color of the new dark mode checkbox button
-        elem_colour = driver.find_element_by_id("darkModeBtn").value_of_css_property('background')
+        elem_colour = self.driver.find_element_by_id("darkModeBtn").value_of_css_property('background')
         #Check that this colour is correct
-        assert "rgb(31, 66, 97)" in elem_colour
+        self.assertTrue("rgb(31, 66, 97)" in elem_colour)
 
     def test_dark_mode_deactivate(self):
         """
@@ -1221,7 +1221,7 @@ class TestVisuals(TestBase):
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(3)
         #Click on the read more button
-        driver.find_element_by_id("readMoreHome").click()
+        self.driver.find_element_by_id("readMoreHome").click()
         time.sleep(3)
         #Click on the dark mode checkbox to turn on dark mode
         self.driver.find_element_by_id("darkModeBtn").click()
@@ -1230,12 +1230,9 @@ class TestVisuals(TestBase):
         self.driver.find_element_by_id("darkModeBtn").click()
         time.sleep(3)
         #Obtain the background color of the dark mode checkbox button
-        elem_colour = driver.find_element_by_id("darkModeBtn").value_of_css_property('background')
+        elem_colour = self.driver.find_element_by_id("darkModeBtn").value_of_css_property('background')
         #Check that this colour is correct
-        assert "rgb(255, 255, 255)" in elem_colour
-
-
-
+        self.assertTrue("rgb(255, 255, 255)" in elem_colour)
 
 
 if __name__ == '__main__':

@@ -11,10 +11,10 @@ quiz = Blueprint('quiz', __name__)
 @login_required
 def add_question():
     form = QuestionForm()
-    form.content.choices = [(r.page_id, r.title) for r in Content.query.all()]
+    form.content.choices = [(r.id, r.title) for r in Content.query.all()]
 
     if form.validate_on_submit():
-        question = Questions(question_text = form.question.data, content = Content.query.filter_by(page_id = form.content.data).first())
+        question = Questions(question_text = form.question.data, content = Content.query.filter_by(id = form.content.data).first())
         answers = [
             Answers(answer_text = form.first_answer.data, correct = 0, question = question),
             Answers(answer_text = form.second_answer.data, correct = 0, question = question),
@@ -57,12 +57,12 @@ def edit_question(question_id):
     }
 
     form = QuestionForm(content = question.content_id)
-    form.content.choices = [(r.page_id, r.title) for r in Content.query.all()]
+    form.content.choices = [(r.id, r.title) for r in Content.query.all()]
     form.new_question = False
 
     if form.validate_on_submit():
         question.question_text = form.question.data
-        question.content = Content.query.filter_by(page_id = form.content.data).first()
+        question.content = Content.query.filter_by(id = form.content.data).first()
         wrong_answers[0].answer_text = form.first_answer.data
         wrong_answers[1].answer_text = form.second_answer.data
         wrong_answers[2].answer_text = form.third_answer.data
