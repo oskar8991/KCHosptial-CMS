@@ -59,6 +59,7 @@ def edit_content():
     return render_template('dashboard/edit.html', content=contentDictionary)
 
 @content.route('/edit_record_content', methods=["GET"])
+@login_required
 def edit_record_content():
     given_id = int(request.args.get('id'))
     record = Content.query.get(given_id)

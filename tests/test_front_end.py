@@ -51,7 +51,7 @@ class TestBase(LiveServerTestCase):
         #config_name = 'testing'
         os.environ['FLASK_SETTINGS'] = 'config.TestingConfig'
         app = create_app()
-        
+
         return app
 
 
@@ -1116,6 +1116,73 @@ class TestAbout(CreateObjects, TestBase):
 
         #Check if the card is not in database
         self.assertEqual(About.query.count(), 0)
+
+
+
+class TestSplashPage(TestBase):
+
+    def test_home_read_more(self):
+        """
+        Test that the user is redirected to the Home page
+        """
+        #Click on Read More on spash page home
+        self.driver.find_element_by_id("splashHomeId").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreHome").click()
+        time.sleep(3)
+        assert url_for('main.index') in self.driver.current_url
+
+    def test_drugchart_read_more(self):
+        """
+        Test that the user is redirected to the Drugchart page
+        """
+        #Click on Read More on spash page drugchart
+        self.driver.find_element_by_id("splashDrugchartId").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreDrugchart").click()
+        time.sleep(3)
+        assert url_for('main.drugchart') in self.driver.current_url
+
+    def test_faq_read_more(self):
+        """
+        Test that the user is redirected to the FAQ page
+        """
+        #Click on Read More on spash page faq
+        self.driver.find_element_by_id("splashFaqtId").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreFaq").click()
+        time.sleep(3)
+        assert url_for('main.faq') in self.driver.current_url
+
+    def test_faq_read_more(self):
+        """
+        Test that the user is redirected to the About page
+        """
+        #Click on Read More on spash page about
+        self.driver.find_element_by_id("splashAboutId").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreAbout").click()
+        time.sleep(3)
+        assert url_for('main.about') in self.driver.current_url
+
+
+class TestDrugChartGeneration(TestBase):
+
+    def test_generate_chart(self):
+        """
+        Test that the user is redirected to the generated drug chart
+        """
+        self.driver.find_element_by_id("splashDrugchartId").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("readMoreDrugchart").click()
+        time.sleep(3)
+        self.driver.find_element_by_id("generate").click()
+        time.sleep(3)
+        assertTrue ("Patient Name" in driver.page_source)
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

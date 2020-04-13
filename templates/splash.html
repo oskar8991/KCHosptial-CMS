@@ -28,13 +28,13 @@
         <div>
           <h3>Home</h3>
           <p> All the information you need about liver disease and biliary atresia.</p>
-          <a href="{{url_for('main.index')}}" id="readMore">Read More</a>
+          <a href="{{url_for('main.index')}}" id="readMoreHome">Read More</a>
         </div>
       </div>
     </div>
 
     <div class="card" id="content">
-      <div class="icon">
+      <div class="icon" id="splashDrugchartId">
         <div class="iconText">Drug Chart</div>
         <img src="{{url_for('static', filename='resources/icon/drugChart.png')}}">
       </div>
@@ -42,13 +42,13 @@
         <div>
           <h3>Drug Chart</h3>
           <p> Keep track of what medicines your child needs and when to take them with our handy online drug chart.</p>
-          <a href="{{url_for('drug_chart.medication')}}">Read More</a>
+          <a href="{{url_for('drug_chart.medication')}}" id="readMoreDrugchart">Read More</a>
         </div>
       </div>
     </div>
 
     <div class="card" id="content">
-      <div class="icon">
+      <div class="icon" id="splasFaqId">
         <div class="iconText">FAQ</div>
         <img src="{{url_for('static', filename='resources/icon/FAQ.png')}}">
       </div>
@@ -56,13 +56,13 @@
         <div>
           <h3>FAQ</h3>
           <p> Got questions ? Check out the Frequently Asked Questions page to find answers.</p>
-          <a href="{{url_for('main.faq')}}">Read More</a>
+          <a href="{{url_for('main.faq')}}" id="readMoreFaq">Read More</a>
         </div>
       </div>
     </div>
 
     <div class="card" id="content">
-      <div class="icon">
+      <div class="icon" id="splashAboutId">
         <div class="iconText">About</div>
         <img src="{{url_for('static', filename='resources/icon/about.png')}}">
       </div>
@@ -70,7 +70,7 @@
         <div>
           <h3>About</h3>
           <p> Learn more about who we are and what we do.</p>
-          <a href="{{url_for('main.about')}}">Read More</a>
+          <a href="{{url_for('main.about')}}" id="readMoreAbout">Read More</a>
         </div>
       </div>
     </div>
