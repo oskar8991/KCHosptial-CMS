@@ -1125,60 +1125,114 @@ class TestSplashPage(TestBase):
         """
         Test that the user is redirected to the Home page
         """
-        #Click on Read More on spash page home
+        #Click on the splash home box
         self.driver.find_element_by_id("splashHomeId").click()
         time.sleep(3)
+        #Click on the read more button
         self.driver.find_element_by_id("readMoreHome").click()
         time.sleep(3)
+        #Check that the redirect is correct
         assert url_for('main.index') in self.driver.current_url
 
     def test_drugchart_read_more(self):
         """
         Test that the user is redirected to the Drugchart page
         """
-        #Click on Read More on spash page drugchart
+        #Click on the splash drugchart box
         self.driver.find_element_by_id("splashDrugchartId").click()
         time.sleep(3)
+        #Click on the read more button
         self.driver.find_element_by_id("readMoreDrugchart").click()
         time.sleep(3)
+        #Check that the redirect is correct
         assert url_for('main.drugchart') in self.driver.current_url
 
     def test_faq_read_more(self):
         """
         Test that the user is redirected to the FAQ page
         """
-        #Click on Read More on spash page faq
+        #Click on the splash faq box
         self.driver.find_element_by_id("splashFaqtId").click()
         time.sleep(3)
+        #Click on the read more button
         self.driver.find_element_by_id("readMoreFaq").click()
         time.sleep(3)
+        #Check that the redirect is correct
         assert url_for('main.faq') in self.driver.current_url
 
-    def test_faq_read_more(self):
+    def test_about_read_more(self):
         """
         Test that the user is redirected to the About page
         """
-        #Click on Read More on spash page about
+        #Click on the splash about box
         self.driver.find_element_by_id("splashAboutId").click()
         time.sleep(3)
+        #Click on the read more button
         self.driver.find_element_by_id("readMoreAbout").click()
         time.sleep(3)
+        #Check that the redirect is correct
         assert url_for('main.about') in self.driver.current_url
 
 
-class TestDrugChartGeneration(TestBase):
+class TestDrugChart(TestBase):
 
     def test_generate_chart(self):
         """
         Test that the user is redirected to the generated drug chart
         """
+        #Click on the splash drugchart box
         self.driver.find_element_by_id("splashDrugchartId").click()
         time.sleep(3)
+        #Click on the read more button
         self.driver.find_element_by_id("readMoreDrugchart").click()
         time.sleep(3)
+        #Click on the generate button
         self.driver.find_element_by_id("generate").click()
         time.sleep(3)
-        assertTrue ("Patient Name" in driver.page_source)
+        #Check that a common part of the chart is rendered on the page
+        assert "Patient Name" in driver.page_source
+
+
+class TestVisuals(TestBase):
+
+    def test_dark_mode_activate(self):
+        """
+        Test that the dark mode theme is activated
+        """
+        #Click on the splash home box
+        self.driver.find_element_by_id("splashHomeId").click()
+        time.sleep(3)
+        #Click on the read more button
+        driver.find_element_by_id("readMoreHome").click()
+        time.sleep(3)
+        #Click on the dark mode checkbox
+        self.driver.find_element_by_id("darkModeBtn").click()
+        time.sleep(2)
+        #Obtain the background color of the new dark mode checkbox button
+        elem_colour = driver.find_element_by_id("darkModeBtn").value_of_css_property('background')
+        #Check that this colour is correct
+        assert "rgb(31, 66, 97)" in elem_colour
+
+    def test_dark_mode_deactivate(self):
+        """
+        Test that the dark mode theme is deactivated
+        """
+        #Click on the splash home box
+        self.driver.find_element_by_id("splashHomeId").click()
+        time.sleep(3)
+        #Click on the read more button
+        driver.find_element_by_id("readMoreHome").click()
+        time.sleep(3)
+        #Click on the dark mode checkbox to turn on dark mode
+        self.driver.find_element_by_id("darkModeBtn").click()
+        time.sleep(3)
+        #Click on the dark mode checkbox to turn off dark mode
+        self.driver.find_element_by_id("darkModeBtn").click()
+        time.sleep(3)
+        #Obtain the background color of the dark mode checkbox button
+        elem_colour = driver.find_element_by_id("darkModeBtn").value_of_css_property('background')
+        #Check that this colour is correct
+        assert "rgb(255, 255, 255)" in elem_colour
 
 
 
