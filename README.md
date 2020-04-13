@@ -39,6 +39,6 @@ For development purposes, you will need to set the `FLASK_SETTINGS` variable to 
 
 Once you are all set, run `gunicorn -c config.py "app:create_app()"` to run the application.
 
-Additionally, you can view website at: https://williwaller.herokuapp.com/
+Additionally, you can view the website at: https://williwaller.herokuapp.com/
 
 
