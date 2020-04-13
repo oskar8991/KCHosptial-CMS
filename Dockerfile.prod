@@ -3,13 +3,15 @@ FROM python:3.7-alpine AS builder
 ENV PYTHONUNBUFFERED 1
 WORKDIR /install
 
-RUN apk update && apk add --no-cache libffi-dev python3-dev build-base
+RUN apk update && apk add --no-cache \
+    libffi-dev python3-dev build-base musl-dev postgresql-dev
 
 COPY ./requirements.txt /requirements.txt
 RUN pip install --prefix=/install -Ur /requirements.txt
 
 FROM python:3.7-alpine
 
+RUN apk update && apk add postgresql-dev
 COPY --from=builder /install /usr/local
 COPY src /app
 
