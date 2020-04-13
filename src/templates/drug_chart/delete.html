@@ -1,0 +1,18 @@
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
+
+{% block title %} Delete a drug from the chart {% endblock %}
+
+{% block header %} Delete a drug from the chart {% endblock %}
+
+{% block form %}
+<h4 class="mb-3 text-center">
+  Are you sure you want to delete the following drug?
+</h4>
+
+{{ textarea(title='Name', id='name', rows='1', cols='15', attributes=['readonly'], value=medication.name) }}
+{{ textarea(title='Indications', id='indications', rows='5', cols='35', attributes=['readonly'], value=medication.indications) }}
+{{ textarea(title='Hours', id='hours', rows='1', cols='20', attributes=['readonly'], value=hours) }}
+{{ submit(back_url=url_for('drug_chart.medication'), submit_text='Delete', submit_id='deleteConfirm') }}
+
+{% endblock %}

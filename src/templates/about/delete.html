@@ -1,0 +1,18 @@
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
+
+{% block title %} About - Delete card {% endblock %}
+
+{% block header %} Delete About card {% endblock %}
+
+{% block form %}
+<h4 class="mb-3 text-center">
+  Are you sure you want to delete the following About card?
+</h4>
+
+{{ textarea(title='About card ID', id='aboutID', rows='1', cols='35', attributes=['readonly'], value=about.id) }}
+{{ textarea(title='Subject', id='subject', rows='3', cols='35', attributes=['readonly'], value=about.title) }}
+{{ textarea(title='Content', id='content', rows='5', cols='35', attributes=['readonly'], value=about.content) }}
+
+{{ submit(back_url=url_for('main.about'), submit_text='Delete') }}
+{% endblock %}

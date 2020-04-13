@@ -1,0 +1,13 @@
+{% extends 'base_templates/form.html' %}
+{% from 'base_templates/form.html' import textarea, submit with context %}
+
+{% block title %} FAQ - Edit {% endblock %}
+
+{% block header %} Edit a question {% endblock %}
+
+{% block form %}
+{{ textarea(title='FAQ ID', id='faqID', rows='1', cols='35', attributes=['readonly'], value=faq.id) }}
+{{ textarea(title='Question', id='newQuestion', rows='3', cols='60', attributes=['required'], value=faq.question) }}
+{{ textarea(title='Answer', id='newAnswer', rows='5', cols='35', attributes=['required'], value=faq.answer) }}
+{{ submit(back_url=url_for('main.faq'), submit_text='Update', submit_id='update') }}
+{% endblock %}

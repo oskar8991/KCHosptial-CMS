@@ -1,0 +1,257 @@
+{% extends "base_templates/dashboard_page.html" %}
+{% block title %} Edit Page {% endblock %}
+
+{% set current_page = url_for('content.edit_content') %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+<!-- Include editor stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="{{url_for('static', filename='js/parallax.min.js')}}"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+{% endblock %}
+{% block content%}
+  <h1 class="my-3">Edit Main Content Page</h1>
+
+  <!-- Button to add new section. -->
+  <button type="button" onClick="add_section()" class="btn btn-info mb-3" id="add_section">Add New Section</button>
+  <button type="button" onClick="go_back()" class="btn btn-info mb-3" id="go_back">Go back</button>
+
+  <!-- Dropdown primary. -->
+  <div id="header_bar">
+    <Label for="input_header">Choose a header from the list or type a new one and press Enter:</Label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="heading">Heading: </span>
+      </div>
+      <input class="form-control" autocomplete="off" list="headings" id="input_header">
+      <datalist id="headings">
+        {% for header in content.headings %}
+          <option value="{{header}}" />
+        {% endfor %}
+      </datalist>
+    </div>
+  </div>
+
+  <!-- When editing an existing section. -->
+  <div id="title_bar">
+    <Label for="input_title">Choose a title from the list below:</Label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <!-- <span class="input-group-text" id="title">Title: </span> -->
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Title</button>
+        <div class="dropdown-menu" style="height: auto; max-height: 200px; overflow-x: hidden;" id="record_list">
+          {% for record in content.records %}
+            <a class="dropdown-item" onClick="set_title({{record.id}}, '{{record.title}}')">{{record.title}}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <input type="text" class="form-control" autocomplete="off" id="input_title">
+    </div>
+  </div>
+
+  <!-- When creating a new section. -->
+  <div id="new_title_bar">
+    <label for="new_input_title">Write a new title and press Enter:</label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="title">Title: </span>
+      </div>
+      <input class="form-control"autocomplete="off" id="new_input_title">
+    </div>
+  </div>
+
+  <div id="editor">
+    <Label>The contents below will appear on the main page as you see them on here (title above not shown):</Label>
+    <div id="quill_editor"></div>
+  </div>
+
+
+  <div class="row justify-content-center my-3">
+    <input type="submit" class="btn btn-success mx-2" value="Save Changes" id="save_section">
+    <input type="submit" class="btn btn-danger mx-2" value="Remove Selected Article" id="delete_section">
+    <input type="submit" class="btn btn-success mx-2" value="Submit New Section" id="create_section">
+  </div>
+
+  <!-- Include editor stylesheet. -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <!-- Include editor library (Quill). -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <!-- Editor control. -->
+  <script type="text/javascript">
+    // Set up the editor options.
+    var quill = new Quill('#quill_editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{'font': []}, {'size': []}],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{'color': []}, {'background': []}],
+          [{'script': 'super'}, {'script': 'sub'}],
+          [{'header': '1'}, {'header': '2'}, 'blockquote', 'code-block'],
+          [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+          ['direction', {'align': []}],
+          ['link', 'image', 'video', 'formula'],
+          ['clean']
+        ]
+      }
+    });
+
+    // Hides the title, editor and buttons at the begining
+    const init_hidden = ['#go_back','#title_bar', '#new_title_bar', '#editor', '#create_section', '#delete_section', '#save_section'];
+    init_hidden.forEach(e => {$(e).hide()});
+
+    // Keep editor data separated when editing and creating sections at the same time.
+    var editor_data = "";
+    function swap_editor() {
+      if (quill.root.innerHTML != "") {
+        var temp = quill.root.innerHTML;
+        quill.root.innerHTML = editor_data;
+        editor_data = temp;
+      }
+    }
+
+    // Creates a new section and change the button.
+    function add_section() {
+      const to_hide = ['#add_section', '#save_section', '#delete_section', '#title_bar'];
+      const to_show = ['#go_back', '#new_title_bar', '#create_section']
+      to_hide.forEach(e => {$(e).hide()});
+      to_show.forEach(e => {$(e).show()});
+      
+      if ($('#new_input_title').val() == "") {
+        $('#editor').hide();
+      }
+
+      swap_editor();
+    }
+
+    // Put back the new section button and allows editting of an existing section
+    function go_back() {
+      const to_hide = ['#go_back', '#new_title_bar', '#create_section'];
+      const to_show = ['#add_section', '#save_section', '#delete_section']
+      to_hide.forEach(e => {$(e).hide()});
+      to_show.forEach(e => {$(e).show()});
+      
+      if ($('#input_title').val() != "") {
+        $('#title_bar').show();
+        $('#editor').show();
+      } else {
+        $('#editor').hide();
+      }
+
+      swap_editor();
+    }
+
+    article_id = -1;
+    // Set the title text when element from dropdown is selected
+    function set_title(id, title) {
+      $('#input_title').val(title);
+      article_id = id;
+      var to_show = ['#save_section', '#delete_section'];
+      to_show.forEach(e => {$(e).show()});
+
+      // Get the record associated with the selected title.
+      $.getJSON("{{url_for('content.edit_record_content')}}", {
+        id: id
+      }, function(data) {
+        if (data === 'error') {
+          window.alert('The title does not exists');
+        } else {
+          $('#editor').show();
+          quill.root.innerHTML = data;
+        }
+      });
+    }
+
+    // Ajax request to save an article
+    function write_section(section) {
+      $.ajax({
+        method: 'POST',
+        url: "{{ url_for('content.save_record') }}",
+        data: JSON.stringify(section),
+        contentType: 'application/json;charset=UTF-8',
+        success: function(data) {
+          window.alert(data);
+          location.reload();
+        },
+        error: function(jqXHR) {
+          window.alert("An error occured - error " + jqXHR.status)
+        },
+      });
+    }
+
+    // Once a header is selected, only titles from this header are available.
+    $('#input_header').change(function(e) {
+      e.preventDefault(); // Cancel the link default behaviour.
+      var title_list = [
+        {% for record in content.records %}
+          {id: "{{record.id}}", title: "{{record.title}}", header: "{{record.header}}"},
+        {% endfor %}
+      ];
+
+      var options = ''
+      for (var i = 0; i < title_list.length; i++) {
+        if (title_list[i].header === $('#input_header').val()) {
+          options += '<a class="dropdown-item" onclick="set_title(';
+          options += title_list[i].id + ', \'' + title_list[i].title + '\')">';
+          options += title_list[i].title + '</a>';
+        }
+      }
+
+      $('#record_list').html(options);
+      if ($('#new_title_bar').is(":hidden")) {
+        $('#title_bar').show();
+      }
+    });
+
+    $('#new_input_title').change(function(e) {
+      e.preventDefault(); // Cancel the link default behaviour.
+      $('#editor').show();
+    });
+
+    $('#save_section').click(function() {
+      if (confirm('Are you sure you want to save these changes ?')) {
+        write_section({
+          id: article_id,
+          text: quill.root.innerHTML.trim(),
+          title: $('#input_title').val(),
+          header: $('#input_header').val()
+        });
+      } else {
+        window.alert('Action aborted');
+      }
+    });
+
+    $('#delete_section').click(function() {
+      var id = article_id;
+      if (confirm('Are you sure you want to delete this article ?')) {
+        $.getJSON("{{url_for('content.delete_record')}}", {
+          id: id
+        }, function(data) {
+          window.alert(data);
+          location.reload();
+        });
+      }
+    });
+
+    $('#create_section').click(function() {
+      var header = $('#input_header').val();
+
+      if (header != '') {
+        if (confirm('Are you sure you want to create this article ?')) {
+          write_section({
+            text: quill.root.innerHTML.trim(),
+            title: $('#new_input_title').val(),
+            header: header
+          })
+        } else {
+          window.alert('Action aborted');
+        }
+      } else {
+        window.alert('Failed: empty header.');
+      }
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base_templates/base.html" %}
+{% block title %} Make a question {% endblock %}
+
+
+{% block body%}
+
+<h1 class="my-3">Edit a question</h1>
+
+<div class="container">
+  <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      <label for="question">Write a question</label>
+      {% if form.question.errors %}
+        {{ form.question(class="form-control my-1 is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.question.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.question(class="form-control my-1", value=values['question'], id = "new_question") }}
+      {% endif %}
+    </div>
+    <div class="form-group">
+      <label>Write multiple answers</label>
+      {% if form.first_answer.errors %}
+        {{ form.first_answer(class="form-control my-1 is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.first_answer.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.first_answer(class="form-control my-1", value=values['wrong_answers'][0]) }}
+      {% endif %}
+
+      {% if form.second_answer.errors %}
+        {{ form.second_answer(class="form-control my-1 is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.second_answer.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.second_answer(class="form-control my-1", value=values['wrong_answers'][1]) }}
+      {% endif %}
+
+      {% if form.third_answer.errors %}
+        {{ form.third_answer(class="form-control my-1 is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.third_answer.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.third_answer(class="form-control my-1", value=values['wrong_answers'][2]) }}
+      {% endif %}
+    </div>
+    <div class="form-group">
+      <label for="correct_answer">Write the correct answer</label>
+      {% if form.correct_answer.errors %}
+        {{ form.correct_answer(class="form-control my-1 is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.correct_answer.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.correct_answer(class="form-control my-1", value=values['correct_answer']) }}
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="content">Select the section linked to this question.</label>
+      {% if form.content.errors %}
+        {{ form.content(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.content.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.content(class="form-control") }}
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+  </form>
+</div>
+
+{% endblock %}
