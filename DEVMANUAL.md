@@ -13,9 +13,9 @@ To run the application locally, first install Docker and run the following comma
 Once the image is built, you can run the container with the following command:
 `docker run -p 4000:5000 williwaller`
 
-If you then open `127.0.0.1:6000` you should see the website up and running.
+If you then open `127.0.0.1:4000` you should see the website up and running.
 
-The argument `-p` binds the local port 6000 to the docker port 5000 (the one used by the container). This can be changed to suit your needs.
+The argument `-p` binds the local port 4000 to the docker port 5000 (the one used by the container). This can be changed to suit your needs.
 
 
 
