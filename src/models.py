@@ -51,7 +51,7 @@ class Announcement(db.Model):
 
 class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    question_text = db.Column(db.String(30), nullable=False)
+    question_text = db.Column(db.String(64), nullable=False)
     answer = db.relationship("Answers", backref='question', cascade="delete")
     content_id = db.Column(db.Integer(), db.ForeignKey('content.id'), nullable=False)
     stat_right = db.Column(db.Integer(), default=0)
@@ -59,7 +59,7 @@ class Questions(db.Model):
 
 class Answers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    answer_text = db.Column(db.String(30), nullable=False)
+    answer_text = db.Column(db.String(64), nullable=False)
     correct = db.Column(db.Integer(), unique=False, nullable=False)
     question_id = db.Column(db.Integer(), db.ForeignKey('questions.id'), nullable=False)
 
