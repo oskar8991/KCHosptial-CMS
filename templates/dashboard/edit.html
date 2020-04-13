@@ -102,24 +102,45 @@
     const init_hidden = ['#go_back','#title_bar', '#new_title_bar', '#editor', '#create_section', '#delete_section', '#save_section'];
     init_hidden.forEach(e => {$(e).hide()});
 
+    // Keep editor data separated when editing and creating sections at the same time.
+    var editor_data = "";
+    function swap_editor() {
+      if (quill.root.innerHTML != "") {
+        var temp = quill.root.innerHTML;
+        quill.root.innerHTML = editor_data;
+        editor_data = temp;
+      }
+    }
+
     // Creates a new section and change the button.
     function add_section() {
       const to_hide = ['#add_section', '#save_section', '#delete_section', '#title_bar'];
       const to_show = ['#go_back', '#new_title_bar', '#create_section']
       to_hide.forEach(e => {$(e).hide()});
       to_show.forEach(e => {$(e).show()});
+      
+      if ($('#new_input_title').val() == "") {
+        $('#editor').hide();
+      }
+
+      swap_editor();
     }
 
     // Put back the new section button and allows editting of an existing section
     function go_back() {
       const to_hide = ['#go_back', '#new_title_bar', '#create_section'];
-      const to_show = ['#add_section', '#editor', '#save_section', '#delete_section']
+      const to_show = ['#add_section', '#save_section', '#delete_section']
       to_hide.forEach(e => {$(e).hide()});
       to_show.forEach(e => {$(e).show()});
+      
       if ($('#input_title').val() != "") {
         $('#title_bar').show();
         $('#editor').show();
+      } else {
+        $('#editor').hide();
       }
+
+      swap_editor();
     }
 
     article_id = -1;
@@ -219,8 +240,6 @@
 
       if (header != '') {
         if (confirm('Are you sure you want to create this article ?')) {
-          console.log(quill.root.innerHTML);
-          console.log(quill.root.innerHTML.trim());
           write_section({
             text: quill.root.innerHTML.trim(),
             title: $('#new_input_title').val(),
