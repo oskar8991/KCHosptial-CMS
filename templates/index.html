@@ -24,7 +24,7 @@
             <ul class="collapse list-unstyled" id="{{header[0:3]}}">
               {% if record.header == header%}
                 <li>
-                  <a href="#section-{{record.page_id}}">
+                  <a href="#section-{{record.id}}">
                     {{record.title}}
                   </a>
                 </li>
@@ -97,33 +97,33 @@
       {% for record in content.records %}
         {% if record.header == header%}
           <div class="row">
-            <section id="section-{{record.page_id}}">
+            <section id="section-{{record.id}}">
               <div class="line"></div>
               <h2>{{ record.title }}</h2>
               {{ record.content | safe }}
             </section>
           </div>
 
-          {% if content.questions[record.page_id] %}
+          {% if content.questions[record.id] %}
             <div class="row">
               <div class="col">
                 <div class="card">
                   <div class="card-header">
-                    <button id = "open_quiz" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#quiz-card-{{record.page_id}}">
-                      Try the quiz for section {{record.page_id}}.
+                    <button id = "open_quiz" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#quiz-card-{{record.id}}">
+                      Try the quiz for section {{record.id}}.
                     </button>
                   </div>
-                  <div id="quiz-card-{{record.page_id}}" class="card-body collapse">
-                    <div id="quiz{{record.page_id}}">
+                  <div id="quiz-card-{{record.id}}" class="card-body collapse">
+                    <div id="quiz{{record.id}}">
                       <div id="quiz-header">
-                        <h5 class="card-title">Quiz for section {{record.page_id}}</h5>
+                        <h5 class="card-title">Quiz for section {{record.id}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                           Try this quiz to see if you understood this section.
-                          <a id="quiz-home-btn{{record.page_id}}" href="">Reset</a>
+                          <a id="quiz-home-btn{{record.id}}" href="">Reset</a>
                         </h6>
                       </div>
-                      <div id="quiz-start-screen{{record.page_id}}">
-                        <p><a href="" id="quiz-start-btn{{record.page_id}}">Start</a></p>
+                      <div id="quiz-start-screen{{record.id}}">
+                        <p><a href="" id="quiz-start-btn{{record.id}}">Start</a></p>
                       </div>
                     </div>
                   </div>
@@ -145,11 +145,11 @@
                 });
               };
 
-              $('#quiz{{record.page_id}}').quiz({
+              $('#quiz{{record.id}}').quiz({
                 answerCallback: answerCallback,
-                quizIndex: {{record.page_id}},
+                quizIndex: {{record.id}},
                 counterFormat: 'Question %current of %total',
-                questions: {{ content.questions[record.page_id]|tojson }}
+                questions: {{ content.questions[record.id]|tojson }}
               });
 
 
