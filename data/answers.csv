@@ -1,0 +1,313 @@
+answer_text,correct,question_id
+chest area,0,1
+neck,0,1
+back,0,1
+tummy area,1,1
+prypnocytes,0,2
+hematomacytes,0,2
+pahetocytes,0,2
+hepatocytes,1,2
+circles,0,3
+sides,0,3
+boles,0,3
+lobes,1,3
+filters urine,0,4
+produces bone marrow,0,4
+filters water,0,4
+filters blood,1,4
+the head and the lungs,0,5
+the hands and feet,0,5
+the spleen and heart,0,5
+the heart and the intestine,1,5
+Superior vena cava,0,6
+Azygos vein,0,6
+Left brachiocephalic vein,0,6
+Hepatic Artery,1,6
+sediment,0,7
+ammonia,0,7
+stool,0,7
+nutrients,1,7
+CO2,0,8
+Ozone,0,8
+redness,0,8
+Ammonia,1,8
+hemoglobin,0,9
+Alcohol,0,9
+oxygen,0,9
+Bile,1,9
+Blue/Violet,0,10
+Red/Brown,0,10
+Green/Blue,0,10
+Green/yellow,1,10
+rulibirin,0,11
+dalton,0,11
+carotene,0,11
+bilirubin,1,11
+brain,0,12
+liver,0,12
+pancreas,0,12
+spleen,1,12
+Oxygen,0,13
+Vit D,0,13
+Blood,0,13
+fat soluble vitamins,1,13
+Water,0,14
+Oxygem,0,14
+Daltonin,0,14
+fats,1,14
+a chair,0,15
+loose change,0,15
+a diet,0,15
+poo,1,15
+blue,0,16
+purple,0,16
+white,0,16
+yellow,1,16
+older children,0,17
+adolescents,0,17
+adults,0,17
+Newborns,1,17
+sunburn,0,18
+sweating,0,18
+fever,0,18
+itching,1,18
+liver fat tests,0,19
+live function tests,0,19
+levelling feature tests,0,19
+liver function tests,1,19
+vitamin levels,0,20
+sugar levels,0,20
+blood concentration,0,20
+"levels of proteins, enzymes and bilirubin",1,20
+"dark stool, pale urine",0,21
+"dark stool, dark urine",0,21
+"pale stool, pale urine",0,21
+"pale stool, dark urine",1,21
+painful,0,22
+uncomfortable,0,22
+dangerous,0,22
+painless,1,22
+air-filled organs,0,23
+blood concentration,0,23
+liver functions,0,23
+blood flow through the liver,1,23
+before other tests,0,24
+inbetween tests,0,24
+pre-birth,0,24
+after other tests,1,24
+side,0,25
+chest,0,25
+neck,0,25
+tummy,1,25
+asleep,0,26
+unable to respond,0,26
+unaware,0,26
+awake,1,26
+awake,0,27
+able to respond,0,27
+aware,0,27
+sleeping,1,27
+special shampoo,0,28
+different clothes,0,28
+less sleep,0,28
+special diets,1,28
+Child Liver Donation Foundation,0,29
+Chronic Liver Disease Fair,0,29
+Child Life Defense Force,0,29
+Child Liver Disease Foundation,1,29
+Randomly,0,30
+Never,0,30
+Only after birth,0,30
+Both before or shortly after birth,1,30
+Scorching,0,31
+Jeffery,0,31
+Sketching,0,31
+Fibrosis,1,31
+the liver,0,32
+the tongue,0,32
+the skin,0,32
+the gallbladder,1,32
+pollution,0,33
+excess water,0,33
+known,0,33
+unknown,1,33
+eight weeks,0,34
+ten weeks,0,34
+twelve weeks,0,34
+two weeks,1,34
+Jurassic Park,0,35
+Hormone levels,0,35
+Pathological lying,0,35
+Pathological Jaundice,1,35
+white,0,36
+yellow,0,36
+pink,0,36
+colourless,1,36
+microscope,0,37
+scale,0,37
+flame,0,37
+stool chart,1,37
+2,0,38
+4,0,38
+1,0,38
+3,1,38
+open,0,39
+invisible,0,39
+gone,0,39
+blocked,1,39
+10%,0,40
+53%,0,40
+12%,0,40
+~7%,1,40
+cholangiary operagram,0,41
+confirmation operation,0,41
+diognosis prognosis,0,41
+operative cholangiogram,1,41
+local anaesthetic,0,42
+a microscope,0,42
+water,0,42
+general anaesthetic,1,42
+1910,0,43
+2000,0,43
+2020,0,43
+1957,1,43
+liver,0,44
+skin,0,44
+brain,0,44
+gut,1,44
+poop,0,45
+pee,0,45
+sleep,0,45
+drink milk,1,45
+no-one,0,46
+your doctor,0,46
+your anesthesiologist ,0,46
+your nurse,1,46
+enteportorostomy,0,47
+lifestle,0,47
+phasiotosyn,0,47
+portoenterostomy,1,47
+the liver,0,48
+the appendix,0,48
+the gland,0,48
+the galbladder,1,48
+string,0,49
+steel,0,49
+vein,0,49
+intestine,1,49
+anasthesiologist,0,50
+sleep doctor,0,50
+nurse,0,50
+anaesthetist,1,50
+1-2,0,51
+50-60,0,51
+90-100,0,51
+10-20,1,51
+lithonesia,0,52
+spleen loss,0,52
+misspleen,0,52
+asplenia,1,52
+philasis,0,53
+contrapohne,0,53
+misspleen koltix,0,53
+polysplenia,1,53
+Baby Asma Smelling Molecules,0,54
+Bonds Are Saturated Mechanisms,0,54
+Biortic and spleenal message,0,54
+Biliary atresia splenic malformation syndrome,1,54
+increase blood pressure,0,55
+reduce sleepiness,0,55
+track hormone levels,0,55
+reduce risk of infection,1,55
+headaches,0,56
+pain,0,56
+hot flushes,0,56
+sickness,1,56
+breast milk,0,57
+soup,0,57
+mashed food,0,57
+intravenous drip,1,57
+tummy,0,58
+side,0,58
+hip,0,58
+neck,1,58
+central line,0,59
+emergency line,0,59
+insert,0,59
+cannula,1,59
+ten,0,60
+twenty,0,60
+two,0,60
+three to five,1,60
+liver,0,61
+stomach,0,61
+heart rate,0,61
+kidneys,1,61
+Crime Network Society,0,62
+Correctional Nurse Simulation,0,62
+Clinically Nurtured Specialist,0,62
+Clinical Nurse Specialist,1,62
+sugars,0,63
+acids,0,63
+alkalines,0,63
+fats,1,63
+36C,0,64
+39C,0,64
+40C,0,64
+37.8C,1,64
+pneumonia,0,65
+gastritis,0,65
+hepatitis A ,0,65
+cholangitis,1,65
+morning,0,66
+afternoon,0,66
+night,0,66
+evening,1,66
+Urine Relative Salt Organ,0,67
+Uransolotis,0,67
+Utarian Relative Standing Oxygen,0,67
+Ursodeoxycholic acid,1,67
+four hours,0,68
+one hour,0,68
+three hours,0,68
+two hours,1,68
+alikias,0,69
+nastics,0,69
+fontisis,0,69
+ascites,1,69
+aspirin,0,70
+ibuprofen,0,70
+calprofen/nurofen,0,70
+paracetamol (panadol/calpol),1,70
+the fridge,0,71
+hot place,0,71
+wet place,0,71
+"a cool, dry place",1,71
+increase,0,72
+stay the same ,0,72
+rapidly fluctuate,0,72
+drop,1,72
+None,0,73
+All,0,73
+Hardly any,0,73
+Many,1,73
+10%,0,74
+25%,0,74
+30%,0,74
+90%,1,74
+Pruritus,0,75
+Ascites,0,75
+Portal Hypertension,0,75
+Cholangitis,1,75
+Pruritus,0,76
+Cholangitis,0,76
+Portal Hypertension,0,76
+Ascites,1,76
+Ascites,0,77
+Cholangitis,0,77
+Pruritus,0,77
+Portal Hypertension,1,77
+Portal Hypertension,0,78
+Ascites,0,78
+Cholangitis,0,78
+Pruritus,1,78
