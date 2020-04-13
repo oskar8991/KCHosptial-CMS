@@ -2,7 +2,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Gunicorn config
-bind = "0.0.0.0:5000"
+bind = f"0.0.0.0:{os.environ['PORT']}"
 
 # Flask config
 class Config():
@@ -20,8 +20,10 @@ class Config():
     # MAIL_USE_SSL = int(os.getenv('MAIL_USE_SSL', True))
 
 
-class ProductionConfig(Config): # to update when we deploy
-    pass
+class ProductionConfig(Config):
+    DEBUG = False
+    TESTING = False
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///data.db')
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
