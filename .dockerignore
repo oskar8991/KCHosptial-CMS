@@ -1,5 +1,5 @@
 .dockerignore
-Dockerfile
+Dockerfile*
 heroku.yml
 
 .git
@@ -32,3 +32,4 @@ htmlcov/
 # Repo specific
 migrate.sh
 data/
+*.pdf
